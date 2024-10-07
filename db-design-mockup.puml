@@ -1,0 +1,59 @@
+@startuml diagram
+json "<b>User" as User {
+   "name": "String",
+   "owned_components": {
+        "<b>component_id": "<b>ObjectId",
+        "durability": "int",
+        "quantity": "int"
+   },
+   "level": "int",
+   "experience": "int",
+   "trophies": "int"
+}
+
+json "<b>UserData" as UserData {
+   "<b>name": "<b>String",
+   "date_created": "Date",
+   "password": "String",
+   "banned": "bool",
+   "email": "String"
+}
+
+json "<b>Component" as Component {
+   "<b>_id": "<b>ObjectId",
+   "name": "String",
+   "type": "enum",
+   "durability": "int",
+   "specs": {
+      "weight": "int",
+      "grip": "int"
+   },
+   "description": "String",
+   "wear_index": "float",
+   "rareness": "enum",
+   "price": "int",
+   "path_asset": "String"
+}
+
+json "<b>Store" as Store {
+   "components": [
+      "<b>ObjectId", 
+      "<b>ObjectId"
+   ]
+}
+
+json "<b>TrackProbability" as TrackProbability {
+   "<b>theme": "<b>enum",
+   "elements": [
+      {"type": "enum", "probability": "float"}
+   ]
+}
+
+'User.owned_components.component_id refers to Component._id'
+User -right-> Component : <b>component_id
+
+Store -left-> Component : <b>componenet_id
+
+UserData -down-> User : <b>user_id
+
+@enduml
