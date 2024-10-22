@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class Vector2Test {
 
     @Test
-    void getSetX(){
+    void getSetX() {
         Vector2 a = new Vector2(3, 4);
         Vector2 b = new Vector2(0, 0);
         Vector2 c = new Vector2(-1, 0);
@@ -29,7 +29,7 @@ class Vector2Test {
     }
 
     @Test
-    void getSetY(){
+    void getSetY() {
         Vector2 a = new Vector2(3, 4);
         Vector2 b = new Vector2(0, 0);
         Vector2 c = new Vector2(-1, 0);
