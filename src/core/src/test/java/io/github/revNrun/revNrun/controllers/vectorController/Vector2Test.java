@@ -1,14 +1,12 @@
-package core.controllers.vectorController;
+package io.github.revNrun.revNrun.controllers.vectorController;
 
-import io.github.revNrun.revNrun.controllers.vectorController.Vector2;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class Vector2Test {
-
     @Test
-    void getSetX() {
+    void getX() {
         Vector2 a = new Vector2(3, 4);
         Vector2 b = new Vector2(0, 0);
         Vector2 c = new Vector2(-1, 0);
@@ -29,7 +27,7 @@ class Vector2Test {
     }
 
     @Test
-    void getSetY() {
+    void getY() {
         Vector2 a = new Vector2(3, 4);
         Vector2 b = new Vector2(0, 0);
         Vector2 c = new Vector2(-1, 0);
