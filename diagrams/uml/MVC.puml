@@ -1,0 +1,64 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+abstract class ApplicationAdapter {
+    + ApplicationAdapter()
+    + create()
+    + resize()
+    + render()
+    + pause()
+    + resume()
+    + dispose()
+}
+
+class Game extends ApplicationAdapter {
+    + create()
+    + render()
+}
+
+package controllers {
+    abstract class Controller {
+
+    }
+
+    class MainMenuController extends Controller {
+
+    }
+
+    class GamePlayController extends Controller {
+
+    }
+
+    enum ControllerState {
+        MAIN_MENU
+        GAME_PLAY
+    }
+}
+
+package views {
+    abstract class View {
+        + render()
+    }
+
+    class MainMenuView extends View {
+
+    }
+
+    class GamePlayView extends View {
+
+    }
+}
+
+package models {
+    abstract class Model {
+
+    }
+}
+
+Game --> "1" Controller : currentController
+Controller -right-> "1" View : view
+Controller o-down-> "*" Model : models
+
+ControllerState -[hidden]right- Controller
+
+@enduml
