@@ -1,5 +1,7 @@
 package io.github.revNrun.revNrun.view;
 
+import com.badlogic.gdx.Input;
+
 public class InputHandler {
     private InputHelper inputHelper;
 
@@ -8,6 +10,6 @@ public class InputHandler {
     }
 
     public boolean isSpacePressed() {
-        return false;
+        return inputHelper.isKeyPressed(Input.Keys.SPACE);
     }
 }
