@@ -14,11 +14,13 @@ abstract class ApplicationAdapter {
 class Game extends ApplicationAdapter {
     + create()
     + render()
+    + setControllerState(newState: GameState)
 }
 
 package controllers {
     abstract class Controller {
-
+        # state : GameState
+        + Controller(game : Game, view : View, state : GameState)
     }
 
     class MainMenuController extends Controller {
@@ -28,24 +30,19 @@ package controllers {
     class GamePlayController extends Controller {
 
     }
-
-    enum ControllerState {
-        MAIN_MENU
-        GAME_PLAY
-    }
 }
 
 package views {
     abstract class View {
-        + render()
+        + {abstract}render()
     }
 
     class MainMenuView extends View {
-
+        +render()
     }
 
     class GamePlayView extends View {
-
+        +render()
     }
 }
 
@@ -55,10 +52,15 @@ package models {
     }
 }
 
-Game --> "1" Controller : currentController
+package core {
+    enum GameState {
+        MAIN_MENU
+        GAME_PLAY
+    }
+}
+
+Game "1\ngame" --> "1\ncurrentController" Controller
 Controller -right-> "1" View : view
 Controller o-down-> "*" Model : models
-
-ControllerState -[hidden]right- Controller
 
 @enduml
