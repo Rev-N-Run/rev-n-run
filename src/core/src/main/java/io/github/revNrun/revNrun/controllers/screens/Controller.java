@@ -5,7 +5,7 @@ import io.github.revNrun.revNrun.core.GameState;
 import io.github.revNrun.revNrun.views.View;
 
 public abstract class Controller {
-    protected State state;
+    protected GameState state;
     protected Game game;
     protected View view;
 

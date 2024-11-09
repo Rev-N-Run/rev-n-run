@@ -14,7 +14,7 @@ abstract class ApplicationAdapter {
 class Game extends ApplicationAdapter {
     + create()
     + render()
-    + setControllerState(newState: GameState)
+    + setControllerState(newState: Controller)
 }
 
 package controllers {
