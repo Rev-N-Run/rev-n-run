@@ -32,4 +32,10 @@ public class Vector2 {
     public void setY(float y) {
         this.y = y;
     }
+
+    public double distance(Vector2 v) {
+        double dx = v.getX() - this.getX();
+        double dy = v.getY() - this.getY();
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 }
