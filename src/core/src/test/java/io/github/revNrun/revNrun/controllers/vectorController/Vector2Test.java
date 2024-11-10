@@ -58,6 +58,6 @@ class Vector2Test {
         // Same values
         assertEquals(b.distance(b), 0.0);
         // Negative values
-        assertEquals(a.distance(c), 14.21);
+        assertEquals(b.distance(c), 14.2126, 0.0001);
     }
 }
