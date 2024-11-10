@@ -13,7 +13,7 @@ public class MainMenuController extends Controller {
     }
 
     @Override
-    public void execute() {
+    public void render(float delta) {
 
     }
 }

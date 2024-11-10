@@ -12,8 +12,6 @@ public abstract class Controller extends ScreenAdapter {
         this.game = revNRun;
     }
 
-    public abstract void execute();
-
     public void resize(int width, int height) {
         view.resize(width, height);
     }

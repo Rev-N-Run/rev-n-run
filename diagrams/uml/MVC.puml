@@ -39,20 +39,19 @@ package controllers {
 
         abstract class Controller extends ScreenAdapter {
             + Controller(game: Game)
-            + {abstract}execute()
             + resize(width: int, height: int)
         }
 
         class MainMenuController extends Controller {
             + MainMenuController(game: Game, batch: SpriteBatch,
                 camera: Camera, viewport: Viewport)
-            + execute()
+            + render()
         }
 
         class GamePlayController extends Controller {
             + GamePlayController(game: Game, batch: SpriteBatch,
                 camera: Camera, viewport: Viewport)
-            + execute()
+            + render()
         }
     }
 
