@@ -1,34 +1,65 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-abstract class ApplicationAdapter {
+abstract class Game {
     + ApplicationAdapter()
     + create()
-    + resize()
+    + resize(width: int, height: int)
     + render()
     + pause()
     + resume()
     + dispose()
+    + setScreen(screen: Screen)
+    + getScreen() : Screen
 }
 
-class Game extends ApplicationAdapter {
+
+class RevNRun extends Game {
+    - batch: SpriteBatch
+    - shapeRenderer: ShapeRenderer
     + create()
     + render()
-    + setControllerState(newState: Controller)
+    + resize()
 }
 
 package controllers {
     package screens {
-        abstract class Controller {
-            # state : GameState
-            + Controller(game : Game, view : View, state : GameState)
+        class ScreenAdapter {
+            + ScreenAdapter()
+            + create()
+            + resize(width: int, height: int)
+            + render(delta: float)
+            + pause()
+            + resume()
+            + dispose()
+        }
+
+        abstract class Controller extends ScreenAdapter {
+            + Controller(game: Game, batch: SpriteBatch)
+            + {abstract}execute()
+            + resize(width: int, height: int)
+            # update()
         }
 
         class MainMenuController extends Controller {
-
+            + execute()
         }
 
         class GamePlayController extends Controller {
+            + execute()
+        }
+    }
+
+    package input {
+        interface InputHelper {
+            + isKeyPressed(int keycode): boolean
+        }
+
+        class LibGDXInputHelper implements InputHelper {
+
+        }
+
+        class InputHandler {
 
         }
     }
@@ -36,10 +67,15 @@ package controllers {
 
 package views {
     abstract class View {
-        + {abstract}render()
+        # viewport: Viewport
+        # camera: Camera
+        # batch: SpriteBatch
+
+        + {abstract} render()
+        + resize(width: int, height: int)
     }
 
-    class MainMenuView extends View {
+    class MainMenuView extends View{
         +render()
     }
 
@@ -49,9 +85,7 @@ package views {
 }
 
 package models {
-    abstract class Model {
 
-    }
 }
 
 package core {
@@ -61,8 +95,11 @@ package core {
     }
 }
 
-Game "1\ngame" --> "1\ncurrentController" Controller
-Controller -right-> "1" View : view
-Controller o-down-> "*" Model : models
+RevNRun "1\ngame" --> "1\ncurrentController" Controller
+Controller --> View : view
+Controller --> InputHandler : input
+InputHandler --> InputHelper : inputHelper
+
+input -[hidden]right- screens
 
 @enduml

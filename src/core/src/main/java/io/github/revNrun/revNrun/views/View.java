@@ -1,12 +1,19 @@
 package io.github.revNrun.revNrun.views;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public abstract class View {
     protected Viewport viewport;
-    public View(Viewport viewport) {
-        this.viewport = viewport;
+    protected Camera camera;
+    protected SpriteBatch batch;
+
+    public View(SpriteBatch batch) {
+        this.camera = new OrthographicCamera();
+        this.viewport = new FitViewport(0,0,camera);
     }
 
     public abstract void render();

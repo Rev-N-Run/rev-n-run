@@ -9,6 +9,10 @@ public class InputHandler {
         this.inputHelper = inputHelper;
     }
 
+    public InputHandler() {
+        this.inputHelper = new LibGDXInputHelper();
+    }
+
     public boolean isSpacePressed() {
         return inputHelper.isKeyPressed(Input.Keys.SPACE);
     }

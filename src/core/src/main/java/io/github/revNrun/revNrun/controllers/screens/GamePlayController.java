@@ -1,11 +1,17 @@
 package io.github.revNrun.revNrun.controllers.screens;
 
-import io.github.revNrun.revNrun.Game;
-import io.github.revNrun.revNrun.core.GameState;
-import io.github.revNrun.revNrun.views.View;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import io.github.revNrun.revNrun.RevNRun;
+import io.github.revNrun.revNrun.views.GamePlayView;
 
 public class GamePlayController extends Controller {
-    public GamePlayController(Game game, View view, GameState state) {
-        super(game, view, state);
+    public GamePlayController(RevNRun revNRun, SpriteBatch batch) {
+        super(revNRun, batch);
+        view = new GamePlayView(batch);
+    }
+
+    @Override
+    public void execute() {
+
     }
 }

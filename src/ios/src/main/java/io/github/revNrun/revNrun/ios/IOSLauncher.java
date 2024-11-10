@@ -1,18 +1,18 @@
 package io.github.revNrun.revNrun.ios;
 
+import io.github.revNrun.revNrun.RevNRun;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import io.github.revNrun.revNrun.Game;
 
 /** Launches the iOS (RoboVM) application. */
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration configuration = new IOSApplicationConfiguration();
-        return new IOSApplication(new Game(), configuration);
+        return new IOSApplication(new RevNRun(), configuration);
     }
 
     public static void main(String[] argv) {
