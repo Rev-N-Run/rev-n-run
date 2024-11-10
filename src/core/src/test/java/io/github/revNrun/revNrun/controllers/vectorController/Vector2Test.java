@@ -46,4 +46,18 @@ class Vector2Test {
         assertEquals(-30, f.getY());
         assertEquals(4, g.getY());
     }
+
+    @Test
+    public void testDistance(){
+        Vector2 a = new Vector2(0, 0);
+        Vector2 b = new Vector2(3, 4);
+        Vector2 c = new Vector2(-8, -5);
+
+        // Positive values
+        assertEquals(a.distance(b), 5.0f);
+        // Same values
+        assertEquals(b.distance(b), 0.0f);
+        // Negative values
+        assertEquals(a.distance(c), 14.21f);
+    }
 }
