@@ -18,17 +18,19 @@ class Game extends ApplicationAdapter {
 }
 
 package controllers {
-    abstract class Controller {
-        # state : GameState
-        + Controller(game : Game, view : View, state : GameState)
-    }
+    package screens {
+        abstract class Controller {
+            # state : GameState
+            + Controller(game : Game, view : View, state : GameState)
+        }
 
-    class MainMenuController extends Controller {
+        class MainMenuController extends Controller {
 
-    }
+        }
 
-    class GamePlayController extends Controller {
+        class GamePlayController extends Controller {
 
+        }
     }
 }
 
