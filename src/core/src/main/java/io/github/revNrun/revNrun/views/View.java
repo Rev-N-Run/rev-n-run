@@ -11,9 +11,10 @@ public abstract class View {
     protected Camera camera;
     protected SpriteBatch batch;
 
-    public View(SpriteBatch batch) {
-        this.camera = new OrthographicCamera();
-        this.viewport = new FitViewport(0,0,camera);
+    public View(SpriteBatch batch, Viewport viewport, Camera camera) {
+        this.camera = camera;
+        this.viewport = viewport;
+        this.batch = batch;
     }
 
     public abstract void render();

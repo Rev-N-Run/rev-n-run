@@ -2,13 +2,19 @@ package io.github.revNrun.revNrun;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.revNrun.revNrun.controllers.screens.Controller;
 import io.github.revNrun.revNrun.controllers.screens.MainMenuController;
 
 public class RevNRun extends Game {
     private Controller currentController;
     private SpriteBatch batch;
+    private Viewport viewport;
+    private Camera camera;
 
     public RevNRun(){
         System.out.println("This is the game's Main class");
@@ -17,7 +23,9 @@ public class RevNRun extends Game {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        currentController = new MainMenuController(this, batch);
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(30, 40, camera);
+        currentController = new MainMenuController(this, batch, viewport, camera);
         setScreen(currentController);
     }
 

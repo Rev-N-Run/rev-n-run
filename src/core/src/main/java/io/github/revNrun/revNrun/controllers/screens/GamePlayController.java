@@ -1,13 +1,15 @@
 package io.github.revNrun.revNrun.controllers.screens;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import io.github.revNrun.revNrun.RevNRun;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.revNrun.revNrun.views.GamePlayView;
 
 public class GamePlayController extends Controller {
-    public GamePlayController(RevNRun revNRun, SpriteBatch batch) {
-        super(revNRun, batch);
-        view = new GamePlayView(batch);
+    public GamePlayController(Game revNRun, SpriteBatch batch, Viewport viewport, Camera camera) {
+        super(revNRun);
+        view = new GamePlayView(batch, viewport, camera);
     }
 
     @Override

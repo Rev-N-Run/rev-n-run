@@ -17,6 +17,9 @@ abstract class Game {
 class RevNRun extends Game {
     - batch: SpriteBatch
     - shapeRenderer: ShapeRenderer
+    - viewport: Viewport
+    - camera: Camera
+
     + create()
     + render()
     + resize()
@@ -35,17 +38,20 @@ package controllers {
         }
 
         abstract class Controller extends ScreenAdapter {
-            + Controller(game: Game, batch: SpriteBatch)
+            + Controller(game: Game)
             + {abstract}execute()
             + resize(width: int, height: int)
-            # update()
         }
 
         class MainMenuController extends Controller {
+            + MainMenuController(game: Game, batch: SpriteBatch,
+                camera: Camera, viewport: Viewport)
             + execute()
         }
 
         class GamePlayController extends Controller {
+            + GamePlayController(game: Game, batch: SpriteBatch,
+                camera: Camera, viewport: Viewport)
             + execute()
         }
     }
@@ -73,6 +79,7 @@ package views {
 
         + {abstract} render()
         + resize(width: int, height: int)
+        + updateCamera()
     }
 
     class MainMenuView extends View{
