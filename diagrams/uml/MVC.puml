@@ -37,21 +37,31 @@ package controllers {
             + dispose()
         }
 
-        abstract class Controller extends ScreenAdapter {
-            + Controller(game: Game)
+        abstract class ScreenController extends ScreenAdapter {
+            + ScreenController(game: Game)
             + resize(width: int, height: int)
         }
 
-        class MainMenuController extends Controller {
+        class MainMenuController extends ScreenController {
             + MainMenuController(game: Game, batch: SpriteBatch,
                 camera: Camera, viewport: Viewport)
             + render()
         }
 
-        class GamePlayController extends Controller {
+        class GamePlayController extends ScreenController {
             + GamePlayController(game: Game, batch: SpriteBatch,
                 camera: Camera, viewport: Viewport)
             + render()
+        }
+    }
+
+    package model_controllers {
+        abstract class Controller {
+            + {abstract} execute()
+        }
+
+        class CameraController extends Controller {
+
         }
     }
 
@@ -101,10 +111,11 @@ package core {
     }
 }
 
-RevNRun "1\ngame" --> "1\ncurrentController" Controller
-Controller --> View : view
-Controller --> InputHandler : input
+RevNRun "1\ngame" --> "1\ncurrentController" ScreenController
+ScreenController --> View : view
+ScreenController --> InputHandler : input
 InputHandler --> InputHelper : inputHelper
+ScreenController o-- Controller
 
 input -[hidden]right- screens
 

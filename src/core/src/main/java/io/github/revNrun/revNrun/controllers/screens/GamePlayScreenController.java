@@ -4,12 +4,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.revNrun.revNrun.views.MainMenuView;
+import io.github.revNrun.revNrun.views.GamePlayView;
 
-public class MainMenuController extends Controller {
-    public MainMenuController(Game revNRun, SpriteBatch batch, Viewport viewport, Camera camera) {
+public class GamePlayScreenController extends ScreenController {
+    public GamePlayScreenController(Game revNRun, SpriteBatch batch, Viewport viewport, Camera camera) {
         super(revNRun);
-        view = new MainMenuView(batch, viewport, camera);
+        view = new GamePlayView(batch, viewport, camera);
     }
 
     @Override

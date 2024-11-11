@@ -4,11 +4,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.ScreenAdapter;
 import io.github.revNrun.revNrun.views.View;
 
-public abstract class Controller extends ScreenAdapter {
+public abstract class ScreenController extends ScreenAdapter {
     protected Game game;
     protected View view;
 
-    public Controller(Game revNRun) {
+    public ScreenController(Game revNRun) {
         this.game = revNRun;
     }
 
