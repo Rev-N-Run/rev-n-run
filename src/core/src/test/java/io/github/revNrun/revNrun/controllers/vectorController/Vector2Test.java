@@ -54,10 +54,10 @@ class Vector2Test {
         Vector2 c = new Vector2(-8, -5);
 
         // Positive values
-        assertEquals(a.distance(b), 5.0);
+        assertEquals(a.distance(b), 5.0f);
         // Same values
-        assertEquals(b.distance(b), 0.0);
+        assertEquals(b.distance(b), 0.0f);
         // Negative values
-        assertEquals(b.distance(c), 14.2126, 0.0001);
+        assertEquals(b.distance(c), 14.2126f, 0.0001f);
     }
 }
