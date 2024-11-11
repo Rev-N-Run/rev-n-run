@@ -56,11 +56,15 @@ package controllers {
     }
 
     package model_controllers {
-        abstract class Controller {
-            + {abstract} execute()
+        abstract class ModelController {
+            + execute()
         }
 
-        class CameraController extends Controller {
+        class CameraController extends ModelController {
+
+        }
+
+        class GameController extends ModelController {
 
         }
     }
@@ -101,7 +105,44 @@ package views {
 }
 
 package models {
+    package entities {
+        class Car {
+            - name: String
+            - maxSpeed: int
+        }
+    }
 
+    package persistence {
+        interface Repository {
+            + findById(id: String): Optional<T>
+            + findAll(): List<T>
+            + save(entity: T)
+            + delete(entity: T)
+        }
+
+        interface PlayerRepository extends Repository {
+            + findByLevel(level: int): List<Player>
+        }
+
+        class JsonPlayerRepository implements PlayerRepository {
+
+        }
+    }
+
+    package managers {
+        interface Manager {
+
+        }
+
+        class GameManager implements Manager{
+
+        }
+
+        class CarManager implements Manager {
+
+        }
+
+    }
 }
 
 package core {
@@ -112,11 +153,14 @@ package core {
 }
 
 RevNRun "1\ngame" --> "1\ncurrentController" ScreenController
-ScreenController --> View : view
-ScreenController --> InputHandler : input
+ScreenController -up-> "1" View : view
+ScreenController --> "1" InputHandler : input
 InputHandler --> InputHelper : inputHelper
-ScreenController o-- Controller
+ScreenController o-- "0..*" ModelController
+ModelController o--> "0..*" Repository
+ModelController o-- "0..*" Manager
 
 input -[hidden]right- screens
+models -[hidden]left- controllers
 
 @enduml
