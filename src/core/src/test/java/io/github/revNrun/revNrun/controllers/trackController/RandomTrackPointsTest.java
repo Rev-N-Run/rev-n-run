@@ -69,8 +69,8 @@ class RandomTrackPointsTest {
         Vector2 lastPoint = track.get(track.getNumPoints() - 1);
 
         // Circuit is closed if first and last point are near
-        // Segment is the distance between two points given the circle orignal perimeter and the number of points
-        float segment = (float) (2 * Math.PI * track.getRadius()) / track.getNumPoints();
+        // Segment is the 4x distance between two points given the circle orignal perimeter and the number of points
+        float segment = (float) (2 * Math.PI * track.getRadius()) / (track.getNumPoints() / 4.0f);
         assertTrue(firstPoint.distance(lastPoint) < segment, segment + " is less than " + firstPoint.distance(lastPoint));
     }
 }
