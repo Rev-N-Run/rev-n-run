@@ -5,6 +5,7 @@ import io.github.revNrun.revNrun.model.vector.Vector2;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO javadocs comments explicant perque es fan servir els 4 punts
 public class TrackSmoothing {
     public static List<Vector2> computeCatmullRom(List<Vector2> controlPoints, int numSamples) {
         List<Vector2> smoothedPoints = new ArrayList<>();
@@ -35,6 +36,7 @@ public class TrackSmoothing {
     }
 
     private static Vector2 computePoint(Vector2 point0, Vector2 point1, Vector2 point2, Vector2 point3, float t) {
+        //TODO refactor and implement TrackSmoothing.computeCatmullRomPoint
         return null;
     }
 

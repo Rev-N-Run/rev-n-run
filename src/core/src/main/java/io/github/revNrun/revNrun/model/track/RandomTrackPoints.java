@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+//TODO javadocs comments, Refactor a RandomTrack, executar TrackSmoothing passant-li el primer node com a també últim, afegir getters per BasicPoints, RandomPoints, i FinalPoints
 public class RandomTrackPoints {
     private static final int MIN_NUM_POINTS = 50;
     private static final int MAX_NUM_POINTS = 200;
