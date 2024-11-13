@@ -26,7 +26,7 @@ public class Car {
         return maxSpeed;
     }
 
-    public int getFuel() {
+    public int getFuelLevel() {
         return fuel;
     }
 
