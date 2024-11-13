@@ -11,26 +11,30 @@ public abstract class Component {
 
     public Component(String name, float weight, int maxDurability,
                      int currentDurability, List<Effect> effects) {
-
+        this.name = name;
+        this.weight = weight;
+        this.maxDurability = maxDurability;
+        this.currentDurability = currentDurability;
+        this.effects = effects;
     }
 
     public String getName() {
-        return null;
+        return name;
     }
 
     public float getWeight() {
-        return 0;
+        return weight;
     }
 
     public float getMaxDurability() {
-        return 0;
+        return maxDurability;
     }
 
     public float getCurrentDurability() {
-        return 0;
+        return currentDurability;
     }
 
     public List<Effect> getEffects() {
-        return null;
+        return effects;
     }
 }
