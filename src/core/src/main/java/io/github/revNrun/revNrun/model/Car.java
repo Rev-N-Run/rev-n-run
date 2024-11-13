@@ -13,4 +13,56 @@ public class Car {
     private Front front;
     private Back back;
     private Sides sides;
+
+    public Car() {
+
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public int getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public int getFuel() {
+        return fuel;
+    }
+
+    public Engine getEngine() {
+        return engine;
+    }
+
+    public Chasis getChasis() {
+        return chasis;
+    }
+
+    public Tires getTires() {
+        return tires;
+    }
+
+    public Suspension getSuspension() {
+        return suspension;
+    }
+
+    public Brakes getBrakes() {
+        return brakes;
+    }
+
+    public Floor getFloor() {
+        return floor;
+    }
+
+    public Front getFront() {
+        return front;
+    }
+
+    public Back getBack() {
+        return back;
+    }
+
+    public Sides getSides() {
+        return sides;
+    }
 }
