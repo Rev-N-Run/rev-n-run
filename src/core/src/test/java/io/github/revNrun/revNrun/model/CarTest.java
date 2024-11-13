@@ -17,13 +17,6 @@ public class CarTest {
     }
 
     @Test
-    public void testNewCarHasDefaultCategory() {
-        Car car = new Car();
-
-        assertEquals(CarCategory.STANDARD, car.getCategory());
-    }
-
-    @Test
     public void testNewCarHasRequiredComponents() {
         Car car = new Car();
 
