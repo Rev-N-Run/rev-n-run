@@ -1,5 +1,7 @@
 package io.github.revNrun.revNrun.model.car;
 
+import io.github.revNrun.revNrun.model.car.components.*;
+
 public class Car {
     private int speed;
     private int maxSpeed;
@@ -15,7 +17,18 @@ public class Car {
     private Sides sides;
 
     public Car() {
-
+        this.speed = 0;
+        this.maxSpeed = 100;
+        this.fuel = 100;
+        this.engine = new Engine();
+        this.chasis = new Chasis();
+        this.tires = new Tires();
+        this.suspension = new Suspension();
+        this.brakes = new Brakes();
+        this.floor = new Floor();
+        this.front = new Front();
+        this.back = new Back();
+        this.sides = new Sides();
     }
 
     public int getSpeed() {
