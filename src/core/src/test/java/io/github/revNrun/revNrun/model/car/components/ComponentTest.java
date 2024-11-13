@@ -21,11 +21,20 @@ public class ComponentTest {
         Component component = new Component(name, weight, maxDurability,
             currentDurability, effects) {};
 
+        assertNotNull(component);
         assertEquals(name, component.getName());
         assertEquals(weight, component.getWeight(), 0.001f);
         assertEquals(maxDurability, component.getMaxDurability());
         assertEquals(currentDurability, component.getCurrentDurability());
         assertEquals(effects, component.getEffects());
+    }
+
+    @Test
+    public void checkNotNullObjects() {
+        Component component = new Component(null, 5, 10, 23, null) {};
+        assertNotNull(component.getName());
+        assertNotNull(component.getEffects());
+
     }
 
 
