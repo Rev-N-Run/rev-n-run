@@ -1,5 +1,6 @@
 package io.github.revNrun.revNrun.model.car.components;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Component {
@@ -11,11 +12,11 @@ public abstract class Component {
 
     public Component(String name, float weight, int maxDurability,
                      int currentDurability, List<Effect> effects) {
-        this.name = name;
+        this.name = (name == null) ? "" : name;
         this.weight = weight;
         this.maxDurability = maxDurability;
         this.currentDurability = currentDurability;
-        this.effects = effects;
+        this.effects = (effects == null) ? new ArrayList<>() : effects;
     }
 
     public String getName() {
