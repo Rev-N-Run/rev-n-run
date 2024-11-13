@@ -3,7 +3,7 @@ package io.github.revNrun.revNrun.model.car;
 import io.github.revNrun.revNrun.model.car.components.*;
 
 public class Car {
-    private final int N_TIRES = 4;
+    private static final int N_TIRES = 4;
 
     private int speed;
     private int maxSpeed;
