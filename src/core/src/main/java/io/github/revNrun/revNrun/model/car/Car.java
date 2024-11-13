@@ -20,7 +20,7 @@ public class Car {
     private Back back;
     private Sides sides;
 
-    public Car() {
+    /*public Car() {
         this.positionX = 0;
         this.positionY = 0;
         this.speed = 0;
@@ -48,7 +48,7 @@ public class Car {
         this.front = new Front();
         this.back = new Back();
         this.sides = new Sides();
-    }
+    }*/
 
     public int getPositionX() {
         return positionX;
