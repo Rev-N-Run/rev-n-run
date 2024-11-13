@@ -5,6 +5,8 @@ import io.github.revNrun.revNrun.model.car.components.*;
 public class Car {
     private static final int N_TIRES = 4;
 
+    private int positionX;
+    private int positionY;
     private int speed;
     private int maxSpeed;
     private int fuel;
@@ -19,6 +21,8 @@ public class Car {
     private Sides sides;
 
     public Car() {
+        this.positionX = 0;
+        this.positionY = 0;
         this.speed = 0;
         this.maxSpeed = 100;
         this.fuel = 100;
@@ -44,6 +48,14 @@ public class Car {
         this.front = new Front();
         this.back = new Back();
         this.sides = new Sides();
+    }
+
+    public int getPositionX() {
+        return positionX;
+    }
+
+    public int getPositionY() {
+        return positionY;
     }
 
     public int getSpeed() {
