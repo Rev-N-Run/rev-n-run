@@ -1,4 +1,4 @@
-package io.github.revNrun.revNrun.controllers.trackController;
+package io.github.revNrun.revNrun.model.track;
 
 import org.junit.jupiter.api.Test;
 

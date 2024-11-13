@@ -1,6 +1,6 @@
-package io.github.revNrun.revNrun.controllers.trackController;
+package io.github.revNrun.revNrun.model.track;
 
-import io.github.revNrun.revNrun.controllers.vectorController.Vector2;
+import io.github.revNrun.revNrun.model.vector.Vector2;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package io.github.revNrun.revNrun.controllers.vectorController;
+package io.github.revNrun.revNrun.model.vector;
 
 import org.junit.jupiter.api.Test;
 

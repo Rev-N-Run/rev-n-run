@@ -1,4 +1,4 @@
-package io.github.revNrun.revNrun.controllers.trackController;
+package io.github.revNrun.revNrun.model.track;
 
 // classic SimplexNoise implementation, keeping it simple and using array instead of objects for better game performance
 public class SimplexNoise {
