@@ -32,12 +32,29 @@ public class CarTest {
 
         assertInstanceOf(Engine.class, car.getEngine());
         assertInstanceOf(Chasis.class, car.getChasis());
-        assertInstanceOf(Tires.class, car.getTires());
         assertInstanceOf(Suspension.class, car.getSuspension());
         assertInstanceOf(Brakes.class, car.getBrakes());
         assertInstanceOf(Floor.class, car.getFloor());
         assertInstanceOf(Front.class, car.getFront());
         assertInstanceOf(Back.class, car.getBack());
         assertInstanceOf(Sides.class, car.getSides());
+
+        Component[] tires = car.getTires();
+        assertEquals(4, tires.length);
+        for (Component tire : tires) {
+            assertInstanceOf(Tires.class, car.getTires());
+        }
+
+        Component[] brakes = car.getBrakes();
+        assertEquals(4, brakes.length);
+        for (Component brake : brakes) {
+            assertInstanceOf(Brakes.class, car.getBrakes());
+        }
+
+        Component[] suspensions = car.getSuspension();
+        assertEquals(4, suspensions.length);
+        for (Component suspension : suspensions) {
+            assertInstanceOf(Suspension.class, car.getSuspension());
+        }
     }
 }
