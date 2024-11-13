@@ -33,4 +33,13 @@ public class TrackSmoothing {
 
         return smoothedPoints;
     }
+
+    private static Vector2 computePoint(Vector2 point0, Vector2 point1, Vector2 point2, Vector2 point3, float t) {
+        return null;
+    }
+
+    // Test getters
+    public static Vector2 testComputePoint(Vector2 point0, Vector2 point1, Vector2 point2, Vector2 point3, float t) {
+        return computePoint(point0, point1, point2, point3, t);
+    }
 }

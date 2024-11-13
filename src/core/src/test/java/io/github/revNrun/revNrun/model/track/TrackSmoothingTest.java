@@ -78,4 +78,22 @@ class TrackSmoothingTest {
 
     assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, numSamples));
   }
+
+  @Test
+  public void testComputePoint() {
+    Vector2 p0 = new Vector2(0, 0);
+    Vector2 p1 = new Vector2(1, 1);
+    Vector2 p2 = new Vector2(2, 1);
+    Vector2 p3 = new Vector2(3, 0);
+
+    Vector2 result = TrackSmoothing.testComputePoint(p0, p1, p2, p3, 0.5f);
+
+    // Expected values based on manual calculations
+    float expectedX = 1.5f;
+    float expectedY = 1f;
+
+    // 0.01 error margin is accepted
+    assertEquals(expectedX, result.getX(), 0.01);
+    assertEquals(expectedY, result.getY(), 0.01);
+  }
 }
