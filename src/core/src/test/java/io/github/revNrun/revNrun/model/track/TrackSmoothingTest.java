@@ -11,6 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TrackSmoothingTest {
+
   @Test
   void testComputeCatmullRom_SimpleCase() {
     List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
@@ -24,7 +25,7 @@ class TrackSmoothingTest {
 
     List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, numSamples);
 
-    // ComputeCatmullRom should have created numSamples points for each given Point (but the last one)
+    // ComputeCatmullRom should have created numSamples points for each given pair of points
     assertEquals(numSamples * (controlPoints.size() - 1), smoothedPoints.size());
 
     // First and last points should still be the same
@@ -32,7 +33,7 @@ class TrackSmoothingTest {
     assertEquals(new Vector2(6, 4), smoothedPoints.get(smoothedPoints.size() - 1));
 
     // But second, for example, should not be the same, because there's one of the new generated points
-    assertNotEquals(new Vector2(2,4), smoothedPoints.get(1));
+    assertNotEquals(new Vector2(2, 4), smoothedPoints.get(1));
   }
 
   @Test
@@ -53,9 +54,16 @@ class TrackSmoothingTest {
 
     List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, numSamples);
 
+    // Should return numSamples points, although there's just one point, it acts as a pair of points, being both the same one.
     assertEquals(numSamples, smoothedPoints.size());
+
+    // First and last points should be the same one we created.
     assertEquals(new Vector2(2, 4), smoothedPoints.get(0));
     assertEquals(new Vector2(2, 4), smoothedPoints.get(smoothedPoints.size() - 1));
+
+    // As we just have one point as a pair of points, all numSamples points should have the same value
+    for (int i = 1; i < smoothedPoints.size() - 2; i++)
+      assertEquals(new Vector2(2, 4), smoothedPoints.get(i));
   }
 
   @Test
