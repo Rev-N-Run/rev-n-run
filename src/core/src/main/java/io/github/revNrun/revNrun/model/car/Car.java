@@ -1,4 +1,4 @@
-package io.github.revNrun.revNrun.model;
+package io.github.revNrun.revNrun.model.car;
 
 public class Car {
     private int speed;
