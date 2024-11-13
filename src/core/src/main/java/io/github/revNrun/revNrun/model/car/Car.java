@@ -66,15 +66,15 @@ public class Car {
         return chasis;
     }
 
-    public Tires getTires() {
+    public Tires[] getTires() {
         return tires;
     }
 
-    public Suspension getSuspension() {
+    public Suspension[] getSuspension() {
         return suspension;
     }
 
-    public Brakes getBrakes() {
+    public Brakes[] getBrakes() {
         return brakes;
     }
 
