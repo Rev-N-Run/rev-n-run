@@ -1,8 +1,8 @@
 package io.github.revNrun.revNrun.model.car.components;
 
 public class Effect {
-    private EffectType effect;
-    private float value;
+    private final EffectType effect;
+    private final float value;
 
     public Effect(EffectType effect, float value) {
         this.effect = effect;
