@@ -5,14 +5,15 @@ public class Effect {
     private float value;
 
     public Effect(EffectType effect, float value) {
-
+        this.effect = effect;
+        this.value = value;
     }
 
     public EffectType getEffect() {
-        return null;
+        return effect;
     }
 
     public float getValue() {
-        return 0;
+        return value;
     }
 }
