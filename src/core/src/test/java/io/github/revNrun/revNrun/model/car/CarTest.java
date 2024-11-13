@@ -14,6 +14,8 @@ public class CarTest {
         assertEquals(0, car.getSpeed());
         assertEquals(100, car.getMaxSpeed());
         assertEquals(100, car.getFuelLevel());
+        assertEquals(0, car.getPositionX());
+        assertEquals(0, car.getPositionY());
     }
 
     @Test
