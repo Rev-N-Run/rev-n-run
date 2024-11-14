@@ -226,6 +226,16 @@ public class CarTest {
         assertEquals(.7f, tireRL.getCurrentDurability());
         assertEquals(.3f, tireFR.getCurrentDurability());
         assertEquals(.3f, tireRR.getCurrentDurability());
+
+        MockTires mockTireFL = (MockTires) tireFL;
+        MockTires mockTireFR = (MockTires) tireFR;
+        MockTires mockTireRL = (MockTires) tireRL;
+        MockTires mockTireRR = (MockTires) tireRR;
+
+        assertEquals(sides.get(CarSides.LEFT), mockTireFL.getLastDegradation());
+        assertEquals(sides.get(CarSides.LEFT), mockTireRL.getLastDegradation());
+        assertEquals(sides.get(CarSides.RIGHT), mockTireFR.getLastDegradation());
+        assertEquals(sides.get(CarSides.RIGHT), mockTireRR.getLastDegradation());
     }
 
     private static Tires[] getMockTires() {
