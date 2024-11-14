@@ -94,6 +94,65 @@ public class CarTest {
         });
     }
 
+    @Test
+    public void testComponentsNotNullObjects() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(null, null, null, null, null, null, null, null, null, -1);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(null, chasis, tires, suspensions, brakes, floor, front, back, sides, 100);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, null, tires, suspensions, brakes, floor, front, back, sides, 100);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chasis, null, suspensions, brakes, floor, front, back, sides, 100);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chasis, tires, null, brakes, floor, front, back, sides, 100);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chasis, tires, suspensions, null, floor, front, back, sides, 100);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chasis, tires, suspensions, brakes, null, front, back, sides, 100);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chasis, tires, suspensions, brakes, floor, null, back, sides, 100);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chasis, tires, suspensions, brakes, floor, front, null, sides, 100);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chasis, tires, suspensions, brakes, floor, front, back, null, 100);
+        });
+
+        Tires[] invalidTires = new Tires[]{null, null, null, null};
+        Suspension[] invalidSuspension = new Suspension[]{null, null, null, null};
+        Brakes[] invalidBrakes = new Brakes[]{null, null, null, null};
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chasis, invalidTires, suspensions, brakes, floor, front, back, null, 100);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chasis, tires, invalidSuspension, brakes, floor, front, back, null, 100);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chasis, tires, suspensions, invalidBrakes, floor, front, back, null, 100);
+        });
+    }
+
     private static Brakes[] getBrakes() {
         Brakes brakeFL = new Brakes("brakeFL", 20f, 100, 100, new ArrayList<>());
         Brakes brakeFR = new Brakes("brakeFR", 20f, 100, 100, new ArrayList<>());
