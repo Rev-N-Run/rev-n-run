@@ -12,7 +12,7 @@ public class Car {
     private int maxSpeed = 100;
     private int maxFuel = 100;
     private int fuel = 100;
-    private int weight = 0;
+    private float weight = 0;
     private Engine engine;
     private Chasis chasis;
     private Tires[] tires;
@@ -25,7 +25,7 @@ public class Car {
 
     public Car(Engine engine, Chasis chasis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
                Floor floor, Front front, Back back, Sides sides, int fuel) {
-        validateComponents(tires, suspension, brakes);
+        validateComponents(engine, chasis, tires, suspension, brakes, floor, front, back, sides);
         validateFuel(fuel);
 
         this.engine = engine;
@@ -40,15 +40,38 @@ public class Car {
         this.fuel = fuel;
     }
 
-    private void validateComponents(Tires[] tires, Suspension[] suspension, Brakes[] brakes) {
-        if (tires == null || tires.length != N_TIRES) {
+    private void validateComponents(Engine engine, Chasis chasis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
+                                    Floor floor, Front front, Back back, Sides sides) {
+        if (engine == null || chasis == null || tires == null || suspension == null || brakes == null
+            || floor == null || front == null || back == null || sides == null) {
+            throw new IllegalArgumentException("Arguments can't be null");
+        }
+        if (tires.length != N_TIRES) {
             throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " tires");
         }
-        if (suspension == null || suspension.length != N_TIRES) {
+        if (suspension.length != N_TIRES) {
             throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " suspension units");
         }
-        if (brakes == null || brakes.length != N_TIRES) {
+        if (brakes.length != N_TIRES) {
             throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " brakes");
+        }
+
+        for (Component component : tires) {
+            if (component == null) {
+                throw new IllegalArgumentException("Tire can't be null");
+            }
+        }
+
+        for (Component component : brakes) {
+            if (component == null) {
+                throw new IllegalArgumentException("Brake can't be null");
+            }
+        }
+
+        for (Component component : suspension) {
+            if (component == null) {
+                throw new IllegalArgumentException("Suspension can't be null");
+            }
         }
     }
 
@@ -112,5 +135,9 @@ public class Car {
 
     public Sides getSides() {
         return sides;
+    }
+
+    public float getWeight() {
+        return weight;
     }
 }
