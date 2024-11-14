@@ -59,19 +59,19 @@ public class Car {
             throw new IllegalArgumentException("Car must have exactly " + N_BRAKES + " brakes");
         }
 
-        for (Component component : tires) {
+        for (AbstractComponent component : tires) {
             if (component == null) {
                 throw new IllegalArgumentException("Tire can't be null");
             }
         }
 
-        for (Component component : brakes) {
+        for (AbstractComponent component : brakes) {
             if (component == null) {
                 throw new IllegalArgumentException("Brake can't be null");
             }
         }
 
-        for (Component component : suspension) {
+        for (AbstractComponent component : suspension) {
             if (component == null) {
                 throw new IllegalArgumentException("Suspension can't be null");
             }

@@ -1,6 +1,5 @@
 package io.github.revNrun.revNrun.model.car.components;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -8,7 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ComponentTest {
+public class AbstractComponentTest {
 
     @Test
     public void testCreateComponent() {
@@ -17,7 +16,7 @@ public class ComponentTest {
         int maxDurability = 100;
         List<Effect> effects = new ArrayList<>();
 
-        Component component = new Component(name, weight, maxDurability,
+        Component component = new AbstractComponent(name, weight, maxDurability,
             maxDurability, effects) {
             @Override
             public void degrade(float value) {
@@ -35,7 +34,7 @@ public class ComponentTest {
 
     @Test
     public void checkNotNullObjects() {
-        Component component = new Component(null, 5, 10, 23, null) {
+        Component component = new AbstractComponent(null, 5, 10, 23, null) {
             @Override
             public void degrade(float value) {
 

@@ -2,7 +2,7 @@ package io.github.revNrun.revNrun.model.car.components;
 
 import java.util.List;
 
-public class Engine extends Component {
+public class Engine extends AbstractComponent {
     public Engine(String name, float weight, int maxDurability, int currentDurability, List<Effect> effects) {
         super(name, weight, maxDurability, currentDurability, effects);
     }

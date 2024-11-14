@@ -1,6 +1,6 @@
 package io.github.revNrun.revNrun.model.car;
 
-import org.junit.jupiter.api.BeforeAll;
+import io.github.revNrun.revNrun.model.car.components.mocks.MockTires;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +8,6 @@ import io.github.revNrun.revNrun.model.car.components.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -228,10 +227,10 @@ public class CarTest {
     }
 
     private static Tires[] getMockTires() {
-        Tires mockTireFL = new MockComponent("mockTireFL", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT);
-        Tires mockTireFR = new MockComponent("mockTireFR", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT);
-        Tires mockTireRL = new MockComponent("mockTireRL", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT);
-        Tires mockTireRR = new MockComponent("mockTireRR", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT);
+        Tires mockTireFL = new MockTires("mockTireFL", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT);
+        Tires mockTireFR = new MockTires("mockTireFR", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT);
+        Tires mockTireRL = new MockTires("mockTireRL", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT);
+        Tires mockTireRR = new MockTires("mockTireRR", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT);
 
         return new Tires[]{mockTireFL, mockTireFR, mockTireRL, mockTireRR};
     }

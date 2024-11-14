@@ -2,7 +2,7 @@ package io.github.revNrun.revNrun.model.car.components;
 
 import java.util.List;
 
-public class Tires extends Component {
+public class Tires extends AbstractComponent {
     private CarAxis axle;
     private CarSides side;
 
