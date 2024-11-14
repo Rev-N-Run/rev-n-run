@@ -80,13 +80,13 @@ class TrackSmoothingTest {
   }
 
   @Test
-  public void testComputePoint() {
+  public void testComputeCatmullRomPoint() {
     Vector2 p0 = new Vector2(0, 0);
     Vector2 p1 = new Vector2(1, 1);
     Vector2 p2 = new Vector2(2, 1);
     Vector2 p3 = new Vector2(3, 0);
 
-    Vector2 result = TrackSmoothing.testComputePoint(p0, p1, p2, p3, 0.5f);
+    Vector2 result = TrackSmoothing.testComputeCatmullRomPoint(p0, p1, p2, p3, 0.5f);
 
     // Expected values based on manual calculations
     float expectedX = 1.5f;
