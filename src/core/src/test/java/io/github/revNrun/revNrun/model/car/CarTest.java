@@ -1,5 +1,6 @@
 package io.github.revNrun.revNrun.model.car;
 
+import io.github.revNrun.revNrun.model.car.components.mocks.MockSuspension;
 import io.github.revNrun.revNrun.model.car.components.mocks.MockTires;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -249,7 +250,71 @@ public class CarTest {
 
     @Test
     public void testSuspensionDegradation() {
+        Suspension[] mockSuspension = getMockSuspension();
+        car = new Car(engine, chasis, tires, mockSuspension, brakes, floor, front, back, sides, 100);
 
+        // Simulate turning to the right, so the exterior (right) should degrade more than the interior (left).
+        // In this case, lets test if the logic of selecting the tires makes the degradation.
+        // 70% degradation in the right and 30% in the left.
+        Map<CarSides, Float> sides = new HashMap<>();
+        sides.put(CarSides.LEFT, .3f);
+        sides.put(CarSides.RIGHT, .7f);
+        car.degradeSuspension(sides);
+
+        Suspension[] suspension = car.getSuspension();
+
+        Suspension suspensionFL = null, suspensionFR = null, suspensionRL = null, suspensionRR = null;
+
+        for (Suspension tire : suspension) {
+            CarAxis axle = tire.getAxle();
+            CarSides side = tire.getSide();
+            switch(axle) {
+                case FRONT:
+                    switch (side) {
+                        case LEFT:
+                            suspensionFL = tire;
+                            break;
+                        case RIGHT:
+                            suspensionFR = tire;
+                            break;
+                    }
+                    break;
+                case REAR:
+                    switch (side) {
+                        case LEFT:
+                            suspensionRL = tire;
+                            break;
+                        case RIGHT:
+                            suspensionRR = tire;
+                            break;
+                    }
+                    break;
+            }
+        }
+
+        assertEquals(.7f, suspensionFL.getCurrentDurability());
+        assertEquals(.7f, suspensionRL.getCurrentDurability());
+        assertEquals(.3f, suspensionFR.getCurrentDurability());
+        assertEquals(.3f, suspensionRR.getCurrentDurability());
+
+        MockSuspension mockSuspensionFL = (MockSuspension) suspensionFL;
+        MockSuspension mockSuspensionFR = (MockSuspension) suspensionFR;
+        MockSuspension mockSuspensionRL = (MockSuspension) suspensionRL;
+        MockSuspension mockSuspensionRR = (MockSuspension) suspensionRR;
+
+        assertEquals(sides.get(CarSides.LEFT), mockSuspensionFL.getLastDegradation());
+        assertEquals(sides.get(CarSides.LEFT), mockSuspensionRL.getLastDegradation());
+        assertEquals(sides.get(CarSides.RIGHT), mockSuspensionFR.getLastDegradation());
+        assertEquals(sides.get(CarSides.RIGHT), mockSuspensionRR.getLastDegradation());
+    }
+
+    private static Suspension[] getMockSuspension() {
+        Suspension mockSuspensionFL = new MockSuspension("mockSuspensionFL", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT);
+        Suspension mockSuspensionFR = new MockSuspension("mockSuspensionFR", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT);
+        Suspension mockSuspensionRL = new MockSuspension("mockSuspensionRL", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT);
+        Suspension mockSuspensionRR = new MockSuspension("mockSuspensionRR", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT);
+
+        return new Suspension[]{mockSuspensionFL, mockSuspensionFR, mockSuspensionRL, mockSuspensionRR};
     }
 
     @Test
