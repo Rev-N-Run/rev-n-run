@@ -40,11 +40,9 @@ public class CarTest {
     }
 
     private static Brakes[] getBrakes() {
-        Brakes brakeFL = new Brakes("brakeFL", 20f, 100, 100, new ArrayList<>());
-        Brakes brakeFR = new Brakes("brakeFR", 20f, 100, 100, new ArrayList<>());
-        Brakes brakeRL = new Brakes("brakeRL", 20f, 100, 100, new ArrayList<>());
-        Brakes brakeRR = new Brakes("brakeRR", 20f, 100, 100, new ArrayList<>());
-        return new Brakes[]{brakeFL, brakeFR, brakeRL, brakeRR};
+        Brakes brakeFront = new Brakes("brakeFront", 5f, 100, 100, new ArrayList<>());
+        Brakes brakeRear = new Brakes("brakeRear", 5f, 100, 100, new ArrayList<>());
+        return new Brakes[]{brakeFront, brakeRear};
     }
 
     private static Tires[] getTires() {
@@ -105,7 +103,7 @@ public class CarTest {
 
     @Test
     public void testCarConstructorWithInvalidNumberOfBrakes() {
-        Brakes[] invalidBrakes = new Brakes[3]; // Less than required
+        Brakes[] invalidBrakes = new Brakes[1]; // Less than required
         assertThrows(IllegalArgumentException.class, () -> {
             new Car(engine, chasis, tires, suspensions, invalidBrakes, floor, front, back, sides, 100);
         });
