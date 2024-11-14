@@ -94,7 +94,42 @@ public class Car {
     }
 
     public void degradeTires(Map<CarSides, Float> sides) {
+        Tires tireFL = null, tireFR = null, tireRL = null, tireRR = null;
+        for (Tires tire : tires) {
+            CarAxis axle = tire.getAxle();
+            CarSides side = tire.getSide();
+            switch(axle) {
+                case FRONT:
+                    switch (side) {
+                        case LEFT:
+                            tireFL = tire;
+                            break;
+                        case RIGHT:
+                            tireFR = tire;
+                            break;
+                    }
+                    break;
+                case REAR:
+                    switch (side) {
+                        case LEFT:
+                            tireRL = tire;
+                            break;
+                        case RIGHT:
+                            tireRR = tire;
+                            break;
+                    }
+                    break;
+            }
+        }
 
+        assert tireFL != null;
+        assert tireFR != null;
+        assert tireRL != null;
+        assert tireRR != null;
+        tireFL.degrade(sides.get(CarSides.LEFT));
+        tireFR.degrade(sides.get(CarSides.RIGHT));
+        tireRL.degrade(sides.get(CarSides.LEFT));
+        tireRR.degrade(sides.get(CarSides.RIGHT));
     }
 
     public void degradeSuspension(Map<CarSides, Float> sides) {
