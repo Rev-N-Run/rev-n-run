@@ -69,5 +69,40 @@ class EffectTest {
          assertEquals(0, gripEffect.getValue());
          assertEquals(3, accelerationEffect.getValue());
          assertEquals(-2, maxSpeedEffect.getValue());
-     }
+    }
+
+    @Test
+    public void testBrakeEffect() {
+        Effect brakeEffect = new Effect(EffectType.BRAKE, 5);
+        assertEquals(EffectType.BRAKE, brakeEffect.getEffect());
+        assertEquals(5, brakeEffect.getValue());
+
+        brakeEffect = new Effect(EffectType.BRAKE, -4);
+        assertEquals(EffectType.BRAKE, brakeEffect.getEffect());
+        assertEquals(-4, brakeEffect.getValue());
+
+        brakeEffect = new Effect(EffectType.BRAKE, 0);
+        assertEquals(EffectType.BRAKE, brakeEffect.getEffect());
+        assertEquals(0, brakeEffect.getValue());
+
+        // Frontier values
+        brakeEffect = new Effect(EffectType.BRAKE, 20);
+        assertEquals(20, brakeEffect.getValue());
+        brakeEffect = new Effect(EffectType.BRAKE, -20);
+        assertEquals(-20, brakeEffect.getValue());
+
+        // Internal frontier values
+        brakeEffect = new Effect(EffectType.BRAKE, 19.9f);
+        assertEquals(19.9f, brakeEffect.getValue());
+        brakeEffect = new Effect(EffectType.BRAKE, -19.9f);
+        assertEquals(-19.9f, brakeEffect.getValue());
+
+        // External frontier values
+        brakeEffect = new Effect(EffectType.BRAKE, 20.1f);
+        assertEquals(20f, brakeEffect.getValue());
+        brakeEffect = new Effect(EffectType.BRAKE, -20.1f);
+        assertEquals(-20f, brakeEffect.getValue());
+
+    }
+
 }
