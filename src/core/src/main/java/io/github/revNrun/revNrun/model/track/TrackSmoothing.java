@@ -9,8 +9,13 @@ import java.util.List;
 public class TrackSmoothing {
     public static List<Vector2> computeCatmullRom(List<Vector2> controlPoints, int numSamples) {
 
-        if(controlPoints.isEmpty()) throw new IllegalArgumentException("controlPoints is empty");
+        // Handle exceptions
         if(controlPoints.size() == 1) return controlPoints;
+        else if(controlPoints.isEmpty()) throw new IllegalArgumentException("controlPoints is empty");
+
+        if(numSamples == 0) return controlPoints;
+        else if(numSamples < 0) throw new IllegalArgumentException("numSamples is negative");
+
 
         List<Vector2> smoothedPoints = new ArrayList<>();
 
