@@ -41,9 +41,11 @@ public class CarTest {
     }
 
     private static Brakes[] getBrakes() {
-        Brakes brakeFront = new Brakes("brakeFront", 5f, 100, 100, new ArrayList<>());
-        Brakes brakeRear = new Brakes("brakeRear", 5f, 100, 100, new ArrayList<>());
-        return new Brakes[]{brakeFront, brakeRear};
+        Brakes brakeFL = new Brakes("brakeFL", 5f, 100, 100, new ArrayList<>());
+        Brakes brakeFR = new Brakes("brakeFR", 5f, 100, 100, new ArrayList<>());
+        Brakes brakeRL = new Brakes("brakeRL", 5f, 100, 100, new ArrayList<>());
+        Brakes brakeRR = new Brakes("brakeRR", 5f, 100, 100, new ArrayList<>());
+        return new Brakes[]{brakeFL, brakeFR, brakeRL, brakeRR};
     }
 
     private static Tires[] getTires() {
@@ -55,10 +57,10 @@ public class CarTest {
     }
 
     private static Suspension[] getSuspensions() {
-        Suspension suspensionFL = new Suspension("suspensionFL", 25f, 100, 100, new ArrayList<>());
-        Suspension suspensionFR = new Suspension("suspensionFR", 25f, 100, 100, new ArrayList<>());
-        Suspension suspensionRL = new Suspension("suspensionRL", 25f, 100, 100, new ArrayList<>());
-        Suspension suspensionRR = new Suspension("suspensionRR", 25f, 100, 100, new ArrayList<>());
+        Suspension suspensionFL = new Suspension("suspensionFL", 25f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT);
+        Suspension suspensionFR = new Suspension("suspensionFR", 25f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT);
+        Suspension suspensionRL = new Suspension("suspensionRL", 25f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT);
+        Suspension suspensionRR = new Suspension("suspensionRR", 25f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT);
         return new Suspension[]{suspensionFL, suspensionFR, suspensionRL, suspensionRR};
     }
 
@@ -104,7 +106,7 @@ public class CarTest {
 
     @Test
     public void testCarConstructorWithInvalidNumberOfBrakes() {
-        Brakes[] invalidBrakes = new Brakes[1]; // Less than required
+        Brakes[] invalidBrakes = new Brakes[3]; // Less than required
         assertThrows(IllegalArgumentException.class, () -> {
             new Car(engine, chasis, tires, suspensions, invalidBrakes, floor, front, back, sides, 100);
         });

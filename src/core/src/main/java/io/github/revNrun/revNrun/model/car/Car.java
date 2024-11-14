@@ -6,7 +6,6 @@ import java.util.Map;
 
 public class Car {
     private static final int N_TIRES = 4;
-    private static final int N_BRAKES = N_TIRES / 2;
     private static final int MIN_FUEL = 0;
 
     private int positionX = 0;
@@ -55,8 +54,8 @@ public class Car {
         if (suspension.length != N_TIRES) {
             throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " suspension units");
         }
-        if (brakes.length != N_BRAKES) {
-            throw new IllegalArgumentException("Car must have exactly " + N_BRAKES + " brakes");
+        if (brakes.length != N_TIRES) {
+            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " brakes");
         }
 
         for (AbstractComponent component : tires) {
