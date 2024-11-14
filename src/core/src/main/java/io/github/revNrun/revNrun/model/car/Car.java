@@ -25,18 +25,8 @@ public class Car {
 
     public Car(Engine engine, Chasis chasis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
                Floor floor, Front front, Back back, Sides sides, int fuel) {
-        if (tires == null || tires.length != N_TIRES) {
-            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " tires");
-        }
-        if (suspension == null || suspension.length != N_TIRES) {
-            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " suspension units");
-        }
-        if (brakes == null || brakes.length != N_TIRES) {
-            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " brakes");
-        }
-        if (fuel < MIN_FUEL || fuel > maxFuel) {
-            throw new IllegalArgumentException("Fuel must be between " + MIN_FUEL + " and " + maxFuel);
-        }
+        validateComponents(tires, suspension, brakes);
+        validateFuel(fuel);
 
         this.engine = engine;
         this.chasis = chasis;
@@ -48,6 +38,24 @@ public class Car {
         this.back = back;
         this.sides = sides;
         this.fuel = fuel;
+    }
+
+    private void validateComponents(Tires[] tires, Suspension[] suspension, Brakes[] brakes) {
+        if (tires == null || tires.length != N_TIRES) {
+            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " tires");
+        }
+        if (suspension == null || suspension.length != N_TIRES) {
+            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " suspension units");
+        }
+        if (brakes == null || brakes.length != N_TIRES) {
+            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " brakes");
+        }
+    }
+
+    private void validateFuel(int fuel) {
+        if (fuel < MIN_FUEL || fuel > maxFuel) {
+            throw new IllegalArgumentException("Fuel must be between " + MIN_FUEL + " and " + maxFuel);
+        }
     }
 
     public int getPositionX() {
