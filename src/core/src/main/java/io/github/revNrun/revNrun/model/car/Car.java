@@ -5,11 +5,13 @@ import io.github.revNrun.revNrun.model.car.components.*;
 public class Car {
     private static final int N_TIRES = 4;
 
-    private int positionX;
-    private int positionY;
-    private int speed;
-    private int maxSpeed;
-    private int fuel;
+    private int positionX = 0;
+    private int positionY = 0;
+    private int speed = 0;
+    private int maxSpeed = 100;
+    private int maxFuel = 100;
+    private int fuel = 100;
+    private int weight = 0;
     private Engine engine;
     private Chasis chasis;
     private Tires[] tires;
@@ -20,6 +22,10 @@ public class Car {
     private Back back;
     private Sides sides;
 
+    public Car(Engine engine, Chasis chasis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
+               Floor floor, Front front, Back back, Sides sides, int fuel) {
+
+    }
 
     public int getPositionX() {
         return positionX;
