@@ -8,6 +8,10 @@ import java.util.List;
 //TODO javadocs comments explicant perque es fan servir els 4 punts
 public class TrackSmoothing {
     public static List<Vector2> computeCatmullRom(List<Vector2> controlPoints, int numSamples) {
+
+        if(controlPoints.isEmpty()) throw new IllegalArgumentException("controlPoints is empty");
+        if(controlPoints.size() == 1) return controlPoints;
+
         List<Vector2> smoothedPoints = new ArrayList<>();
 
         // Add the first point (Catmull-Rom does not add the control points, just the interpolated)
