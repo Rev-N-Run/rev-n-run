@@ -20,35 +20,6 @@ public class Car {
     private Back back;
     private Sides sides;
 
-    /*public Car() {
-        this.positionX = 0;
-        this.positionY = 0;
-        this.speed = 0;
-        this.maxSpeed = 100;
-        this.fuel = 100;
-        this.engine = new Engine();
-        this.chasis = new Chasis();
-
-        this.tires = new Tires[N_TIRES];
-        for (int i = 0; i < N_TIRES; i++) {
-            this.tires[i] = new Tires();
-        }
-
-        this.suspension = new Suspension[N_TIRES];
-        for (int i = 0; i < N_TIRES; i++) {
-            this.suspension[i] = new Suspension();
-        }
-
-        this.brakes = new Brakes[N_TIRES];
-        for (int i = 0; i < N_TIRES; i++) {
-            this.brakes[i] = new Brakes();
-        }
-
-        this.floor = new Floor();
-        this.front = new Front();
-        this.back = new Back();
-        this.sides = new Sides();
-    }*/
 
     public int getPositionX() {
         return positionX;
