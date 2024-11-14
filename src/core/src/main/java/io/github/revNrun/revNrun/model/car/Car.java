@@ -2,6 +2,8 @@ package io.github.revNrun.revNrun.model.car;
 
 import io.github.revNrun.revNrun.model.car.components.*;
 
+import java.util.Map;
+
 public class Car {
     private static final int N_TIRES = 4;
     private static final int N_BRAKES = N_TIRES / 2;
@@ -80,6 +82,43 @@ public class Car {
         if (fuel < MIN_FUEL || fuel > maxFuel) {
             throw new IllegalArgumentException("Fuel must be between " + MIN_FUEL + " and " + maxFuel);
         }
+    }
+
+
+    public void degradeEngine() {
+
+    }
+
+    public void degradeChasis() {
+
+    }
+
+    public void degradeTires(Map<CarSides, Float> sides) {
+
+    }
+
+    public void degradeSuspension(Map<CarSides, Float> sides) {
+
+    }
+
+    public void degradeBrakes() {
+
+    }
+
+    public void degradeFloor() {
+
+    }
+
+    public void degradeFront() {
+
+    }
+
+    public void degradeBack() {
+
+    }
+
+    public void degradeSides() {
+
     }
 
     public int getPositionX() {

@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test;
 import io.github.revNrun.revNrun.model.car.components.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -175,5 +177,73 @@ public class CarTest {
         });
     }
 
+    @Test
+    public void testTireDegradation() {
+        Tires[] mockTires = getMockTires();
+        car = new Car(engine, chasis, mockTires, suspensions, brakes, floor, front, back, sides, 100);
+
+        // Simulate turning to the right, so the exterior (right) should degrade more than the interior (left).
+        // In this case, lets test if the logic of selecting the tires makes the degradation.
+        // 70% degradation in the right and 30% in the left.
+        Map<CarSides, Float> sides = new HashMap<>();
+        sides.put(CarSides.LEFT, .3f);
+        sides.put(CarSides.RIGHT, .7f);
+        car.degradeTires(sides);
+
+        Tires[] tires = car.getTires();
+
+        Tires tireFL = null, tireFR = null, tireRL = null, tireRR = null;
+
+        for (Tires tire : tires) {
+            CarAxis axle = tire.getAxle();
+            CarSides side = tire.getSide();
+            switch(axle) {
+                case FRONT:
+                    switch (side) {
+                        case LEFT:
+                            tireFL = tire;
+                            break;
+                        case RIGHT:
+                            tireFR = tire;
+                            break;
+                    }
+                    break;
+                case REAR:
+                    switch (side) {
+                        case LEFT:
+                            tireRL = tire;
+                            break;
+                        case RIGHT:
+                            tireRR = tire;
+                            break;
+                    }
+                    break;
+            }
+        }
+
+        assertEquals(.7f, tireFL.getCurrentDurability());
+        assertEquals(.7f, tireRL.getCurrentDurability());
+        assertEquals(.3f, tireFR.getCurrentDurability());
+        assertEquals(.3f, tireRR.getCurrentDurability());
+    }
+
+    private static Tires[] getMockTires() {
+        Tires mockTireFL = new MockComponent("mockTireFL", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT);
+        Tires mockTireFR = new MockComponent("mockTireFR", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT);
+        Tires mockTireRL = new MockComponent("mockTireRL", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT);
+        Tires mockTireRR = new MockComponent("mockTireRR", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT);
+
+        return new Tires[]{mockTireFL, mockTireFR, mockTireRL, mockTireRR};
+    }
+
+    @Test
+    public void testSuspensionDegradation() {
+
+    }
+
+    @Test
+    public void testBrakesDegradation() {
+
+    }
 
 }

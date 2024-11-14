@@ -6,4 +6,9 @@ public class Engine extends Component {
     public Engine(String name, float weight, int maxDurability, int currentDurability, List<Effect> effects) {
         super(name, weight, maxDurability, currentDurability, effects);
     }
+
+    @Override
+    public void degrade(float value) {
+
+    }
 }

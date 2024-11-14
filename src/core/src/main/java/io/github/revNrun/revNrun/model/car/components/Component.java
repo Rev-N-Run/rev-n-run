@@ -3,11 +3,11 @@ package io.github.revNrun.revNrun.model.car.components;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Component {
+public abstract class Component implements IComponent {
     protected String name;
     protected float weight;
-    protected int maxDurability;
-    protected int currentDurability;
+    protected float maxDurability;
+    protected float currentDurability;
     protected List<Effect> effects;
 
     public Component(String name, float weight, int maxDurability,
