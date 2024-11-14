@@ -39,6 +39,30 @@ public class CarTest {
         car = new Car(engine, chasis, tires, suspensions, brakes, floor, front, back, sides, 100);
     }
 
+    private static Brakes[] getBrakes() {
+        Brakes brakeFL = new Brakes("brakeFL", 20f, 100, 100, new ArrayList<>());
+        Brakes brakeFR = new Brakes("brakeFR", 20f, 100, 100, new ArrayList<>());
+        Brakes brakeRL = new Brakes("brakeRL", 20f, 100, 100, new ArrayList<>());
+        Brakes brakeRR = new Brakes("brakeRR", 20f, 100, 100, new ArrayList<>());
+        return new Brakes[]{brakeFL, brakeFR, brakeRL, brakeRR};
+    }
+
+    private static Tires[] getTires() {
+        Tires tireFL = new Tires("tireFL", 20f, 100, 100, new ArrayList<>());
+        Tires tireFR = new Tires("tireFR", 20f, 100, 100, new ArrayList<>());
+        Tires tireRL = new Tires("tireRL", 20f, 100, 100, new ArrayList<>());
+        Tires tireRR = new Tires("tireRR", 20f, 100, 100, new ArrayList<>());
+        return new Tires[]{tireFL, tireFR, tireRL, tireRR};
+    }
+
+    private static Suspension[] getSuspensions() {
+        Suspension suspensionFL = new Suspension("suspensionFL", 25f, 100, 100, new ArrayList<>());
+        Suspension suspensionFR = new Suspension("suspensionFR", 25f, 100, 100, new ArrayList<>());
+        Suspension suspensionRL = new Suspension("suspensionRL", 25f, 100, 100, new ArrayList<>());
+        Suspension suspensionRR = new Suspension("suspensionRR", 25f, 100, 100, new ArrayList<>());
+        return new Suspension[]{suspensionFL, suspensionFR, suspensionRL, suspensionRR};
+    }
+
     @Test
     public void testCarConstructor() {
         // Verify all components are correctly initialized
@@ -153,27 +177,5 @@ public class CarTest {
         });
     }
 
-    private static Brakes[] getBrakes() {
-        Brakes brakeFL = new Brakes("brakeFL", 20f, 100, 100, new ArrayList<>());
-        Brakes brakeFR = new Brakes("brakeFR", 20f, 100, 100, new ArrayList<>());
-        Brakes brakeRL = new Brakes("brakeRL", 20f, 100, 100, new ArrayList<>());
-        Brakes brakeRR = new Brakes("brakeRR", 20f, 100, 100, new ArrayList<>());
-        return new Brakes[]{brakeFL, brakeFR, brakeRL, brakeRR};
-    }
 
-    private static Tires[] getTires() {
-        Tires tireFL = new Tires("tireFL", 20f, 100, 100, new ArrayList<>());
-        Tires tireFR = new Tires("tireFR", 20f, 100, 100, new ArrayList<>());
-        Tires tireRL = new Tires("tireRL", 20f, 100, 100, new ArrayList<>());
-        Tires tireRR = new Tires("tireRR", 20f, 100, 100, new ArrayList<>());
-        return new Tires[]{tireFL, tireFR, tireRL, tireRR};
-    }
-
-    private static Suspension[] getSuspensions() {
-        Suspension suspensionFL = new Suspension("suspensionFL", 25f, 100, 100, new ArrayList<>());
-        Suspension suspensionFR = new Suspension("suspensionFR", 25f, 100, 100, new ArrayList<>());
-        Suspension suspensionRL = new Suspension("suspensionRL", 25f, 100, 100, new ArrayList<>());
-        Suspension suspensionRR = new Suspension("suspensionRR", 25f, 100, 100, new ArrayList<>());
-        return new Suspension[]{suspensionFL, suspensionFR, suspensionRL, suspensionRR};
-    }
 }
