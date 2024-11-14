@@ -48,10 +48,10 @@ public class CarTest {
     }
 
     private static Tires[] getTires() {
-        Tires tireFL = new Tires("tireFL", 20f, 100, 100, new ArrayList<>());
-        Tires tireFR = new Tires("tireFR", 20f, 100, 100, new ArrayList<>());
-        Tires tireRL = new Tires("tireRL", 20f, 100, 100, new ArrayList<>());
-        Tires tireRR = new Tires("tireRR", 20f, 100, 100, new ArrayList<>());
+        Tires tireFL = new Tires("tireFL", 20f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT);
+        Tires tireFR = new Tires("tireFR", 20f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT);
+        Tires tireRL = new Tires("tireRL", 20f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT);
+        Tires tireRR = new Tires("tireRR", 20f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT);
         return new Tires[]{tireFL, tireFR, tireRL, tireRR};
     }
 

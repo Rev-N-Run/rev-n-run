@@ -6,8 +6,11 @@ public class Tires extends Component {
     private CarAxis axle;
     private CarSides side;
 
-    public Tires(String name, float weight, int maxDurability, int currentDurability, List<Effect> effects) {
+    public Tires(String name, float weight, int maxDurability, int currentDurability,
+                 List<Effect> effects, CarAxis axle, CarSides side) {
         super(name, weight, maxDurability, currentDurability, effects);
+        this.axle = axle;
+        this.side = side;
     }
 
     @Override
@@ -16,10 +19,10 @@ public class Tires extends Component {
     }
 
     public CarAxis getAxle() {
-        return null;
+        return axle;
     }
 
     public CarSides getSide() {
-        return null;
+        return side;
     }
 }
