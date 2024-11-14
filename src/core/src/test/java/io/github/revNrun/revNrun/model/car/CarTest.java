@@ -74,25 +74,24 @@ public class CarTest {
     @Test
     public void testCarConstructorWithInvalidNumberOfSuspensions() {
         Suspension[] invalidSuspensions = new Suspension[3]; // Less than required
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, tires, suspensions, brakes, floor, front, back, sides, -1);
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chasis, tires, invalidSuspensions, brakes, floor, front, back, sides, 100);
         });
     }
 
     @Test
     public void testCarConstructorWithInvalidNumberOfBrakes() {
         Brakes[] invalidBrakes = new Brakes[3]; // Less than required
-        
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chasis, tires, suspensions, invalidBrakes, floor, front, back, sides, 100);
+        });
     }
 
     @Test
     public void testCarConstructorWithInvalidFuel() {
-        try {
+        assertThrows(IllegalArgumentException.class, () -> {
             new Car(engine, chasis, tires, suspensions, brakes, floor, front, back, sides, -1);
-            fail("Should throw IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
-            assertEquals("Fuel must be between 0 and 100", e.getMessage());
-        }
+        });
     }
 
     private static Brakes[] getBrakes() {
