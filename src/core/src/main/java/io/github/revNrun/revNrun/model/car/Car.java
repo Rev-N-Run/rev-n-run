@@ -4,6 +4,7 @@ import io.github.revNrun.revNrun.model.car.components.*;
 
 public class Car {
     private static final int N_TIRES = 4;
+    private static final int MIN_FUEL = 0;
 
     private int positionX = 0;
     private int positionY = 0;
@@ -24,7 +25,29 @@ public class Car {
 
     public Car(Engine engine, Chasis chasis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
                Floor floor, Front front, Back back, Sides sides, int fuel) {
+        if (tires == null || tires.length != N_TIRES) {
+            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " tires");
+        }
+        if (suspension == null || suspension.length != N_TIRES) {
+            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " suspension units");
+        }
+        if (brakes == null || brakes.length != N_TIRES) {
+            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " brakes");
+        }
+        if (fuel < MIN_FUEL || fuel > maxFuel) {
+            throw new IllegalArgumentException("Fuel must be between " + MIN_FUEL + " and " + maxFuel);
+        }
 
+        this.engine = engine;
+        this.chasis = chasis;
+        this.tires = tires.clone();
+        this.suspension = suspension.clone();
+        this.brakes = brakes.clone();
+        this.floor = floor;
+        this.front = front;
+        this.back = back;
+        this.sides = sides;
+        this.fuel = fuel;
     }
 
     public int getPositionX() {
