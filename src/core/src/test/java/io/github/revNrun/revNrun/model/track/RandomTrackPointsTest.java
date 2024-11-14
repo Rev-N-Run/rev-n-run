@@ -1,6 +1,7 @@
 package io.github.revNrun.revNrun.model.track;
 
 import io.github.revNrun.revNrun.model.vector.Vector2;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -8,6 +9,20 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RandomTrackPointsTest {
+
+    private static RandomTrackPoints track;
+    private static List<Vector2> initialPoints;
+    private static List<Vector2> basePoints;
+    private static List<Vector2> points;
+
+    @BeforeEach
+    public void setUp() {
+        track = new RandomTrackPoints();
+        initialPoints = track.getInitialPoints();
+        basePoints = track.getBasePoints();
+        points = track.getPoints();
+    }
+
 
     @Test
     public void testValuesInRange() {
@@ -37,73 +52,58 @@ class RandomTrackPointsTest {
 
     @Test
     public void testGeneratedInitialPointsNotEmpty() {
-        RandomTrackPoints track = new RandomTrackPoints();
-        List<Vector2> points = track.getInitialPoints();
-        assertFalse(points.isEmpty());
+        assertFalse(initialPoints.isEmpty());
     }
 
     @Test
     public void testGeneratedBasePointsNotEmpty() {
-        RandomTrackPoints track = new RandomTrackPoints();
-        List<Vector2> points = track.getBasePoints();
-        assertFalse(points.isEmpty());
+        assertFalse(basePoints.isEmpty());
     }
 
     @Test
     public void testGeneratedPointsNotEmpty() {
-        RandomTrackPoints track = new RandomTrackPoints();
-        List<Vector2> points = track.getPoints();
         assertFalse(points.isEmpty());
     }
 
     @Test
     public void testInitialPointsValuesNotNull() {
-        RandomTrackPoints track = new RandomTrackPoints();
-        for (Vector2 point : track.getInitialTrackPoints()) {
+        for (Vector2 point : initialPoints) {
             assertNotNull(point);
         }
     }
 
     @Test
     public void testBasePointsValuesNotNull() {
-        RandomTrackPoints track = new RandomTrackPoints();
-        for (Vector2 point : track.getBasePoints()) {
+        for (Vector2 point : basePoints) {
             assertNotNull(point);
         }
     }
 
     @Test
     public void testPointsValuesNotNull() {
-        RandomTrackPoints track = new RandomTrackPoints();
-        for (Vector2 point : track.getPoints()) {
+        for (Vector2 point : points) {
             assertNotNull(point);
         }
     }
 
     @Test
     public void testInitialCircuitClosed() {
-        RandomTrackPoints track = new RandomTrackPoints();
-        List<Vector2> points = track.getInitialPoints();
-        Vector2 firstPoint = points.get(0);
-        Vector2 lastPoint = points.get(points.size() - 1);
+        Vector2 firstPoint = initialPoints.get(0);
+        Vector2 lastPoint = initialPoints.get(initialPoints.size() - 1);
 
         assertEquals(firstPoint, lastPoint);
     }
 
     @Test
     public void testBaseCircuitClosed() {
-        RandomTrackPoints track = new RandomTrackPoints();
-        List<Vector2> points = track.getBasePoints();
-        Vector2 firstPoint = points.get(0);
-        Vector2 lastPoint = points.get(points.size() - 1);
+        Vector2 firstPoint = basePoints.get(0);
+        Vector2 lastPoint = basePoints.get(basePoints.size() - 1);
 
         assertEquals(firstPoint, lastPoint);
     }
 
     @Test
     public void testCircuitClosed() {
-        RandomTrackPoints track = new RandomTrackPoints();
-        List<Vector2> points = track.getPoints();
         Vector2 firstPoint = points.get(0);
         Vector2 lastPoint = points.get(points.size() - 1);
 
@@ -112,35 +112,26 @@ class RandomTrackPointsTest {
 
     @Test
     public void testInitialPointsAreClose() {
-        RandomTrackPoints track = new RandomTrackPoints();
-        List<Vector2> points = track.getInitialPoints();
-
         // To be near means that the distance between two points is the 4x of the perimeter divided by the number of points
-        float close = (float) ((2 * Math.PI * track.getRadius()) / points.size()) * 4;
+        float close = (float) ((2 * Math.PI * track.getRadius()) / initialPoints.size()) * 4;
 
-        for(int i = 0; i < points.size() - 1; i++) {
-            assertTrue(points.get(i).distance(points.get(i+1)) < close);
+        for(int i = 0; i < initialPoints.size() - 1; i++) {
+            assertTrue(initialPoints.get(i).distance(initialPoints.get(i+1)) < close);
         }
     }
 
     @Test
     public void testBasePointsAreClose() {
-        RandomTrackPoints track = new RandomTrackPoints();
-        List<Vector2> points = track.getBasePoints();
-
         // To be near means that the distance between two points is the 4x of the perimeter divided by the number of points
-        float close = (float) ((2 * Math.PI * track.getRadius()) / points.size()) * 4;
+        float close = (float) ((2 * Math.PI * track.getRadius()) / basePoints.size()) * 4;
 
-        for(int i = 0; i < points.size() - 1; i++) {
-            assertTrue(points.get(i).distance(points.get(i+1)) < close);
+        for(int i = 0; i < basePoints.size() - 1; i++) {
+            assertTrue(basePoints.get(i).distance(basePoints.get(i+1)) < close);
         }
     }
 
     @Test
     public void testPointsAreClose() {
-        RandomTrackPoints track = new RandomTrackPoints();
-        List<Vector2> points = track.getPoints();
-
         // To be near means that the distance between two points is the 4x of the perimeter divided by the number of points
         float close = (float) ((2 * Math.PI * track.getRadius()) / points.size()) * 4;
 
