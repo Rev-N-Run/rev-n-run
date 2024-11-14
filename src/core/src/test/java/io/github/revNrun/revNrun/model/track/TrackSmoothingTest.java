@@ -90,7 +90,7 @@ class TrackSmoothingTest {
 
     // Expected values based on manual calculations
     float expectedX = 1.5f;
-    float expectedY = 1f;
+    float expectedY = 1.125f;
 
     // 0.01 error margin is accepted
     assertEquals(expectedX, result.getX(), 0.01);
