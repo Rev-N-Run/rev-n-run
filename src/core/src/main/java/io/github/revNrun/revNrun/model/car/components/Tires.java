@@ -14,6 +14,6 @@ public class Tires extends WheelMountedComponent {
 
     @Override
     public void degrade(float percentage) {
-
+        currentDurability *= (1 - percentage);
     }
 }
