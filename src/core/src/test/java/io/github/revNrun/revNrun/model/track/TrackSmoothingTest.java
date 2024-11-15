@@ -25,15 +25,13 @@ class TrackSmoothingTest {
 
         List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, numSamples);
 
-        // ComputeCatmullRom should have created numSamples points for each given pair of points + the input points
-        assertEquals(numSamples * (controlPoints.size() - 1) + controlPoints.size(), smoothedPoints.size());
+        // ComputeCatmullRom should have created numSamples points for each given pair of points
+        assertEquals(numSamples * (controlPoints.size() - 1), smoothedPoints.size());
 
-        // First and last points should still be the same
-        assertEquals(controlPoints.get(0), smoothedPoints.get(0));
-        assertEquals(controlPoints.get(controlPoints.size() - 1), smoothedPoints.get(smoothedPoints.size() - 1));
-
-        // But second, for example, should not be the same, because there's one of the new generated points
-        assertNotEquals(controlPoints.get(1), smoothedPoints.get(1));
+        // Interpolated points should not be the same as control points
+        for (int i = 0; i < smoothedPoints.size(); i++) {
+            assertNotEquals(controlPoints.get(i / numSamples), smoothedPoints.get(i));
+        }
     }
 
     @Test
@@ -49,11 +47,8 @@ class TrackSmoothingTest {
         List<Vector2> controlPoints = new ArrayList<>(Collections.singletonList(new Vector2(2, 4)));
         int numSamples = 10;
 
-        List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, numSamples);
-
-        // Should return just one point, the same input point
-        assertEquals(controlPoints.size(), smoothedPoints.size());
-        assertEquals(controlPoints.get(0), smoothedPoints.get(0));
+        // Should return an argument error
+        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, numSamples));
     }
 
     @Test
@@ -79,8 +74,8 @@ class TrackSmoothingTest {
         ));
         int numSamples = 0;
 
-        // Should return the same controlPoints list, as there's no new interpolated points
-        assertEquals(controlPoints, TrackSmoothing.computeCatmullRom(controlPoints, numSamples));
+        // Should return an empty list, as there are no possible interpolations
+        assertTrue(TrackSmoothing.computeCatmullRom(controlPoints, numSamples).isEmpty());
     }
 
     @Test
