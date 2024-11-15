@@ -52,4 +52,25 @@ class TiresTest {
         assertThrows(IllegalArgumentException.class, () -> tires.degrade(degradePercentage4));
         assertEquals(MAX_DURABILITY, tires.getCurrentDurability());
     }
+
+    @Test
+    void limitValuesDegrade() {
+        // Limit values (frontier and external frontiers)
+        final float[] degradePercentage = new float[]{1, 0, 1.01f, -0.1f, -2f, 2f};
+        for (float percentage : degradePercentage) {
+            assertThrows(IllegalArgumentException.class, () -> tires.degrade(percentage));
+            assertEquals(MAX_DURABILITY, tires.getCurrentDurability());
+        }
+
+        // Internal frontier
+        final float degradePercentage1 = .01f;
+        final float degradePercentage2 = .99f;
+
+        assertDoesNotThrow(() -> tires.degrade(degradePercentage1));
+        assertEquals(99, tires.getCurrentDurability());
+
+        assertDoesNotThrow(() -> tires.degrade(degradePercentage2));
+        assertEquals(0.99f, tires.getCurrentDurability(), 0.001f);
+
+    }
 }
