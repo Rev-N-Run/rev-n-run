@@ -320,16 +320,19 @@ public class CarTest {
 
     @Test
     public void testBrakesDegradation() {
+        Brakes[] mockBrakes = getMockBrakes();
+        car = new Car(engine, chasis, tires, suspensions, mockBrakes, floor, front, back, sides, 100);
 
+        car.degradeBrakes();
     }
 
     private static Brakes[] getMockBrakes() {
-        Brakes mockSuspensionFL = new MockBrakes("mockSuspensionFL", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT);
-        Brakes mockSuspensionFR = new MockBrakes("mockSuspensionFR", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT);
-        Brakes mockSuspensionRL = new MockBrakes("mockSuspensionRL", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT);
-        Brakes mockSuspensionRR = new MockBrakes("mockSuspensionRR", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT);
+        Brakes mockBrakeFL = new MockBrakes("mockBrakeFL", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT);
+        Brakes mockBrakeFR = new MockBrakes("mockBrakeFR", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT);
+        Brakes mockBrakeRL = new MockBrakes("mockBrakeRL", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT);
+        Brakes mockBrakeRR = new MockBrakes("mockBrakeRR", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT);
 
-        return new Brakes[]{mockSuspensionFL, mockSuspensionFR, mockSuspensionRL, mockSuspensionRR};
+        return new Brakes[]{mockBrakeFL, mockBrakeFR, mockBrakeRL, mockBrakeRR};
     }
 
 }
