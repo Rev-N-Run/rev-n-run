@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-//TODO javadocs comments, executar TrackSmoothing passant-li el primer node com a també últim, afegir getters per BasicPoints, RandomPoints, i FinalPoints
+//TODO javadocs comments, testejar que l'últim node no està duplicat
 public class RandomTrackPoints {
     private static final int MIN_NUM_POINTS = 50;
     private static final int MAX_NUM_POINTS = 200;
@@ -107,11 +107,11 @@ public class RandomTrackPoints {
         // actual is initialized outside loop and modified at the end of the loop to avoid a List.get() per loop.
         // Apply smoothing with computeCatmullRom to every pair of consecutive points, with their distance as the number of samples (interpolated points).
         actual = basePoints.get(0);
-        for(int i=0; i<basePoints.size()-1; i++) {
-            next = basePoints.get(i+1);
+        for (int i = 0; i < basePoints.size() - 1; i++) {
+            next = basePoints.get(i + 1);
             path = new ArrayList<>(Arrays.asList(actual, next));
 
-            numSamples =  (int) actual.distance(next);
+            numSamples = (int) actual.distance(next);
 
             path = TrackSmoothing.computeCatmullRom(path, numSamples);
             points.addAll(path);
