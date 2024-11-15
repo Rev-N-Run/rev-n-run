@@ -10,17 +10,13 @@ public class TrackSmoothing {
     public static List<Vector2> computeCatmullRom(List<Vector2> controlPoints, int numSamples) {
 
         // Handle exceptions
-        if(controlPoints.size() == 1) return controlPoints;
-        else if(controlPoints.isEmpty()) throw new IllegalArgumentException("controlPoints is empty");
+        if(controlPoints.size() < 2) throw new IllegalArgumentException("at lest 2 control points are needed to generate interpolated points");
 
-        if(numSamples == 0) return controlPoints;
-        else if(numSamples < 0) throw new IllegalArgumentException("numSamples is negative");
+        if(numSamples == 0) return new ArrayList<>();
+        else if(numSamples < 0) throw new IllegalArgumentException("numSamples argument for computeCatmullRom has to be >= 0");
 
 
         List<Vector2> smoothedPoints = new ArrayList<>();
-
-        // Add the first point (Catmull-Rom does not add the control points, just the interpolated)
-        smoothedPoints.add(controlPoints.get(0));
 
         // Number of segments of controlPoints (number of pairs of points)
         int numSegments = controlPoints.size() - 1;
@@ -37,8 +33,6 @@ public class TrackSmoothing {
                 smoothedPoints.add(point);
             }
 
-            // Add the last point of the actual segment (Catmull-Rom does not add the control points, just the interpolated)
-            smoothedPoints.add(controlPoints.get(i + 1));
         }
 
         return smoothedPoints;
