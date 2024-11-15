@@ -88,6 +88,6 @@ package model {
     Car *--> "4" Suspension : suspension
     Car *--> "4" Tires : tires
 
-    AbstractComponent o-up-> "0..*" Effect : effects
+    AbstractComponent o-right-> "0..*" Effect : effects
 }
 @enduml
