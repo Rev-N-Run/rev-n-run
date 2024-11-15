@@ -33,7 +33,7 @@ public class RandomTrackPoints {
         // Add the first initialPoint as the last too
         initialPoints.add(initialPoints.get(0));
         // Add the first basePoint as the last too, we cannot recalculate it or the end would probably become a different point than the start one
-        this.generateBasePoint(basePoints.get(0));
+        basePoints.add(basePoints.get(0));
 
         // Generate the points (final ones, smoothed) from the base points
         this.generatePoints();
