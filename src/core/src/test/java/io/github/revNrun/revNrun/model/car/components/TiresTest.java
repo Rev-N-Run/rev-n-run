@@ -15,12 +15,13 @@ class TiresTest {
     private static final String TIRE_NAME = "Test Tire";
     private static final float TIRE_WEIGHT = 10.0f;
     private static final int MAX_DURABILITY = 100;
+    private static final float TEST_WEAR_FACTOR = 0.1f;
 
     @BeforeEach
     void setUp() {
         List<Effect> effects = new ArrayList<>();
         tires = new Tires(TIRE_NAME, TIRE_WEIGHT, MAX_DURABILITY, MAX_DURABILITY,
-            effects, CarAxis.FRONT, CarSides.LEFT);
+            effects, CarAxis.FRONT, CarSides.LEFT, TEST_WEAR_FACTOR);
     }
 
     @Test

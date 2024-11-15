@@ -12,12 +12,13 @@ public abstract class AbstractComponent implements Component {
     protected float wearFactor;
 
     public AbstractComponent(String name, float weight, int maxDurability,
-                             int currentDurability, List<Effect> effects) {
+                             int currentDurability, List<Effect> effects, float wearFactor) {
         this.name = (name == null) ? "" : name;
         this.weight = weight;
         this.maxDurability = maxDurability;
         this.currentDurability = currentDurability;
         this.effects = (effects == null) ? new ArrayList<>() : effects;
+        this.wearFactor = wearFactor;
     }
 
     public String getName() {

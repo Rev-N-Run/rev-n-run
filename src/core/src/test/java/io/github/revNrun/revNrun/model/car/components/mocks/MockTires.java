@@ -12,8 +12,8 @@ public class MockTires extends Tires implements MockComponent {
 
     public MockTires(String name, float weight, int maxDurability,
                      int currentDurability, List<Effect> effects,
-                     CarAxis axle, CarSides side) {
-        super(name, weight, maxDurability, currentDurability, effects, axle, side);
+                     CarAxis axle, CarSides side, float wearFactor) {
+        super(name, weight, maxDurability, currentDurability, effects, axle, side, wearFactor);
     }
 
     @Override

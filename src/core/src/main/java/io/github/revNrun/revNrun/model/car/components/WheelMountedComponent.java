@@ -10,8 +10,8 @@ public abstract class WheelMountedComponent extends AbstractComponent {
     protected CarSides side;
 
     public WheelMountedComponent(String name, float weight, int maxDurability, int currentDurability,
-                                 List<Effect> effects, CarAxis axle, CarSides side) {
-        super(name, weight, maxDurability, currentDurability, effects);
+                                 List<Effect> effects, CarAxis axle, CarSides side, float wearFactor) {
+        super(name, weight, maxDurability, currentDurability, effects, wearFactor);
         if (axle == null || side == null) {
             throw new IllegalArgumentException("Axle or Side cannot be null");
         }

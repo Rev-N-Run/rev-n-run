@@ -19,12 +19,13 @@ class WheelMountedComponentTest {
     private static final int TEST_CURRENT_DURABILITY = 90;
     private final CarAxis TEST_AXLE = CarAxis.FRONT;
     private final CarSides TEST_SIDE = CarSides.LEFT;
+    private final float TEST_WEAR_FACTOR = .1f;
 
     @BeforeEach
     void setUp() {
         testEffects = new ArrayList<>();
         wheelMountedComponent = new WheelMountedComponent(TEST_NAME, TEST_WEIGHT, TEST_MAX_DURABILITY,
-            TEST_CURRENT_DURABILITY, testEffects, TEST_AXLE, TEST_SIDE) {
+            TEST_CURRENT_DURABILITY, testEffects, TEST_AXLE, TEST_SIDE, TEST_WEAR_FACTOR) {
             @Override
             public void degrade(float value) {
 
@@ -41,7 +42,7 @@ class WheelMountedComponentTest {
     void nullParametersConstructor() {
         assertThrows(IllegalArgumentException.class, () -> {
             new WheelMountedComponent(TEST_NAME, TEST_WEIGHT, TEST_MAX_DURABILITY,
-            TEST_CURRENT_DURABILITY, testEffects, null, null) {
+            TEST_CURRENT_DURABILITY, testEffects, null, null, TEST_WEAR_FACTOR) {
                 @Override
                 public void degrade(float value) {
 
@@ -56,7 +57,7 @@ class WheelMountedComponentTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             new WheelMountedComponent(TEST_NAME, TEST_WEIGHT, TEST_MAX_DURABILITY,
-                TEST_CURRENT_DURABILITY, testEffects, null, TEST_SIDE) {
+                TEST_CURRENT_DURABILITY, testEffects, null, TEST_SIDE, TEST_WEAR_FACTOR) {
                 @Override
                 public void degrade(float value) {
 
@@ -71,7 +72,7 @@ class WheelMountedComponentTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             new WheelMountedComponent(TEST_NAME, TEST_WEIGHT, TEST_MAX_DURABILITY,
-                TEST_CURRENT_DURABILITY, testEffects, TEST_AXLE, null) {
+                TEST_CURRENT_DURABILITY, testEffects, TEST_AXLE, null, TEST_WEAR_FACTOR) {
                 @Override
                 public void degrade(float value) {
 

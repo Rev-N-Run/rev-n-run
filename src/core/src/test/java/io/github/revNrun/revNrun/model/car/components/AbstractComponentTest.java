@@ -15,9 +15,10 @@ public class AbstractComponentTest {
         float weight = 18.5f;
         int maxDurability = 100;
         List<Effect> effects = new ArrayList<>();
+        float wearFactor = 0.1f;
 
         Component component = new AbstractComponent(name, weight, maxDurability,
-            maxDurability, effects) {
+            maxDurability, effects, wearFactor) {
             @Override
             public void degrade(float value) {
 
@@ -39,7 +40,7 @@ public class AbstractComponentTest {
 
     @Test
     public void checkNotNullObjects() {
-        Component component = new AbstractComponent(null, 5, 10, 23, null) {
+        Component component = new AbstractComponent(null, 5, 10, 23, null, .1f) {
             @Override
             public void degrade(float value) {
 
