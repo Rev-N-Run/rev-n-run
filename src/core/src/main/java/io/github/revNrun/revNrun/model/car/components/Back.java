@@ -11,4 +11,9 @@ public class Back extends AbstractComponent {
     public void degrade(float value) {
 
     }
+
+    @Override
+    public void degrade(float value, float delta) {
+
+    }
 }

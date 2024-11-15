@@ -29,6 +29,11 @@ class WheelMountedComponentTest {
             public void degrade(float value) {
 
             }
+
+            @Override
+            public void degrade(float value, float delta) {
+
+            }
         };
     }
 
@@ -41,6 +46,11 @@ class WheelMountedComponentTest {
                 public void degrade(float value) {
 
                 }
+
+                @Override
+                public void degrade(float value, float delta) {
+
+                }
             };
         });
 
@@ -51,6 +61,11 @@ class WheelMountedComponentTest {
                 public void degrade(float value) {
 
                 }
+
+                @Override
+                public void degrade(float value, float delta) {
+
+                }
             };
         });
 
@@ -59,6 +74,11 @@ class WheelMountedComponentTest {
                 TEST_CURRENT_DURABILITY, testEffects, TEST_AXLE, null) {
                 @Override
                 public void degrade(float value) {
+
+                }
+
+                @Override
+                public void degrade(float value, float delta) {
 
                 }
             };

@@ -9,6 +9,7 @@ public abstract class AbstractComponent implements Component {
     protected float maxDurability;
     protected float currentDurability;
     protected List<Effect> effects;
+    protected float wearFactor;
 
     public AbstractComponent(String name, float weight, int maxDurability,
                              int currentDurability, List<Effect> effects) {

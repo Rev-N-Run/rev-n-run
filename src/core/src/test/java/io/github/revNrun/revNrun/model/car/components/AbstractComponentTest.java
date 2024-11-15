@@ -22,6 +22,11 @@ public class AbstractComponentTest {
             public void degrade(float value) {
 
             }
+
+            @Override
+            public void degrade(float value, float delta) {
+
+            }
         };
 
         assertNotNull(component);
@@ -37,6 +42,11 @@ public class AbstractComponentTest {
         Component component = new AbstractComponent(null, 5, 10, 23, null) {
             @Override
             public void degrade(float value) {
+
+            }
+
+            @Override
+            public void degrade(float value, float delta) {
 
             }
         };

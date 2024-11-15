@@ -9,4 +9,5 @@ public interface Component {
     float getCurrentDurability();
     List<Effect> getEffects();
     void degrade(float value);
+    void degrade(float value, float delta);
 }

@@ -15,4 +15,9 @@ public class Brakes extends WheelMountedComponent {
     public void degrade(float percentage) {
 
     }
+
+    @Override
+    public void degrade(float value, float delta) {
+
+    }
 }
