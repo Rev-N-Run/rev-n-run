@@ -31,7 +31,7 @@ class TiresTest {
 
         degradePercentage = .9f; // 100% degradation
         tires.degrade(degradePercentage);
-        assertEquals(8, tires.getCurrentDurability());
+        assertEquals(8, tires.getCurrentDurability(), 0.001f);
     }
 
     @Test
@@ -72,5 +72,6 @@ class TiresTest {
         assertDoesNotThrow(() -> tires.degrade(degradePercentage2));
         assertEquals(0.99f, tires.getCurrentDurability(), 0.001f);
 
+        // Normal values tested in previous methods.
     }
 }
