@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CarTest {
     Engine engine;
-    Chasis chasis;
+    Chassis chassis;
     Tires[] tires;
     Suspension[] suspensions;
     Brakes[] brakes;
@@ -32,7 +32,7 @@ public class CarTest {
     @BeforeEach
     public  void setUp() {
         engine = new Engine("engine1", 200f, 100, 100, new ArrayList<>());
-        chasis = new Chasis("chasis1", 500f, 100, 100, new ArrayList<>());
+        chassis = new Chassis("chasis1", 500f, 100, 100, new ArrayList<>());
         tires = getTires();
         suspensions = getSuspensions();
         brakes = getBrakes();
@@ -41,7 +41,7 @@ public class CarTest {
         back = new Back("back", 20f, 100, 100, new ArrayList<>());
         sides = new Sides("sides", 20f, 100, 100, new ArrayList<>());
         fuel = 100;
-        car = new Car(engine, chasis, tires, suspensions, brakes, floor, front, back, sides, 100);
+        car = new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, sides, 100);
     }
 
     private static Brakes[] getBrakes() {
@@ -72,7 +72,7 @@ public class CarTest {
     public void testCarConstructor() {
         // Verify all components are correctly initialized
         assertEquals(engine, car.getEngine());
-        assertEquals(chasis, car.getChasis());
+        assertEquals(chassis, car.getChasis());
         assertArrayEquals(tires, car.getTires());
         assertArrayEquals(suspensions, car.getSuspension());
         assertArrayEquals(brakes, car.getBrakes());
@@ -96,7 +96,7 @@ public class CarTest {
     public void testCarConstructorWithInvalidNumberOfTires() {
         Tires[] invalidTires = new Tires[3]; // Less than required
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, invalidTires, suspensions, brakes, floor, front, back, sides, 100);
+            new Car(engine, chassis, invalidTires, suspensions, brakes, floor, front, back, sides, 100);
         });
     }
 
@@ -104,7 +104,7 @@ public class CarTest {
     public void testCarConstructorWithInvalidNumberOfSuspensions() {
         Suspension[] invalidSuspensions = new Suspension[3]; // Less than required
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, tires, invalidSuspensions, brakes, floor, front, back, sides, 100);
+            new Car(engine, chassis, tires, invalidSuspensions, brakes, floor, front, back, sides, 100);
         });
     }
 
@@ -112,14 +112,14 @@ public class CarTest {
     public void testCarConstructorWithInvalidNumberOfBrakes() {
         Brakes[] invalidBrakes = new Brakes[3]; // Less than required
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, tires, suspensions, invalidBrakes, floor, front, back, sides, 100);
+            new Car(engine, chassis, tires, suspensions, invalidBrakes, floor, front, back, sides, 100);
         });
     }
 
     @Test
     public void testCarConstructorWithInvalidFuel() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, tires, suspensions, brakes, floor, front, back, sides, -1);
+            new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, sides, -1);
         });
     }
 
@@ -130,7 +130,7 @@ public class CarTest {
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(null, chasis, tires, suspensions, brakes, floor, front, back, sides, 100);
+            new Car(null, chassis, tires, suspensions, brakes, floor, front, back, sides, 100);
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
@@ -138,31 +138,31 @@ public class CarTest {
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, null, suspensions, brakes, floor, front, back, sides, 100);
+            new Car(engine, chassis, null, suspensions, brakes, floor, front, back, sides, 100);
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, tires, null, brakes, floor, front, back, sides, 100);
+            new Car(engine, chassis, tires, null, brakes, floor, front, back, sides, 100);
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, tires, suspensions, null, floor, front, back, sides, 100);
+            new Car(engine, chassis, tires, suspensions, null, floor, front, back, sides, 100);
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, tires, suspensions, brakes, null, front, back, sides, 100);
+            new Car(engine, chassis, tires, suspensions, brakes, null, front, back, sides, 100);
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, tires, suspensions, brakes, floor, null, back, sides, 100);
+            new Car(engine, chassis, tires, suspensions, brakes, floor, null, back, sides, 100);
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, tires, suspensions, brakes, floor, front, null, sides, 100);
+            new Car(engine, chassis, tires, suspensions, brakes, floor, front, null, sides, 100);
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, tires, suspensions, brakes, floor, front, back, null, 100);
+            new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, null, 100);
         });
 
         Tires[] invalidTires = new Tires[]{null, null, null, null};
@@ -170,15 +170,15 @@ public class CarTest {
         Brakes[] invalidBrakes = new Brakes[]{null, null, null, null};
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, invalidTires, suspensions, brakes, floor, front, back, null, 100);
+            new Car(engine, chassis, invalidTires, suspensions, brakes, floor, front, back, null, 100);
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, tires, invalidSuspension, brakes, floor, front, back, null, 100);
+            new Car(engine, chassis, tires, invalidSuspension, brakes, floor, front, back, null, 100);
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(engine, chasis, tires, suspensions, invalidBrakes, floor, front, back, null, 100);
+            new Car(engine, chassis, tires, suspensions, invalidBrakes, floor, front, back, null, 100);
         });
     }
 
@@ -198,7 +198,7 @@ public class CarTest {
     @Test
     public void testTireDegradation() {
         Tires[] mockTires = getMockTires();
-        car = new Car(engine, chasis, mockTires, suspensions, brakes, floor, front, back, sides, 100);
+        car = new Car(engine, chassis, mockTires, suspensions, brakes, floor, front, back, sides, 100);
 
         // Simulate turning to the right, so the exterior (right) should degrade more than the interior (left).
         // In this case, lets test if the logic of selecting the tires makes the degradation.
@@ -243,7 +243,7 @@ public class CarTest {
     @Test
     public void testSuspensionDegradation() {
         Suspension[] mockSuspension = getMockSuspension();
-        car = new Car(engine, chasis, tires, mockSuspension, brakes, floor, front, back, sides, 100);
+        car = new Car(engine, chassis, tires, mockSuspension, brakes, floor, front, back, sides, 100);
 
         // Simulate turning to the right, so the exterior (right) should degrade more than the interior (left).
         // In this case, lets test if the logic of selecting the tires makes the degradation.
@@ -288,7 +288,7 @@ public class CarTest {
     @Test
     public void testBrakesDegradation() {
         Brakes[] mockBrakes = getMockBrakes();
-        car = new Car(engine, chasis, tires, suspensions, mockBrakes, floor, front, back, sides, 100);
+        car = new Car(engine, chassis, tires, suspensions, mockBrakes, floor, front, back, sides, 100);
 
         car.degradeBrakes();
 

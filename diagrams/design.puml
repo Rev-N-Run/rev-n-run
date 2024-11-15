@@ -1,0 +1,93 @@
+@startuml
+package model {
+    package car {
+        class Car {
+
+        }
+
+        package components {
+            package enums {
+                enum EffectType {
+                    GRIP
+                    MAX_SPEED
+                    ACCELERATION
+                    BRAKE
+                }
+
+                enum CarAxis {
+                    FRONT
+                    REAR
+                }
+
+                enum CarSides {
+                    LEFT
+                    RIGHT
+                }
+            }
+
+            interface Component {
+            }
+
+            abstract class AbstractComponent implements Component {
+
+            }
+
+            abstract class WheelMountedComponent extends AbstractComponent {
+
+            }
+
+            class Back extends AbstractComponent {
+
+            }
+
+            class Brakes extends WheelMountedComponent {
+
+            }
+
+            class Chassis extends AbstractComponent {
+
+            }
+
+            class Engine extends AbstractComponent {
+
+            }
+
+            class Floor extends AbstractComponent {
+
+            }
+
+            class Front extends AbstractComponent {
+
+            }
+
+            class Sides extends AbstractComponent {
+
+            }
+
+            class Suspension extends WheelMountedComponent {
+
+            }
+
+            class Tires extends WheelMountedComponent {
+
+            }
+
+            class Effect {
+
+            }
+        }
+    }
+
+    Car *--> "1" Back : back
+    Car *--> "1" Chassis : chassis
+    Car *--> "1" Engine : engine
+    Car *--> "1" Floor : floor
+    Car *--> "1" Front : front
+    Car *--> "1" Sides : sides
+    Car *--> "4" Brakes : brakes
+    Car *--> "4" Suspension : suspension
+    Car *--> "4" Tires : tires
+
+    AbstractComponent o-up-> "0..*" Effect : effects
+}
+@enduml

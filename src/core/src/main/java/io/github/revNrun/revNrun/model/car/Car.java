@@ -18,7 +18,7 @@ public class Car {
     private int fuel = 100;
     private float weight = 0;
     private Engine engine;
-    private Chasis chasis;
+    private Chassis chassis;
     private Tires[] tires;
     private Suspension[] suspension;
     private Brakes[] brakes;
@@ -28,13 +28,13 @@ public class Car {
     private Sides sides;
     private float brakeBalance = .5f;
 
-    public Car(Engine engine, Chasis chasis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
+    public Car(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
                Floor floor, Front front, Back back, Sides sides, int fuel) {
-        validateComponents(engine, chasis, tires, suspension, brakes, floor, front, back, sides);
+        validateComponents(engine, chassis, tires, suspension, brakes, floor, front, back, sides);
         validateFuel(fuel);
 
         this.engine = engine;
-        this.chasis = chasis;
+        this.chassis = chassis;
         this.tires = tires.clone();
         this.suspension = suspension.clone();
         this.brakes = brakes.clone();
@@ -45,9 +45,9 @@ public class Car {
         this.fuel = fuel;
     }
 
-    private void validateComponents(Engine engine, Chasis chasis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
+    private void validateComponents(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
                                     Floor floor, Front front, Back back, Sides sides) {
-        if (engine == null || chasis == null || tires == null || suspension == null || brakes == null
+        if (engine == null || chassis == null || tires == null || suspension == null || brakes == null
             || floor == null || front == null || back == null || sides == null) {
             throw new IllegalArgumentException("Arguments can't be null");
         }
@@ -205,8 +205,8 @@ public class Car {
         return engine;
     }
 
-    public Chasis getChasis() {
-        return chasis;
+    public Chassis getChasis() {
+        return chassis;
     }
 
     public Tires[] getTires() {
