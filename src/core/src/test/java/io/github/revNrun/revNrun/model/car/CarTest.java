@@ -1,5 +1,6 @@
 package io.github.revNrun.revNrun.model.car;
 
+import io.github.revNrun.revNrun.model.car.components.mocks.MockBrakes;
 import io.github.revNrun.revNrun.model.car.components.mocks.MockSuspension;
 import io.github.revNrun.revNrun.model.car.components.mocks.MockTires;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,10 +43,10 @@ public class CarTest {
     }
 
     private static Brakes[] getBrakes() {
-        Brakes brakeFL = new Brakes("brakeFL", 5f, 100, 100, new ArrayList<>());
-        Brakes brakeFR = new Brakes("brakeFR", 5f, 100, 100, new ArrayList<>());
-        Brakes brakeRL = new Brakes("brakeRL", 5f, 100, 100, new ArrayList<>());
-        Brakes brakeRR = new Brakes("brakeRR", 5f, 100, 100, new ArrayList<>());
+        Brakes brakeFL = new Brakes("brakeFL", 5f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT);
+        Brakes brakeFR = new Brakes("brakeFR", 5f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT);
+        Brakes brakeRL = new Brakes("brakeRL", 5f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT);
+        Brakes brakeRR = new Brakes("brakeRR", 5f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT);
         return new Brakes[]{brakeFL, brakeFR, brakeRL, brakeRR};
     }
 
@@ -320,6 +321,15 @@ public class CarTest {
     @Test
     public void testBrakesDegradation() {
 
+    }
+
+    private static Brakes[] getMockBrakes() {
+        Brakes mockSuspensionFL = new MockBrakes("mockSuspensionFL", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT);
+        Brakes mockSuspensionFR = new MockBrakes("mockSuspensionFR", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT);
+        Brakes mockSuspensionRL = new MockBrakes("mockSuspensionRL", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT);
+        Brakes mockSuspensionRR = new MockBrakes("mockSuspensionRR", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT);
+
+        return new Brakes[]{mockSuspensionFL, mockSuspensionFR, mockSuspensionRL, mockSuspensionRR};
     }
 
 }
