@@ -13,7 +13,13 @@ public class MockBrakes extends Brakes implements MockComponent {
     }
 
     @Override
+    public void degrade(float percentage) {
+        currentDurability -= percentage;
+        lastDegradation = percentage;
+    }
+
+    @Override
     public float getLastDegradation() {
-        return 0;
+        return lastDegradation;
     }
 }

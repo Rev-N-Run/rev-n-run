@@ -289,6 +289,28 @@ public class CarTest {
         car = new Car(engine, chasis, tires, suspensions, mockBrakes, floor, front, back, sides, 100);
 
         car.degradeBrakes();
+
+        WheelMountedComponent brakeFL, brakeFR, brakeRL, brakeRR;
+
+        brakeFL = getComponentByPosition(car.getBrakes(), CarAxis.FRONT, CarSides.LEFT);
+        brakeFR = getComponentByPosition(car.getBrakes(), CarAxis.FRONT, CarSides.RIGHT);
+        brakeRL = getComponentByPosition(car.getBrakes(), CarAxis.REAR, CarSides.LEFT);
+        brakeRR = getComponentByPosition(car.getBrakes(), CarAxis.REAR, CarSides.RIGHT);
+
+        assertEquals(.45f, brakeFL.getCurrentDurability());
+        assertEquals(.45f, brakeFR.getCurrentDurability());
+        assertEquals(.55f, brakeRL.getCurrentDurability());
+        assertEquals(.55f, brakeRR.getCurrentDurability());
+
+        MockBrakes mockBrakesFL = (MockBrakes) brakeFL;
+        MockBrakes mockBrakesFR = (MockBrakes) brakeFR;
+        MockBrakes mockBrakesRL = (MockBrakes) brakeRL;
+        MockBrakes mockBrakesRR = (MockBrakes) brakeRR;
+
+        assertEquals(.55f, mockBrakesFL.getLastDegradation());
+        assertEquals(.55f, mockBrakesRL.getLastDegradation());
+        assertEquals(.45f, mockBrakesFR.getLastDegradation());
+        assertEquals(.45f, mockBrakesRR.getLastDegradation());
     }
 
     private static Brakes[] getMockBrakes() {
