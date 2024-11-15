@@ -33,8 +33,27 @@ class TiresTest {
         tires.degrade(degradePercentage);
         assertEquals(80, tires.getCurrentDurability());
 
-        degradePercentage = 1f; // 100% degradation
+        degradePercentage = .9f; // 100% degradation
         tires.degrade(degradePercentage);
-        assertEquals(0, tires.getCurrentDurability());
+        assertEquals(8, tires.getCurrentDurability());
+    }
+
+    @Test
+    void degradeInvalidPercentage() {
+        final float degradePercentage1 = -1f;
+        tires.degrade(degradePercentage1);
+        assertThrows(IllegalArgumentException.class, () -> tires.degrade(degradePercentage1));
+
+        final float degradePercentage2 = -.3f;
+        tires.degrade(degradePercentage2);
+        assertThrows(IllegalArgumentException.class, () -> tires.degrade(degradePercentage2));
+
+        final float degradePercentage3 = 1f;
+        tires.degrade(degradePercentage3);
+        assertThrows(IllegalArgumentException.class, () -> tires.degrade(degradePercentage3));
+
+        final float degradePercentage4 = -1.4f;
+        tires.degrade(degradePercentage4);
+        assertThrows(IllegalArgumentException.class, () -> tires.degrade(degradePercentage4));
     }
 }
