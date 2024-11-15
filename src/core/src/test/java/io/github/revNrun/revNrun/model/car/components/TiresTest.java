@@ -26,9 +26,15 @@ class TiresTest {
     @Test
     void degrade() {
         float degradePercentage = .2f; // 20% degradation
-
         tires.degrade(degradePercentage);
-
         assertEquals(80, tires.getCurrentDurability());
+
+        degradePercentage = 0f;
+        tires.degrade(degradePercentage);
+        assertEquals(80, tires.getCurrentDurability());
+
+        degradePercentage = 1f; // 100% degradation
+        tires.degrade(degradePercentage);
+        assertEquals(0, tires.getCurrentDurability());
     }
 }
