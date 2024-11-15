@@ -93,20 +93,7 @@ public class Car {
     }
 
     public void degradeTires(Map<CarSides, Float> sides) {
-        WheelMountedComponent tireFL = getComponentByPosition(tires, CarAxis.FRONT, CarSides.LEFT);
-        WheelMountedComponent tireFR = getComponentByPosition(tires, CarAxis.FRONT, CarSides.RIGHT);
-        WheelMountedComponent tireRL = getComponentByPosition(tires, CarAxis.REAR, CarSides.LEFT);
-        WheelMountedComponent tireRR = getComponentByPosition(tires, CarAxis.REAR, CarSides.RIGHT);
-
-        assert tireFL != null;
-        assert tireFR != null;
-        assert tireRL != null;
-        assert tireRR != null;
-
-        tireFL.degrade(sides.get(CarSides.LEFT));
-        tireFR.degrade(sides.get(CarSides.RIGHT));
-        tireRL.degrade(sides.get(CarSides.LEFT));
-        tireRR.degrade(sides.get(CarSides.RIGHT));
+        degradeBySide(tires, sides);
     }
 
     private WheelMountedComponent getComponentByPosition(WheelMountedComponent[] components, CarAxis axle, CarSides side) {
@@ -123,7 +110,24 @@ public class Car {
     }
 
     public void degradeSuspension(Map<CarSides, Float> sides) {
+        degradeBySide(suspension, sides);
+    }
 
+    private void degradeBySide(WheelMountedComponent[] components, Map<CarSides, Float> sides) {
+        WheelMountedComponent componentFL = getComponentByPosition(components, CarAxis.FRONT, CarSides.LEFT);
+        WheelMountedComponent componentFR = getComponentByPosition(components, CarAxis.FRONT, CarSides.RIGHT);
+        WheelMountedComponent componentRL = getComponentByPosition(components, CarAxis.REAR, CarSides.LEFT);
+        WheelMountedComponent componentRR = getComponentByPosition(components, CarAxis.REAR, CarSides.RIGHT);
+
+        assert componentFL != null;
+        assert componentFR != null;
+        assert componentRL != null;
+        assert componentRR != null;
+
+        componentFL.degrade(sides.get(CarSides.LEFT));
+        componentFR.degrade(sides.get(CarSides.RIGHT));
+        componentRL.degrade(sides.get(CarSides.LEFT));
+        componentRR.degrade(sides.get(CarSides.RIGHT));
     }
 
     public void degradeBrakes() {
