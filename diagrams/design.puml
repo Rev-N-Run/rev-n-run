@@ -1,4 +1,9 @@
 @startuml
+skinparam classAttributeIconSize 0
+skinparam groupInheritance 2
+skinparam linetype ortho
+skinparam linetype polyline
+
 package model {
     package car {
         class Car {
@@ -40,10 +45,6 @@ package model {
 
             }
 
-            class Brakes extends WheelMountedComponent {
-
-            }
-
             class Chassis extends AbstractComponent {
 
             }
@@ -72,11 +73,17 @@ package model {
 
             }
 
+            class Brakes extends WheelMountedComponent {
+
+            }
+
             class Effect {
 
             }
         }
     }
+
+
 
     Car *--> "1" Back : back
     Car *--> "1" Chassis : chassis
