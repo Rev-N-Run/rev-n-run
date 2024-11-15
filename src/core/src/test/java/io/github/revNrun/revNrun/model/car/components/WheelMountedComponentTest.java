@@ -43,6 +43,26 @@ class WheelMountedComponentTest {
                 }
             };
         });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new WheelMountedComponent(TEST_NAME, TEST_WEIGHT, TEST_MAX_DURABILITY,
+                TEST_CURRENT_DURABILITY, testEffects, null, TEST_SIDE) {
+                @Override
+                public void degrade(float value) {
+
+                }
+            };
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new WheelMountedComponent(TEST_NAME, TEST_WEIGHT, TEST_MAX_DURABILITY,
+                TEST_CURRENT_DURABILITY, testEffects, TEST_AXLE, null) {
+                @Override
+                public void degrade(float value) {
+
+                }
+            };
+        });
     }
 
     @Test
