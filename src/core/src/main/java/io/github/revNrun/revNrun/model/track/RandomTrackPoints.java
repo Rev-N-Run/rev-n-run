@@ -27,7 +27,15 @@ public class RandomTrackPoints {
         numPoints = MIN_NUM_POINTS + RANDOM.nextInt((MAX_NUM_POINTS - MIN_NUM_POINTS));
         radius = MIN_RADIUS + RANDOM.nextFloat((MAX_RADIUS - MIN_RADIUS));
 
+        // Generate the initial points (basics) and the base points (randomized by SimplexNoise)
         this.generateInitialPoints();
+
+        // Add the first initialPoint as the last too
+        initialPoints.add(initialPoints.get(0));
+        // Add the first basePoint as the last too, we cannot recalculate it or the end would probably become a different point than the start one
+        this.generateBasePoint(basePoints.get(0));
+
+        // Generate the points (final ones, smoothed) from the base points
         this.generatePoints();
     }
 
@@ -57,11 +65,6 @@ public class RandomTrackPoints {
             initialPoints.add(initialPoint);
             this.generateBasePoint(initialPoint);
         }
-
-        // Add the first point as the last too
-        initialPoint = initialPoints.get(0);
-        initialPoints.add(initialPoint);
-        this.generateBasePoint(initialPoint);
     }
 
     private void generateBasePoint(Vector2 initialPoint) {
