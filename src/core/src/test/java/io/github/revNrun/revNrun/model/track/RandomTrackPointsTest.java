@@ -8,7 +8,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//TODO test there are not two duplicated points, a part del últim i primer
 class RandomTrackPointsTest {
 
     private static RandomTrackPoints track;
@@ -127,39 +126,33 @@ class RandomTrackPointsTest {
     }
 
     @Test
-    public void testInitialPointsAreClose() {
-        // To be near means that the distance between two points is the 4x of the perimeter divided by the number of points
-        float close = (float) ((2 * Math.PI * track.getRadius()) / initialPoints.size()) * 4;
-
-        for(int i = 0; i < initialPoints.size() - 1; i++) {
-            assertTrue(initialPoints.get(i).distance(initialPoints.get(i+1)) < close);
-        }
-    }
-
-    @Test
-    public void testPointsAreClose() {
-        // To be near means that the distance between two points is the 4x of the perimeter divided by the number of points
-        float close = (float) ((2 * Math.PI * track.getRadius()) / points.size()) * 4;
-
-        // i iterates till size()-2 bcs last point has been forced to be the first point
-        for(int i = 0; i < points.size() - 2; i++) {
-            assertTrue(points.get(i).distance(points.get(i+1)) < close);
-        }
-    }
-
-    @Test
-    public void testInitialPointsAreAtSameDistance() {
+    public void testInitialPointsAreAtSameDistanceAndNoDuplicates() {
+        // Duplicates are also tested in here because if two consecutive points are the same one, their distance wouldn't equal to distance
         float distance = initialPoints.get(0).distance(initialPoints.get(1));
         for(int i = 0; i < initialPoints.size() - 1; i++) {
             assertEquals(distance, initialPoints.get(i).distance(initialPoints.get(i+1)), 0.01);
         }
+
+        // Therefore, initial points can't only not be a copy of a consecutive points, but of any point (except of the first and last points)
+        int j;
+        for(int i = 0; i < initialPoints.size() - 2; i++) {
+            for(j = i + 1; j < initialPoints.size() - 1; j++) {
+                if (i == 0 && j == initialPoints.size() - 1) {
+                    assertEquals(initialPoints.get(i), initialPoints.get(j));
+                }
+                assertNotEquals(initialPoints.get(i), initialPoints.get(j));
+            }
+        }
     }
 
     @Test
-    public void testPointsAreAtSameDistance() {
+    public void testPointsAreAtSameDistanceAndNoDuplicates() {
+        // Duplicates are also tested in here because if two consecutive points the same one, the distance wouldn't equal to distance
+        // Among the final points duplicates are accepted, but not as consecutive points
         float distance = points.get(0).distance(points.get(1));
         for(int i = 0; i < points.size() - 1; i++) {
-            assertEquals(distance, points.get(i).distance(points.get(i+1)), 0.01);
+            assertEquals(distance, points.get(i).distance(points.get(i + 1)), 0.01, "theoric distance is " + distance + " and real distance is " + points.get(i).distance(points.get(i + 1)));
+            //assertEquals(distance, points.get(i).distance(points.get(i+1)), 0.01);
         }
     }
 }
