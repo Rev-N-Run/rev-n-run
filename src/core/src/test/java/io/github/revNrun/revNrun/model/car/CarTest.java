@@ -180,6 +180,19 @@ public class CarTest {
         });
     }
 
+    private boolean isSpecifiedComponent(WheelMountedComponent component, CarAxis axle, CarSides side) {
+        return component.getAxle() == axle && component.getSide() == side;
+    }
+
+    private WheelMountedComponent getComponentByPosition(WheelMountedComponent[] components, CarAxis axle, CarSides side) {
+        for (WheelMountedComponent component : components) {
+            if (isSpecifiedComponent(component, axle, side)) {
+                return component;
+            }
+        }
+        return null;
+    }
+
     @Test
     public void testTireDegradation() {
         Tires[] mockTires = getMockTires();
@@ -193,36 +206,12 @@ public class CarTest {
         sides.put(CarSides.RIGHT, .7f);
         car.degradeTires(sides);
 
-        Tires[] tires = car.getTires();
+        WheelMountedComponent tireFL, tireFR, tireRL, tireRR;
 
-        Tires tireFL = null, tireFR = null, tireRL = null, tireRR = null;
-
-        for (Tires tire : tires) {
-            CarAxis axle = tire.getAxle();
-            CarSides side = tire.getSide();
-            switch(axle) {
-                case FRONT:
-                    switch (side) {
-                        case LEFT:
-                            tireFL = tire;
-                            break;
-                        case RIGHT:
-                            tireFR = tire;
-                            break;
-                    }
-                    break;
-                case REAR:
-                    switch (side) {
-                        case LEFT:
-                            tireRL = tire;
-                            break;
-                        case RIGHT:
-                            tireRR = tire;
-                            break;
-                    }
-                    break;
-            }
-        }
+        tireFL = getComponentByPosition(car.getTires(), CarAxis.FRONT, CarSides.LEFT);
+        tireFR = getComponentByPosition(car.getTires(), CarAxis.FRONT, CarSides.RIGHT);
+        tireRL = getComponentByPosition(car.getTires(), CarAxis.REAR, CarSides.LEFT);
+        tireRR = getComponentByPosition(car.getTires(), CarAxis.REAR, CarSides.RIGHT);
 
         assertEquals(.7f, tireFL.getCurrentDurability());
         assertEquals(.7f, tireRL.getCurrentDurability());
@@ -262,36 +251,12 @@ public class CarTest {
         sides.put(CarSides.RIGHT, .7f);
         car.degradeSuspension(sides);
 
-        Suspension[] suspension = car.getSuspension();
+        WheelMountedComponent suspensionFL, suspensionFR, suspensionRL, suspensionRR;
 
-        Suspension suspensionFL = null, suspensionFR = null, suspensionRL = null, suspensionRR = null;
-
-        for (Suspension tire : suspension) {
-            CarAxis axle = tire.getAxle();
-            CarSides side = tire.getSide();
-            switch(axle) {
-                case FRONT:
-                    switch (side) {
-                        case LEFT:
-                            suspensionFL = tire;
-                            break;
-                        case RIGHT:
-                            suspensionFR = tire;
-                            break;
-                    }
-                    break;
-                case REAR:
-                    switch (side) {
-                        case LEFT:
-                            suspensionRL = tire;
-                            break;
-                        case RIGHT:
-                            suspensionRR = tire;
-                            break;
-                    }
-                    break;
-            }
-        }
+        suspensionFL = getComponentByPosition(car.getSuspension(), CarAxis.FRONT, CarSides.LEFT);
+        suspensionFR = getComponentByPosition(car.getSuspension(), CarAxis.FRONT, CarSides.RIGHT);
+        suspensionRL = getComponentByPosition(car.getSuspension(), CarAxis.REAR, CarSides.LEFT);
+        suspensionRR = getComponentByPosition(car.getSuspension(), CarAxis.REAR, CarSides.RIGHT);
 
         assertEquals(.7f, suspensionFL.getCurrentDurability());
         assertEquals(.7f, suspensionRL.getCurrentDurability());

@@ -113,10 +113,6 @@ public class Car {
         componentRR.degrade(sides.get(CarSides.RIGHT));
     }
 
-    private void degradeByAxis(WheelMountedComponent[] components, Map<CarAxis, Float> axis) {
-
-    }
-
     public void degradeEngine() {
 
     }
