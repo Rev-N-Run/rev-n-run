@@ -83,17 +83,8 @@ public class Car {
         }
     }
 
-
-    public void degradeEngine() {
-
-    }
-
-    public void degradeChasis() {
-
-    }
-
-    public void degradeTires(Map<CarSides, Float> sides) {
-        degradeBySide(tires, sides);
+    private boolean isSpecifiedComponent(WheelMountedComponent component, CarAxis axle, CarSides side) {
+        return component.getAxle() == axle && component.getSide() == side;
     }
 
     private WheelMountedComponent getComponentByPosition(WheelMountedComponent[] components, CarAxis axle, CarSides side) {
@@ -103,14 +94,6 @@ public class Car {
             }
         }
         return null;
-    }
-
-    private boolean isSpecifiedComponent(WheelMountedComponent component, CarAxis axle, CarSides side) {
-        return component.getAxle() == axle && component.getSide() == side;
-    }
-
-    public void degradeSuspension(Map<CarSides, Float> sides) {
-        degradeBySide(suspension, sides);
     }
 
     private void degradeBySide(WheelMountedComponent[] components, Map<CarSides, Float> sides) {
@@ -128,6 +111,22 @@ public class Car {
         componentFR.degrade(sides.get(CarSides.RIGHT));
         componentRL.degrade(sides.get(CarSides.LEFT));
         componentRR.degrade(sides.get(CarSides.RIGHT));
+    }
+
+    public void degradeEngine() {
+
+    }
+
+    public void degradeChasis() {
+
+    }
+
+    public void degradeTires(Map<CarSides, Float> sides) {
+        degradeBySide(tires, sides);
+    }
+
+    public void degradeSuspension(Map<CarSides, Float> sides) {
+        degradeBySide(suspension, sides);
     }
 
     public void degradeBrakes() {
