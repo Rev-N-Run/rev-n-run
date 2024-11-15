@@ -14,6 +14,10 @@ public class Tires extends WheelMountedComponent {
 
     @Override
     public void degrade(float percentage) {
+        if (percentage >= 1 || percentage <= 0) {
+            throw new IllegalArgumentException("Invalid percentage: " + percentage +
+                "\nNeeds to be in range (0-1)");
+        }
         currentDurability *= (1 - percentage);
     }
 }
