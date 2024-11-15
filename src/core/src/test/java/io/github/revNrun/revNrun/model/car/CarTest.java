@@ -308,8 +308,8 @@ public class CarTest {
         MockBrakes mockBrakesRR = (MockBrakes) brakeRR;
 
         assertEquals(.55f, mockBrakesFL.getLastDegradation());
-        assertEquals(.55f, mockBrakesRL.getLastDegradation());
-        assertEquals(.45f, mockBrakesFR.getLastDegradation());
+        assertEquals(.45f, mockBrakesRL.getLastDegradation());
+        assertEquals(.55f, mockBrakesFR.getLastDegradation());
         assertEquals(.45f, mockBrakesRR.getLastDegradation());
     }
 
