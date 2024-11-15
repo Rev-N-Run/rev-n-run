@@ -130,12 +130,12 @@ public class Car {
         componentRR.degrade(sides.get(CarSides.RIGHT));
     }
 
-    public void degradeEngine() {
-
+    public void degradeEngine(float value) {
+        engine.degrade(value);
     }
 
-    public void degradeChasis() {
-
+    public void degradeChasis(float value) {
+        engine.degrade(value);
     }
 
     public void degradeTires(Map<CarSides, Float> sides) {
@@ -163,20 +163,20 @@ public class Car {
         brakeRR.degrade(brakeBalance - .05f);
     }
 
-    public void degradeFloor() {
-
+    public void degradeFloor(float value) {
+        floor.degrade(value);
     }
 
-    public void degradeFront() {
-
+    public void degradeFront(float value) {
+        front.degrade(value);
     }
 
-    public void degradeBack() {
-
+    public void degradeBack(float value) {
+        back.degrade(value);
     }
 
-    public void degradeSides() {
-
+    public void degradeSides(float value) {
+        sides.degrade(value);
     }
 
     public int getPositionX() {
