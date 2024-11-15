@@ -1,5 +1,6 @@
 package io.github.revNrun.revNrun.model.car.components;
 
+import io.github.revNrun.revNrun.model.car.components.enums.EffectType;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

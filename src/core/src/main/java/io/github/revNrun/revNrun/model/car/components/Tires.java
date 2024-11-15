@@ -1,5 +1,8 @@
 package io.github.revNrun.revNrun.model.car.components;
 
+import io.github.revNrun.revNrun.model.car.components.enums.CarAxis;
+import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
+
 import java.util.List;
 
 public class Tires extends WheelMountedComponent {

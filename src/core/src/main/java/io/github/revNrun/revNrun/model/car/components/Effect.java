@@ -1,5 +1,7 @@
 package io.github.revNrun.revNrun.model.car.components;
 
+import io.github.revNrun.revNrun.model.car.components.enums.EffectType;
+
 public class Effect {
     private static final float MAX_VALUE = 20f;
     private static final float MIN_VALUE = -20f;
