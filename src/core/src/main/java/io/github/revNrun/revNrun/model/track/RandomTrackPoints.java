@@ -3,6 +3,7 @@ package io.github.revNrun.revNrun.model.track;
 import io.github.revNrun.revNrun.model.vector.Vector2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -18,77 +19,121 @@ public class RandomTrackPoints {
     private final Random RANDOM = new Random();
     private final int numPoints;
     private final float radius;
+    private final List<Vector2> initialPoints = new ArrayList<>();
+    private final List<Vector2> basePoints = new ArrayList<>();
     private final List<Vector2> points = new ArrayList<>();
 
     public RandomTrackPoints() {
         numPoints = MIN_NUM_POINTS + RANDOM.nextInt((MAX_NUM_POINTS - MIN_NUM_POINTS));
         radius = MIN_RADIUS + RANDOM.nextFloat((MAX_RADIUS - MIN_RADIUS));
+
+        this.generateInitialPoints();
         this.generatePoints();
     }
 
-    public List<Vector2> getTrackPoints() {
+    public List<Vector2> getInitialPoints() {
+        return initialPoints;
+    }
+
+    public List<Vector2> getBasePoints() {
+        return basePoints;
+    }
+
+    public List<Vector2> getPoints() {
         return points;
     }
 
-    public Vector2 get(int position){
-        return points.get(position);
-    }
-
-    private void generatePoints() {
-
-        float rndSeed = RANDOM.nextFloat() * 1000;
-
-        float angle, xBase, yBase, xNoise, yNoise, freq, amplitude, distorsionFactor, x, y;
+    private void generateInitialPoints() {
+        float angle, xBase, yBase;
+        Vector2 initialPoint;
 
         for (int i = 0; i < numPoints; i++) {
             angle = TWO_PI * i / numPoints;
             xBase = (float) (Math.cos(angle) * radius);
             yBase = (float) (Math.sin(angle) * radius);
 
-            xNoise = 0;
-            yNoise = 0;
+            initialPoint = new Vector2(xBase, yBase);
 
-            // Sum of 3 noise octaves
-            for (int octave = 0; octave < 3; octave++) {
-                freq = (float) Math.pow(2, octave);
-                amplitude = (float) Math.pow(0.5, octave);
+            initialPoints.add(initialPoint);
+            this.generateBasePoint(initialPoint);
+        }
 
-                xNoise += SimplexNoise.noise(
-                    (xBase * SCALE + rndSeed) * freq,
-                    (yBase * SCALE) * freq
-                ) * amplitude;
+        // Add the first point as the last too
+        initialPoint = initialPoints.get(0);
+        initialPoints.add(initialPoint);
+        this.generateBasePoint(initialPoint);
+    }
 
-                yNoise += SimplexNoise.noise(
-                    (yBase * SCALE + rndSeed) * freq,
-                    (xBase * SCALE) * freq
-                ) * amplitude;
-            }
+    private void generateBasePoint(Vector2 initialPoint) {
+        float xBase = initialPoint.getX(), yBase = initialPoint.getY();
+        float xNoise = 0, yNoise = 0;
+        float freq, amplitude;
+        float rndSeed = RANDOM.nextFloat() * 1000;
 
-            // Apply the noise with a variable distorsionFactor
-            distorsionFactor = 0.15f; // Need to find the best value between 0 and 1
-            x = xBase + xNoise * radius * distorsionFactor;
-            y = yBase + yNoise * radius * distorsionFactor;
+        // Sum of 3 noise octaves
+        for (int octave = 0; octave < 3; octave++) {
+            freq = (float) Math.pow(2, octave);
+            amplitude = (float) Math.pow(0.5, octave);
 
-            points.add(new Vector2(x, y));
+            xNoise += SimplexNoise.noise(
+                (xBase * SCALE + rndSeed) * freq,
+                (yBase * SCALE) * freq
+            ) * amplitude;
+
+            yNoise += SimplexNoise.noise(
+                (yBase * SCALE + rndSeed) * freq,
+                (xBase * SCALE) * freq
+            ) * amplitude;
+        }
+
+        // Apply the noise with a variable distorsionFactor
+        float distorsionFactor = 0.15f; // Need to find the best value between 0 and 1
+
+        basePoints.add(new Vector2(
+            xBase + xNoise * radius * distorsionFactor,
+            yBase + yNoise * radius * distorsionFactor
+        ));
+    }
+
+    private void generatePoints() {
+        Vector2 actual, next;
+        List<Vector2> path;
+        int numSamples;
+
+        // Loop on the basePoints to get the distance between consecutive points
+        // actual is initialized outside loop and modified at the end of the loop to avoid a List.get() per loop.
+        // Apply smoothing with computeCatmullRom to every pair of consecutive points, with their distance as the number of samples (interpolated points).
+        actual = basePoints.get(0);
+        for(int i=0; i<basePoints.size()-1; i++) {
+            next = basePoints.get(i+1);
+            path = new ArrayList<>(Arrays.asList(actual, next));
+
+            numSamples =  (int) actual.distance(next);
+
+            path = TrackSmoothing.computeCatmullRom(path, numSamples);
+            points.addAll(path);
+
+            actual = next;
         }
     }
 
-    // Test getters
-    public int getNumPoints() {
-        return numPoints;
-    }
+    // TEST GETTERS
     public float getRadius() {
         return radius;
     }
-    public static int getMaxNumPoints() {
+
+    public static int getMaxNumInitialPoints() {
         return MAX_NUM_POINTS;
     }
-    public static int getMinNumPoints() {
+
+    public static int getMinNumInitialPoints() {
         return MIN_NUM_POINTS;
     }
+
     public static float getMinRadius() {
         return MIN_RADIUS;
     }
+
     public static float getMaxRadius() {
         return MAX_RADIUS;
     }
