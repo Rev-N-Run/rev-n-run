@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TrackSmoothingTest {
 
     @Test
-    void testComputeCatmullRom_SimpleCase() {
+    void testComputeCatmullRom_MultipleControlPoints() {
         List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
             new Vector2(0, 0),
             new Vector2(2, 4),
@@ -29,8 +29,32 @@ class TrackSmoothingTest {
         assertEquals(numSamples * (controlPoints.size() - 1), smoothedPoints.size());
 
         // Interpolated points should not be the same as control points
-        for (int i = 0; i < smoothedPoints.size(); i++) {
-            assertNotEquals(controlPoints.get(i / numSamples), smoothedPoints.get(i));
+        for(Vector2 controlPoint : controlPoints){
+            for (Vector2 smoothedPoint : smoothedPoints){
+                assertNotEquals(controlPoint, smoothedPoint);
+            }
+        }
+    }
+
+    @Test
+    void testComputeCatmullRom_TwoControlPoints() {
+        List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
+            new Vector2(0, 0),
+            new Vector2(6, 4)
+        ));
+
+        int numSamples = 10;
+
+        List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, numSamples);
+
+        // ComputeCatmullRom should have created numSamples points for each given pair of points
+        assertEquals(numSamples * (controlPoints.size() - 1), smoothedPoints.size());
+
+        // Interpolated points should not be the same as control points
+        for(Vector2 controlPoint : controlPoints){
+            for (Vector2 smoothedPoint : smoothedPoints){
+                assertNotEquals(controlPoint, smoothedPoint);
+            }
         }
     }
 
