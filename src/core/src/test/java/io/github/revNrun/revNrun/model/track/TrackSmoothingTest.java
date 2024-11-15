@@ -18,15 +18,43 @@ class TrackSmoothingTest {
             new Vector2(0, 0),
             new Vector2(2, 4),
             new Vector2(4, 0),
-            new Vector2(6, 4)
+            new Vector2(6, 4),
+            new Vector2(8, 2),
+            new Vector2(6, 3),
+            new Vector2(7, 0),
+            new Vector2(5, 2)
         ));
 
         int numSamples = 10;
 
         List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, numSamples);
 
-        // ComputeCatmullRom should have created numSamples points for each given pair of points
-        assertEquals(numSamples * (controlPoints.size() - 1), smoothedPoints.size());
+        // ComputeCatmullRom should have created numSamples points for each given pair of points, except the first and last pair
+        assertEquals(numSamples * (controlPoints.size() - 3), smoothedPoints.size());
+
+        // Interpolated points should not be the same as control points
+        for(Vector2 controlPoint : controlPoints){
+            for (Vector2 smoothedPoint : smoothedPoints){
+                assertNotEquals(controlPoint, smoothedPoint);
+            }
+        }
+    }
+
+    @Test
+    void testComputeCatmullRom_FourControlPoints() {
+        List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
+            new Vector2(0, 0),
+            new Vector2(6, 4),
+            new Vector2(4, 2),
+            new Vector2(2, 4)
+        ));
+
+        int numSamples = 10;
+
+        List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, numSamples);
+
+        // ComputeCatmullRom should have created numSamples points for each given pair of points, except the first and last pair, so just numSample points
+        assertEquals(numSamples * (controlPoints.size() - 3), smoothedPoints.size());
 
         // Interpolated points should not be the same as control points
         for(Vector2 controlPoint : controlPoints){
@@ -45,24 +73,6 @@ class TrackSmoothingTest {
 
         int numSamples = 10;
 
-        List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, numSamples);
-
-        // ComputeCatmullRom should have created numSamples points for each given pair of points
-        assertEquals(numSamples * (controlPoints.size() - 1), smoothedPoints.size());
-
-        // Interpolated points should not be the same as control points
-        for(Vector2 controlPoint : controlPoints){
-            for (Vector2 smoothedPoint : smoothedPoints){
-                assertNotEquals(controlPoint, smoothedPoint);
-            }
-        }
-    }
-
-    @Test
-    void testComputeCatmullRom_EmptyControlPoints() {
-        List<Vector2> controlPoints = new ArrayList<>();
-        int numSamples = 10;
-
         assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, numSamples));
     }
 
@@ -73,6 +83,57 @@ class TrackSmoothingTest {
 
         // Should return an argument error
         assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, numSamples));
+    }
+
+    @Test
+    void testComputeCatmullRom_EmptyControlPoints() {
+        List<Vector2> controlPoints = new ArrayList<>();
+        int numSamples = 10;
+
+        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, numSamples));
+    }
+
+    // This test focuses in validating that there are not interpolated points of the first and last pair of points
+    @Test
+    void testPointsAreBetweenCorrespondingControlPoints() {
+        List<Vector2> controlPoints1 = new ArrayList<>(Arrays.asList(
+            new Vector2(0, 0),
+            new Vector2(1, 3),
+            new Vector2(2, 4),
+            new Vector2(4, 2)
+        ));
+
+        List<Vector2> controlPoints2 = new ArrayList<>(Arrays.asList(
+            new Vector2(1, 3),
+            new Vector2(2, 4),
+            new Vector2(4, 2),
+            new Vector2(3, 6)
+        ));
+
+        List<Vector2> controlPoints3 = new ArrayList<>(Arrays.asList(
+            new Vector2(-1, -2),
+            new Vector2(0, 0),
+            new Vector2(1, 3),
+            new Vector2(2, 4)
+        ));
+
+        int numSamples = 10;
+
+        List<Vector2> smoothedPoints1 = TrackSmoothing.computeCatmullRom(controlPoints1, numSamples);
+        List<Vector2> smoothedPoints2 = TrackSmoothing.computeCatmullRom(controlPoints2, numSamples);
+        List<Vector2> smoothedPoints3 = TrackSmoothing.computeCatmullRom(controlPoints2, numSamples);
+
+        for(Vector2 point1 : smoothedPoints1){
+            for(Vector2 point2 : smoothedPoints2){
+                assertNotEquals(point1, point2);
+            }
+        }
+
+        for(Vector2 point1 : smoothedPoints1){
+            for(Vector2 point3 : smoothedPoints3){
+                assertNotEquals(point1, point3);
+            }
+        }
     }
 
     @Test
