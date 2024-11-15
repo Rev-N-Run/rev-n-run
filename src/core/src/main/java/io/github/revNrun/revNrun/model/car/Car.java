@@ -24,6 +24,7 @@ public class Car {
     private Front front;
     private Back back;
     private Sides sides;
+    private float brakeBalance = .5f;
 
     public Car(Engine engine, Chasis chasis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
                Floor floor, Front front, Back back, Sides sides, int fuel) {
@@ -96,11 +97,27 @@ public class Car {
         return null;
     }
 
+    private WheelMountedComponent getComponentFL(WheelMountedComponent[] components) {
+        return getComponentByPosition(components, CarAxis.FRONT, CarSides.LEFT);
+    }
+
+    private WheelMountedComponent getComponentFR(WheelMountedComponent[] components) {
+        return getComponentByPosition(components, CarAxis.FRONT, CarSides.RIGHT);
+    }
+
+    private WheelMountedComponent getComponentRL(WheelMountedComponent[] components) {
+        return getComponentByPosition(components, CarAxis.REAR, CarSides.LEFT);
+    }
+
+    private WheelMountedComponent getComponentRR(WheelMountedComponent[] components) {
+        return getComponentByPosition(components, CarAxis.REAR, CarSides.RIGHT);
+    }
+
     private void degradeBySide(WheelMountedComponent[] components, Map<CarSides, Float> sides) {
-        WheelMountedComponent componentFL = getComponentByPosition(components, CarAxis.FRONT, CarSides.LEFT);
-        WheelMountedComponent componentFR = getComponentByPosition(components, CarAxis.FRONT, CarSides.RIGHT);
-        WheelMountedComponent componentRL = getComponentByPosition(components, CarAxis.REAR, CarSides.LEFT);
-        WheelMountedComponent componentRR = getComponentByPosition(components, CarAxis.REAR, CarSides.RIGHT);
+        WheelMountedComponent componentFL = getComponentFL(components);
+        WheelMountedComponent componentFR = getComponentFR(components);
+        WheelMountedComponent componentRL = getComponentRL(components);
+        WheelMountedComponent componentRR = getComponentRR(components);
 
         assert componentFL != null;
         assert componentFR != null;
@@ -130,7 +147,20 @@ public class Car {
     }
 
     public void degradeBrakes() {
+        WheelMountedComponent brakeFL = getComponentFL(brakes);
+        WheelMountedComponent brakeFR = getComponentFR(brakes);
+        WheelMountedComponent brakeRL = getComponentRL(brakes);
+        WheelMountedComponent brakeRR = getComponentRR(brakes);
 
+        assert brakeFL != null;
+        assert brakeFR != null;
+        assert brakeRL != null;
+        assert brakeRR != null;
+
+        brakeFL.degrade(brakeBalance + .05f);
+        brakeFR.degrade(brakeBalance + .05f);
+        brakeRL.degrade(brakeBalance - .05f);
+        brakeRR.degrade(brakeBalance - .05f);
     }
 
     public void degradeFloor() {
