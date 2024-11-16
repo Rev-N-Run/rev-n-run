@@ -16,14 +16,12 @@ public abstract class AbstractComponent implements Component {
                              float currentDurability, List<Effect> effects, float wearFactor) {
         if (currentDurability <= 0 || maxDurability <= 0) {
             throw new IllegalArgumentException("Durability must be greater than 0");
-        } else if (currentDurability > maxDurability) {
-            throw new IllegalArgumentException("Durability must be less than " + maxDurability);
         }
 
         this.name = (name == null) ? "" : name;
         this.weight = weight;
         this.maxDurability = maxDurability;
-        this.currentDurability = currentDurability;
+        this.currentDurability = Math.min(currentDurability, maxDurability);
         this.effects = (effects == null) ? new ArrayList<>() : effects;
         if (wearFactor >= 1 || wearFactor <= 0) {
             throw new IllegalArgumentException("Wear factor cannot be greater or equal than 1");

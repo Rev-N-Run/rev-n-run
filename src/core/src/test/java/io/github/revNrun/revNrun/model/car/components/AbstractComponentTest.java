@@ -205,7 +205,8 @@ public class AbstractComponentTest {
 
     @Test
     public void testIfCurrentDurabilityCanBeGreaterThanMaxDurability() {
-        assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, maxDurability - 20,
-            maxDurability, effects, wearFactor) {});
+        Component component = new AbstractComponent(name, weight, maxDurability,
+            maxDurability + 20, effects, wearFactor) {};
+        assertEquals(maxDurability, component.getCurrentDurability());
     }
 }
