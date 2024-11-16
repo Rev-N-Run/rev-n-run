@@ -21,6 +21,16 @@ public abstract class AbstractComponent implements Component {
         this.wearFactor = wearFactor;
     }
 
+    @Override
+    public void degrade(float value) {
+
+    }
+
+    @Override
+    public void degrade(float value, float delta) {
+
+    }
+
     public String getName() {
         return name;
     }
