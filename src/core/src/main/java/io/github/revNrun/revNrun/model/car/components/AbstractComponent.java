@@ -25,11 +25,11 @@ public abstract class AbstractComponent implements Component {
     }
 
     @Override
-    public void degrade(float value) {
-        if (value >= 1 || value <= 0) {
+    public void degrade(float percentage) {
+        if (percentage >= 1 || percentage <= 0) {
             throw new IllegalArgumentException("Not a valid value");
         }
-        currentDurability *= value;
+        currentDurability *= percentage;
     }
 
     @Override
