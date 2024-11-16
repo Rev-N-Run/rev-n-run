@@ -150,4 +150,10 @@ public class AbstractComponentTest {
         component.repair(value);
         assertEquals(maxDurability, component.getCurrentDurability());
     }
+
+    @Test
+    public void testIfNegativeValuesAreAcceptedCurrentDurability() {
+        assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, maxDurability,
+            -20, effects, wearFactor) {});
+    }
 }
