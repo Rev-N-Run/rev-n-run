@@ -8,26 +8,42 @@ import java.util.Random;
 
 //TODO javadocs comments
 public class RandomTrackPoints {
-    private static final int MIN_NUM_POINTS = 10;
-    private static final int MAX_NUM_POINTS = 60;
+    private static final int MIN_NUM_INITIAL_POINTS = 10;
+    private static final int MAX_NUM_INITIAL_POINTS = 40;
     private static final float MIN_RADIUS = 100;
-    private static final float MAX_RADIUS = 250;
+    private static final float MAX_RADIUS = 150;
     private static final float NOISE_SCALE = 0.6f;
+    private static final int MIN_NUM_OCTAVES= 1;
+    private static final int MAX_NUM_OCTAVES = 4;
+    private static final int MIN_NOISE_ITERATIONS = 1;
+    private static final int MAX_NOISE_ITERATIONS = 8;
     private static final float TWO_PI = (float) (2 * Math.PI);
 
     private final Random RANDOM = new Random();
-    private final int numPoints;
-    private final float radius;
-    private final List<Vector2> initialPoints = new ArrayList<>();
-    private final List<Vector2> basePoints = new ArrayList<>();
-    private final List<Vector2> points = new ArrayList<>();
+    private int numInitialPoints;
+    private float radius;
+    private static int octaves;
+    private static int noiseIterations;
+    private final List<Vector2> initialPoints;
+    private List<Vector2> basePoints;
+    private final List<Vector2> points;
 
     public RandomTrackPoints() {
-        numPoints = MIN_NUM_POINTS + RANDOM.nextInt((MAX_NUM_POINTS - MIN_NUM_POINTS));
-        radius = MIN_RADIUS + RANDOM.nextFloat((MAX_RADIUS - MIN_RADIUS));
+        initialPoints = new ArrayList<>();
+        basePoints = new ArrayList<>();
+        points = new ArrayList<>();
 
-        // Generate the initial points (basics) and the base points (randomized by SimplexNoise)
+        // Generate the values that determines the initial and base points randomness
+        this.generateRandomness();
+
+        // Generate the initial points (basics)
+        // Base points (randomized by SimplexNoise) are also generated from the initial points (first noise iteration)
         this.generateInitialPoints();
+
+        // Generate again the base points, from the past base points, so there's more even more noise (second and higher noise iterations)
+        for (int i = 0; i < noiseIterations - 1; i++) {
+            basePoints = generateBasePoints(basePoints);
+        }
 
         // Add the first initialPoint as the last point too
         initialPoints.add(initialPoints.get(0));
@@ -50,30 +66,48 @@ public class RandomTrackPoints {
         return points;
     }
 
+    private void generateRandomness() {
+        float random = RANDOM.nextFloat();
+
+        numInitialPoints = Math.round(random * (MAX_NUM_INITIAL_POINTS - MIN_NUM_INITIAL_POINTS) + MIN_NUM_INITIAL_POINTS);
+        radius = random * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
+        octaves = Math.round(random * (MAX_NUM_OCTAVES - MIN_NUM_OCTAVES) + MIN_NUM_OCTAVES);
+        noiseIterations = Math.round(MAX_NOISE_ITERATIONS - (random * (MAX_NOISE_ITERATIONS - MIN_NOISE_ITERATIONS)));
+
+    }
+
     private void generateInitialPoints() {
         float angle, xBase, yBase;
         Vector2 initialPoint;
 
-        for (int i = 0; i < numPoints; i++) {
-            angle = TWO_PI * i / numPoints;
+        for (int i = 0; i < numInitialPoints; i++) {
+            angle = TWO_PI * i / numInitialPoints;
             xBase = (float) (Math.cos(angle) * radius);
             yBase = (float) (Math.sin(angle) * radius);
 
             initialPoint = new Vector2(xBase, yBase);
 
             initialPoints.add(initialPoint);
-            this.generateBasePoint(initialPoint);
+            basePoints.add(displacePoint(initialPoint));
         }
     }
 
-    private void generateBasePoint(Vector2 initialPoint) {
+    private List<Vector2> generateBasePoints(List<Vector2> controlPoints) {
+        List<Vector2> points = new ArrayList<>();
+        for(Vector2 controlPoint : controlPoints) {
+            points.add(displacePoint(controlPoint));
+        }
+        return points;
+    }
+
+    private Vector2 displacePoint(Vector2 initialPoint) {
         float xBase = initialPoint.getX(), yBase = initialPoint.getY();
         float xNoise = 0, yNoise = 0;
         float freq, amplitude;
         float rndSeed = RANDOM.nextFloat() * 1000;
 
         // Sum of 3 noise octaves
-        for (int octave = 0; octave < 3; octave++) {
+        for (int octave = 0; octave < octaves; octave++) {
             freq = (float) Math.pow(2, octave);
             amplitude = (float) Math.pow(0.5, octave);
 
@@ -88,13 +122,13 @@ public class RandomTrackPoints {
             ) * amplitude;
         }
 
-        // Apply the noise with a variable distorsionFactor
-        float distorsionFactor = 0.15f; // Need to find the best value between 0 and 1
+        // Apply the noise with a variable distortionFactor
+        float distortionFactor = 0.15f; // Need to find the best value between 0 and 1
 
-        basePoints.add(new Vector2(
-            xBase + xNoise * radius * distorsionFactor,
-            yBase + yNoise * radius * distorsionFactor
-        ));
+        return new Vector2(
+            xBase + xNoise * radius * distortionFactor,
+            yBase + yNoise * radius * distortionFactor
+        );
     }
 
     private void generatePoints() {
@@ -118,11 +152,11 @@ public class RandomTrackPoints {
     }
 
     public static int getMaxNumInitialPoints() {
-        return MAX_NUM_POINTS;
+        return MAX_NUM_INITIAL_POINTS;
     }
 
     public static int getMinNumInitialPoints() {
-        return MIN_NUM_POINTS;
+        return MIN_NUM_INITIAL_POINTS;
     }
 
     public static float getMinRadius() {
