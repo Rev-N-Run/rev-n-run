@@ -291,7 +291,7 @@ public class CarTest {
         Brakes[] mockBrakes = getMockBrakes();
         car = new Car(engine, chassis, tires, suspensions, mockBrakes, floor, front, back, sides, 100);
 
-        car.degradeBrakes(0);
+        car.degradeBrakes(delta);
 
         WheelMountedComponent brakeFL, brakeFR, brakeRL, brakeRR;
 
