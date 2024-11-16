@@ -82,12 +82,4 @@ public class AbstractComponentTest {
         component.degrade(delta);
         assertEquals(expected, component.getCurrentDurability());
     }
-
-    @Test
-    public void checkUnsafeDeltaDegrade() {
-        float invalidDelta = 1f/10f;
-        float expected = maxDurability * (1 - wearFactor * (1f/30f));
-        component.degrade(invalidDelta);
-        assertEquals(expected, component.getCurrentDurability());
-    }
 }

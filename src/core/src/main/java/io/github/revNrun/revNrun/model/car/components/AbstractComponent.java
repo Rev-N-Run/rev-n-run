@@ -35,7 +35,6 @@ public abstract class AbstractComponent implements Component {
 
     @Override
     public void degrade(float delta) {
-        delta = Math.min(delta, MIN_DELTA);
         currentDurability *= (1 - wearFactor * delta);
     }
 
