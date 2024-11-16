@@ -26,6 +26,12 @@ public class AbstractComponentTest {
         assertEquals(maxDurability, component.getMaxDurability());
         assertEquals(maxDurability, component.getCurrentDurability());
         assertEquals(effects, component.getEffects());
+        assertDoesNotThrow(() -> new AbstractComponent(name, weight, maxDurability,
+            maxDurability, effects, wearFactor) {});
+
+        float badWearFactor = 1.2f;
+        assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, maxDurability,
+            maxDurability, effects, badWearFactor) {});
     }
 
     @Test
