@@ -184,4 +184,100 @@ class TrackSmoothingTest {
         assertEquals(expectedX, result.getX(), 0.01);
         assertEquals(expectedY, result.getY(), 0.01);
     }
+
+    @Test
+    void testNoInterpolationWhenDistanceIsLessThanInterpolatedDistance() {
+        List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
+            new Vector2(0, 0),
+            new Vector2(1, 0),  // Distance = 1
+            new Vector2(2, 0),  // Distance = 1
+            new Vector2(3, 0)
+        ));
+
+        int interpolatedDistance = 2;
+        List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, false);
+
+        // There should be no interpolated points since all distances are less than interpolatedDistance
+        assertEquals(0, smoothedPoints.size());
+    }
+
+    @Test
+    void testMixedDistancesInterpolation() {
+        List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
+            new Vector2(0, 0),
+            new Vector2(1, 0),  // Distance = 1
+            new Vector2(4, 0),  // Distance = 3
+            new Vector2(5, 0)
+        ));
+
+        int interpolatedDistance = 2;
+        List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, false);
+
+        // Should only have interpolated points in the segment with distance 3
+        int expectedPoints = Math.round(3.0f / interpolatedDistance) - 1;
+        assertEquals(expectedPoints, smoothedPoints.size());
+    }
+
+    @Test
+    void testDistancesBetweenPoints() {
+        List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
+            new Vector2(0, 0),
+            new Vector2(2, 0),
+            new Vector2(6, 0),  // Straight segment of 4 units
+            new Vector2(8, 0)
+        ));
+
+        int interpolatedDistance = 2;
+        List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, true);
+
+        // Verify that distances between consecutive points don't significantly exceed
+        // the interpolatedDistance
+        Vector2 prevPoint = controlPoints.get(1); // First control point
+        for (Vector2 point : smoothedPoints) {
+            float distance = prevPoint.distance(point);
+            assertTrue(distance <= interpolatedDistance * 1.5f,
+                "Distance between points (" + distance + ") is much larger than interpolatedDistance (" + interpolatedDistance + ")");
+            prevPoint = point;
+        }
+    }
+
+    @Test
+    void testCurveRatioEffect() {
+        List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
+            new Vector2(0, 0),
+            new Vector2(2, 0),   // Straight segment
+            new Vector2(4, 4),   // Sharp curve
+            new Vector2(6, 0)
+        ));
+
+        int interpolatedDistance = 2;
+
+        // Get points for both straight and curved segments
+        List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, false);
+
+        // Verify that there are more points in the curved section
+        float straightDistance = new Vector2(2, 0).distance(new Vector2(4, 4));
+        float minExpectedPoints = Math.round(straightDistance / interpolatedDistance) - 1;
+        assertTrue(smoothedPoints.size() >= minExpectedPoints,
+            "Should have more points due to curve ratio factor");
+    }
+
+    @Test
+    void testControlPointsAddition() {
+        List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
+            new Vector2(0, 0),
+            new Vector2(2, 0),
+            new Vector2(4, 0),
+            new Vector2(6, 0)
+        ));
+
+        int interpolatedDistance = 3;
+
+        // Test with and without control points
+        List<Vector2> withControlPoints = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, true);
+        List<Vector2> withoutControlPoints = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, false);
+
+        // Difference should be the number of internal control points (n-2 for n points)
+        assertEquals(withoutControlPoints.size() + 2, withControlPoints.size());
+    }
 }
