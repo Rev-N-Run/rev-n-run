@@ -10,14 +10,4 @@ public class Suspension extends WheelMountedComponent {
                       CarAxis axle, CarSides side, float wearFactor) {
         super(name, weight, maxDurability, currentDurability, effects, axle, side, wearFactor);
     }
-
-    @Override
-    public void degrade(float percentage) {
-
-    }
-
-    @Override
-    public void degrade(float value, float delta) {
-
-    }
 }

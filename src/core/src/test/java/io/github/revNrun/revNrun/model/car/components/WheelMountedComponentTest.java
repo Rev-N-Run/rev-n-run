@@ -25,64 +25,24 @@ class WheelMountedComponentTest {
     void setUp() {
         testEffects = new ArrayList<>();
         wheelMountedComponent = new WheelMountedComponent(TEST_NAME, TEST_WEIGHT, TEST_MAX_DURABILITY,
-            TEST_CURRENT_DURABILITY, testEffects, TEST_AXLE, TEST_SIDE, TEST_WEAR_FACTOR) {
-            @Override
-            public void degrade(float value) {
-
-            }
-
-            @Override
-            public void degrade(float value, float delta) {
-
-            }
-        };
+            TEST_CURRENT_DURABILITY, testEffects, TEST_AXLE, TEST_SIDE, TEST_WEAR_FACTOR) {};
     }
 
     @Test
     void nullParametersConstructor() {
         assertThrows(IllegalArgumentException.class, () -> {
             new WheelMountedComponent(TEST_NAME, TEST_WEIGHT, TEST_MAX_DURABILITY,
-            TEST_CURRENT_DURABILITY, testEffects, null, null, TEST_WEAR_FACTOR) {
-                @Override
-                public void degrade(float value) {
-
-                }
-
-                @Override
-                public void degrade(float value, float delta) {
-
-                }
-            };
+            TEST_CURRENT_DURABILITY, testEffects, null, null, TEST_WEAR_FACTOR) {};
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
             new WheelMountedComponent(TEST_NAME, TEST_WEIGHT, TEST_MAX_DURABILITY,
-                TEST_CURRENT_DURABILITY, testEffects, null, TEST_SIDE, TEST_WEAR_FACTOR) {
-                @Override
-                public void degrade(float value) {
-
-                }
-
-                @Override
-                public void degrade(float value, float delta) {
-
-                }
-            };
+                TEST_CURRENT_DURABILITY, testEffects, null, TEST_SIDE, TEST_WEAR_FACTOR) {};
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
             new WheelMountedComponent(TEST_NAME, TEST_WEIGHT, TEST_MAX_DURABILITY,
-                TEST_CURRENT_DURABILITY, testEffects, TEST_AXLE, null, TEST_WEAR_FACTOR) {
-                @Override
-                public void degrade(float value) {
-
-                }
-
-                @Override
-                public void degrade(float value, float delta) {
-
-                }
-            };
+                TEST_CURRENT_DURABILITY, testEffects, TEST_AXLE, null, TEST_WEAR_FACTOR) {};
         });
     }
 

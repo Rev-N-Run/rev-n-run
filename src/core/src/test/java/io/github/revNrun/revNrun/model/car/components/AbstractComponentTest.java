@@ -67,9 +67,9 @@ public class AbstractComponentTest {
 
         // Check internal frontier values
         final float[] collisionDamage2 = new float[]{0.99f, 0.01f};
-        int res;
+        float res;
         for (float damage : collisionDamage2) {
-            res = (int) (component.getCurrentDurability() * damage);
+            res = (component.getCurrentDurability() * damage);
             assertDoesNotThrow(() -> component.degrade(damage));
             assertEquals(res, component.getCurrentDurability());
         }
