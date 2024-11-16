@@ -1,5 +1,6 @@
 package io.github.revNrun.revNrun.model.car.components;
 
+import net.bytebuddy.build.ToStringPlugin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -108,6 +109,15 @@ public class AbstractComponentTest {
         Component component = new AbstractComponent(name, weight, maxDurability,
             1, effects, wearFactor) {};
         float value = maxDurability * 2;
+        component.repair(value);
+        assertEquals(maxDurability, component.getCurrentDurability());
+    }
+
+    @Test
+    public void exceedsMaxDurability() {
+        Component component = new AbstractComponent(name, weight, maxDurability,
+            maxDurability - 1, effects, wearFactor) {};
+        float value = maxDurability - 1;
         component.repair(value);
         assertEquals(maxDurability, component.getCurrentDurability());
     }
