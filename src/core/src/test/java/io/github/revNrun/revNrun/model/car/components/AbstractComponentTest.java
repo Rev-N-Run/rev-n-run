@@ -152,8 +152,12 @@ public class AbstractComponentTest {
     }
 
     @Test
-    public void testIfNegativeValuesAreAcceptedCurrentDurability() {
+    public void testIfNegativeValuesAreAcceptedCurrentAndMaxDurability() {
         assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, maxDurability,
+            -20, effects, wearFactor) {});
+        assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, -20,
+            maxDurability, effects, wearFactor) {});
+        assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, -20,
             -20, effects, wearFactor) {});
     }
 }

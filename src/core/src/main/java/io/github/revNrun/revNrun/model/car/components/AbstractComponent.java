@@ -14,6 +14,8 @@ public abstract class AbstractComponent implements Component {
 
     public AbstractComponent(String name, float weight, int maxDurability,
                              int currentDurability, List<Effect> effects, float wearFactor) {
+        //if (currentDurability >)
+
         this.name = (name == null) ? "" : name;
         this.weight = weight;
         this.maxDurability = maxDurability;
