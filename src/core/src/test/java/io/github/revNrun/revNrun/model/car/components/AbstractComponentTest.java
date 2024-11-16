@@ -209,6 +209,24 @@ public class AbstractComponentTest {
             maxDurability + 20, effects, wearFactor) {};
         assertEquals(maxDurability, component.getCurrentDurability());
 
+        // Limit testing
 
+        // External frontier values
+        component = new AbstractComponent(name, weight, maxDurability,
+            maxDurability + 0.1f, effects, wearFactor) {};
+        assertEquals(maxDurability, component.getCurrentDurability());
+
+        // Internal and frontier values
+        component = new AbstractComponent(name, weight, maxDurability,
+            maxDurability, effects, wearFactor) {};
+        assertEquals(maxDurability, component.getCurrentDurability());
+
+        component = new AbstractComponent(name, weight, maxDurability,
+            maxDurability - 0.1f, effects, wearFactor) {};
+        assertEquals(maxDurability - 0.1f, component.getCurrentDurability());
+
+        component = new AbstractComponent(name, weight, maxDurability,
+            maxDurability - 5f, effects, wearFactor) {};
+        assertEquals(maxDurability - 5f, component.getCurrentDurability());
     }
 }
