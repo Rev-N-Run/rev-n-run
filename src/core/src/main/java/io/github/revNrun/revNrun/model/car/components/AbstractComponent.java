@@ -43,6 +43,8 @@ public abstract class AbstractComponent implements Component {
     public void repair(float value) {
         if (value >= maxDurability) {
             currentDurability = maxDurability;
+        } else if (currentDurability + value > maxDurability) {
+            currentDurability = maxDurability;
         } else {
             currentDurability += value;
         }
