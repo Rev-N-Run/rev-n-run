@@ -102,4 +102,13 @@ public class AbstractComponentTest {
         component.repair(value);
         assertEquals(value + prevValue, component.getCurrentDurability());
     }
+
+    @Test
+    public void invalidRepairValues() {
+        Component component = new AbstractComponent(name, weight, maxDurability,
+            1, effects, wearFactor) {};
+        float value = maxDurability * 2;
+        component.repair(value);
+        assertEquals(maxDurability, component.getCurrentDurability());
+    }
 }
