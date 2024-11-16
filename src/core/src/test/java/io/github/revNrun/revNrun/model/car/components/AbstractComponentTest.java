@@ -66,9 +66,11 @@ public class AbstractComponentTest {
         }
 
         final float[] collisionDamage2 = new float[]{0.99f, 0.01f};
+        int res;
         for (float damage : collisionDamage2) {
-            assertThrows(IllegalArgumentException.class, () -> component.degrade(damage));
-            assertEquals(component.getMaxDurability(), component.getCurrentDurability());
+            res = (int) (component.getCurrentDurability() * damage);
+            assertDoesNotThrow(() -> component.degrade(damage));
+            assertEquals(res, component.getCurrentDurability());
         }
     }
 }
