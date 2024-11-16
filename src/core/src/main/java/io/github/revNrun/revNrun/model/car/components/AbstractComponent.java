@@ -39,6 +39,11 @@ public abstract class AbstractComponent implements Component {
         currentDurability *= (1 - wearFactor * delta);
     }
 
+    @Override
+    public void repair(float value) {
+
+    }
+
     public String getName() {
         return name;
     }

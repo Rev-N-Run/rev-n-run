@@ -10,4 +10,5 @@ public interface Component {
     List<Effect> getEffects();
     void degradeByImpact(float percentage);
     void degrade(float delta);
+    void repair(float value);
 }

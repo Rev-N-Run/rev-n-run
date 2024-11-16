@@ -92,4 +92,14 @@ public class AbstractComponentTest {
         component.degrade(invalidDelta);
         assertEquals(expected, component.getCurrentDurability());
     }*/
+
+    @Test
+    public void repair() {
+        Component component = new AbstractComponent(name, weight, maxDurability,
+            1, effects, wearFactor) {};
+        float value = 50;
+        float prevValue = component.getCurrentDurability();
+        component.repair(value);
+        assertEquals(value + prevValue, component.getCurrentDurability());
+    }
 }
