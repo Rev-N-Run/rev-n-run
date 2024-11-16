@@ -50,7 +50,7 @@ public class Car {
     }
 
     public void degradeChassis(float delta) {
-        engine.degrade(delta);
+        chassis.degrade(delta);
     }
 
     public void degradeTires(float delta, Map<CarSides, Float> sides) {
@@ -83,7 +83,7 @@ public class Car {
     }
 
     public void degradeChassisByImpact(float value) {
-        engine.degradeByImpact(value);
+        chassis.degradeByImpact(value);
     }
 
     public void degradeTiresByImpact(float percentage) {
