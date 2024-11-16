@@ -1,5 +1,6 @@
 package io.github.revNrun.revNrun.model.car.components;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -8,18 +9,21 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AbstractComponentTest {
+    private final String name = "test";
+    private final float weight = 18.5f;
+    private final int maxDurability = 100;
+    private final List<Effect> effects = new ArrayList<>();
+    private final float wearFactor = 0.1f;
+    private Component component;
+
+    @BeforeEach
+    public void setUp() {
+        component = new AbstractComponent(name, weight, maxDurability,
+            maxDurability, effects, wearFactor) {};
+    }
 
     @Test
     public void testCreateComponent() {
-        String name = "test";
-        float weight = 18.5f;
-        int maxDurability = 100;
-        List<Effect> effects = new ArrayList<>();
-        float wearFactor = 0.1f;
-
-        Component component = new AbstractComponent(name, weight, maxDurability,
-            maxDurability, effects, wearFactor) {};
-
         assertNotNull(component);
         assertEquals(name, component.getName());
         assertEquals(weight, component.getWeight(), 0.001f);
