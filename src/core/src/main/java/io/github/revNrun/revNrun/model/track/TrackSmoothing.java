@@ -46,14 +46,15 @@ public class TrackSmoothing {
             p2 = controlPoints.get(i + 1);
             p3 = controlPoints.get(i + 2);
 
+            //TODO millorar el càlcul de numSamples segons la curvatura
             // Calculate the number of interpolated points needed for the specific segment
             numSamples = Math.round(p1.distance(p2)) / interpolatedDistance - 1;
 
             // Add the control point of the start of the curve of every segment (the end of the curve of the past segment)
             if (addControlPoints) smoothedPoints.add(p1);
 
-            for (int j = 0; j < numSamples; j++) {
-                float t = (float) j / (float) numSamples;
+            for (int j = 1; j <= numSamples; j++) {
+                float t = (float) j / (float) (numSamples + 1);
                 Vector2 point = computeCatmullRomPoint(p0, p1, p2, p3, t);
                 smoothedPoints.add(point);
             }
