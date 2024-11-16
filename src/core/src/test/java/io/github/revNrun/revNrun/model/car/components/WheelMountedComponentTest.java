@@ -20,6 +20,7 @@ class WheelMountedComponentTest {
     private final CarAxis TEST_AXLE = CarAxis.FRONT;
     private final CarSides TEST_SIDE = CarSides.LEFT;
     private final float TEST_WEAR_FACTOR = .1f;
+    private final float TEST_DELTA = 0.001f;
 
     @BeforeEach
     void setUp() {
@@ -56,5 +57,13 @@ class WheelMountedComponentTest {
     void getSide() {
         CarSides result = wheelMountedComponent.getSide();
         assertEquals(TEST_SIDE, result);
+    }
+
+    @Test
+    void testDegrade() {
+        float percentage = 0.5f;
+        float expected = wheelMountedComponent.getMaxDurability() / 2;
+        wheelMountedComponent.degrade(TEST_DELTA, percentage);
+        assertEquals(expected, wheelMountedComponent.getMaxDurability());
     }
 }
