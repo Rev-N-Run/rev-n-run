@@ -1,7 +1,7 @@
 package io.github.revNrun.revNrun.model.track;
 
 // classic SimplexNoise implementation, keeping it simple and using array instead of objects for better game performance
-public class SimplexNoise {
+class SimplexNoise {
 
     private static final int[][] grad3 = {{1, 1, 0}, {-1, 1, 0}, {1, -1, 0}, {-1, -1, 0}, {1, 0, 1}, {-1, 0, 1}, {1, 0, -1}, {-1, 0, -1}, {0, 1, 1}, {0, -1, 1}, {0, 1, -1}, {0, -1, -1}};
 
@@ -25,7 +25,7 @@ public class SimplexNoise {
         return g[0] * x + g[1] * y;
     }
 
-    public static float noise(float xin, float yin) {
+    static float noise(float xin, float yin) {
         float n0, n1, n2;
         float s = (xin + yin) * F2;
         int i = fastfloor(xin + s);

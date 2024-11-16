@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TrackSmoothing handles the smoothing methods used to create tracks.
+ * TrackSmoothing is a package-private class that handles the smoothing methods used to create tracks.
  * The current implementation uses the Catmull-Rom algorithm. Interpolated points aren't generated
  * for every pair of control points. Instead, it uses the first and last segments (pair
  * of consecutive control points) just as a guidance of direction. With this customization,
  * it's easier to smooth the track by segments without getting vertexes, and it's not
  * necessary to smooth the whole track at once to get cool curves.
  */
-public class TrackSmoothing {
+class TrackSmoothing {
 
     /**
      * @param controlPoints        A Vector2 List containing at least 4 control points, being the first and last
@@ -22,7 +22,7 @@ public class TrackSmoothing {
      * @param addControlPoints     Boolean to determine if input control pointed should be returned too.
      * @return A Vector2 List with only the new interpolated points.
      */
-    public static List<Vector2> computeCatmullRom(List<Vector2> controlPoints, int interpolatedDistance, boolean addControlPoints) {
+    static List<Vector2> computeCatmullRom(List<Vector2> controlPoints, int interpolatedDistance, boolean addControlPoints) {
 
         // Handle exceptions
         if (controlPoints.size() < 4)
@@ -78,7 +78,7 @@ public class TrackSmoothing {
      * @return Interpolated point between p1 and p2
      */
     private static Vector2 computeCatmullRomPoint(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3, float t) {
-        float smoothingFactor = 0.5f; // Values between 0 and 1 are accepted, 0 returns a more precise point, 1 a smoother point.
+        float smoothingFactor = 0.5f; // Values between 0 and 1 are accepted, 0 returns a more precise point, 1 a smoother point, but both go away from control points. 0.5 is the one we want bcs the final track must include the control points
 
         float tt = t * t;
         float ttt = tt * t;
@@ -90,7 +90,7 @@ public class TrackSmoothing {
     }
 
     // TEST METHODS
-    public static Vector2 testComputeCatmullRomPoint(Vector2 point0, Vector2 point1, Vector2 point2, Vector2 point3, float t) {
+    static Vector2 testComputeCatmullRomPoint(Vector2 point0, Vector2 point1, Vector2 point2, Vector2 point3, float t) {
         return computeCatmullRomPoint(point0, point1, point2, point3, t);
     }
 }
