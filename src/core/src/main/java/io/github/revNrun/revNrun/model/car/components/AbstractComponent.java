@@ -41,7 +41,11 @@ public abstract class AbstractComponent implements Component {
 
     @Override
     public void repair(float value) {
-        currentDurability += value;
+        if (value >= maxDurability) {
+            currentDurability = maxDurability;
+        } else {
+            currentDurability += value;
+        }
     }
 
     public String getName() {
