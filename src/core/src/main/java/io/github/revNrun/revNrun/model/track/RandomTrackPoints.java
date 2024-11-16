@@ -20,8 +20,7 @@ import java.util.Random;
  * </p>
  * <p>
  * Base points: These are a random distortion of the initial points, they're used as control points to generate
- * the curves. The distortion from initial points is made with one or several SimplexNoise iterations. There could
- * be not as many base points as initial points to favor smoothness.
+ * the curves. The distortion from initial points is made with one or several SimplexNoise iterations.
  * </p>
  * <p>
  * Points: These are the final points, the track with curves. It's the result of applying smooth interpolation
@@ -32,8 +31,8 @@ public class RandomTrackPoints {
     // The following values determine the randomness of the track
     private static final int MIN_NUM_INITIAL_POINTS = 10;   // Minimum number of initial points
     private static final int MAX_NUM_INITIAL_POINTS = 40;   // Maximum number of initial points, can't be the same as MIN_NUM_INITIAL_POINTS
-    private static final float MIN_RADIUS = 100;            // Minimum radius for the track
-    private static final float MAX_RADIUS = 150;            // Maximum radius, can't be the same as MIN_RADIUS
+    private static final float MIN_RADIUS = 200;            // Minimum radius for the track
+    private static final float MAX_RADIUS = 250;            // Maximum radius, can't be the same as MIN_RADIUS
     private static final float NOISE_SCALE = 0.6f;          // Noise scale: values can go from 0 to 1
     private static final int MIN_NUM_OCTAVES = 1;           // Minimum number of octaves to calculate the distortion of the base points, minimum 1
     private static final int MAX_NUM_OCTAVES = 4;           // Maximum number of octaves, can't be the same as MIN_NUM_OCTAVES
