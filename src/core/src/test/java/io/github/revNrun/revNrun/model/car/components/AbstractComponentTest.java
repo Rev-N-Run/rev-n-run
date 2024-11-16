@@ -58,9 +58,15 @@ public class AbstractComponentTest {
 
     @Test
     public void invalidValuesDegrade() {
-        final float[] collisionDamage = new float[]{1, -1, 0, 2};
-
+        // Check frontier and external frontier values
+        final float[] collisionDamage = new float[]{1, 0, 1.01f, -0.1f, -1, 2};
         for (float damage : collisionDamage) {
+            assertThrows(IllegalArgumentException.class, () -> component.degrade(damage));
+            assertEquals(component.getMaxDurability(), component.getCurrentDurability());
+        }
+
+        final float[] collisionDamage2 = new float[]{0.99f, 0.01f};
+        for (float damage : collisionDamage2) {
             assertThrows(IllegalArgumentException.class, () -> component.degrade(damage));
             assertEquals(component.getMaxDurability(), component.getCurrentDurability());
         }
