@@ -160,4 +160,10 @@ public class AbstractComponentTest {
         assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, -20,
             -20, effects, wearFactor) {});
     }
+
+    @Test
+    public void testIfCurrentDurabilityCanBeGreaterThanMaxDurability() {
+        assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, maxDurability - 20,
+            maxDurability, effects, wearFactor) {});
+    }
 }
