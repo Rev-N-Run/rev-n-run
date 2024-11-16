@@ -18,6 +18,9 @@ public abstract class AbstractComponent implements Component {
         this.maxDurability = maxDurability;
         this.currentDurability = currentDurability;
         this.effects = (effects == null) ? new ArrayList<>() : effects;
+        if (wearFactor > 1) {
+            throw new IllegalArgumentException("Wear factor cannot be greater or equal than 1");
+        }
         this.wearFactor = wearFactor;
     }
 
