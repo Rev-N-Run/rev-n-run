@@ -10,14 +10,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RandomTrackPointsTest {
 
-    private static RandomTrackPoints track;
     private static List<Vector2> initialPoints;
     private static List<Vector2> basePoints;
     private static List<Vector2> points;
 
     @BeforeEach
     public void setUp() {
-        track = new RandomTrackPoints();
+        RandomTrackPoints track = new RandomTrackPoints();
         initialPoints = track.getInitialPoints();
         basePoints = track.getBasePoints();
         points = track.getPoints();
