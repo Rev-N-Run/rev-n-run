@@ -5,8 +5,8 @@ import java.util.List;
 public interface Component {
     String getName();
     float getWeight();
-    float getMaxDurability();
-    float getCurrentDurability();
+    int getMaxDurability();
+    int getCurrentDurability();
     List<Effect> getEffects();
     void degrade(float value);
     void degrade(float value, float delta);

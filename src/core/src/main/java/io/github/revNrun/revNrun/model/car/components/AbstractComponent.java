@@ -6,8 +6,8 @@ import java.util.List;
 public abstract class AbstractComponent implements Component {
     protected String name;
     protected float weight;
-    protected float maxDurability;
-    protected float currentDurability;
+    protected int maxDurability;
+    protected int currentDurability;
     protected List<Effect> effects;
     protected float wearFactor;
 
@@ -26,7 +26,7 @@ public abstract class AbstractComponent implements Component {
 
     @Override
     public void degrade(float value) {
-
+        currentDurability *= value;
     }
 
     @Override
@@ -42,11 +42,11 @@ public abstract class AbstractComponent implements Component {
         return weight;
     }
 
-    public float getMaxDurability() {
+    public int getMaxDurability() {
         return maxDurability;
     }
 
-    public float getCurrentDurability() {
+    public int getCurrentDurability() {
         return currentDurability;
     }
 

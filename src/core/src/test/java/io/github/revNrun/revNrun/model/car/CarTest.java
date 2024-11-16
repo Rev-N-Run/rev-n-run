@@ -204,8 +204,8 @@ public class CarTest {
         // In this case, lets test if the logic of selecting the tires makes the degradation.
         // 70% degradation in the right and 30% in the left.
         Map<CarSides, Float> sides = new HashMap<>();
-        sides.put(CarSides.LEFT, .3f);
-        sides.put(CarSides.RIGHT, .7f);
+        sides.put(CarSides.LEFT, 30f);
+        sides.put(CarSides.RIGHT, 70f);
         car.degradeTires(sides);
 
         WheelMountedComponent tireFL, tireFR, tireRL, tireRR;
@@ -215,10 +215,10 @@ public class CarTest {
         tireRL = getComponentByPosition(car.getTires(), CarAxis.REAR, CarSides.LEFT);
         tireRR = getComponentByPosition(car.getTires(), CarAxis.REAR, CarSides.RIGHT);
 
-        assertEquals(.7f, tireFL.getCurrentDurability());
-        assertEquals(.7f, tireRL.getCurrentDurability());
-        assertEquals(.3f, tireFR.getCurrentDurability());
-        assertEquals(.3f, tireRR.getCurrentDurability());
+        assertEquals(70f, tireFL.getCurrentDurability());
+        assertEquals(70f, tireRL.getCurrentDurability());
+        assertEquals(30f, tireFR.getCurrentDurability());
+        assertEquals(30f, tireRR.getCurrentDurability());
 
         MockTires mockTireFL = (MockTires) tireFL;
         MockTires mockTireFR = (MockTires) tireFR;
@@ -232,10 +232,10 @@ public class CarTest {
     }
 
     private static Tires[] getMockTires() {
-        Tires mockTireFL = new MockTires("mockTireFL", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
-        Tires mockTireFR = new MockTires("mockTireFR", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
-        Tires mockTireRL = new MockTires("mockTireRL", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
-        Tires mockTireRR = new MockTires("mockTireRR", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
+        Tires mockTireFL = new MockTires("mockTireFL", 18f, 100,100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
+        Tires mockTireFR = new MockTires("mockTireFR", 18f, 100,100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Tires mockTireRL = new MockTires("mockTireRL", 18f, 100,100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
+        Tires mockTireRR = new MockTires("mockTireRR", 18f, 100,100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
 
         return new Tires[]{mockTireFL, mockTireFR, mockTireRL, mockTireRR};
     }
@@ -249,8 +249,8 @@ public class CarTest {
         // In this case, lets test if the logic of selecting the tires makes the degradation.
         // 70% degradation in the right and 30% in the left.
         Map<CarSides, Float> sides = new HashMap<>();
-        sides.put(CarSides.LEFT, .3f);
-        sides.put(CarSides.RIGHT, .7f);
+        sides.put(CarSides.LEFT, 30f);
+        sides.put(CarSides.RIGHT, 70f);
         car.degradeSuspension(sides);
 
         WheelMountedComponent suspensionFL, suspensionFR, suspensionRL, suspensionRR;
@@ -260,10 +260,10 @@ public class CarTest {
         suspensionRL = getComponentByPosition(car.getSuspension(), CarAxis.REAR, CarSides.LEFT);
         suspensionRR = getComponentByPosition(car.getSuspension(), CarAxis.REAR, CarSides.RIGHT);
 
-        assertEquals(.7f, suspensionFL.getCurrentDurability());
-        assertEquals(.7f, suspensionRL.getCurrentDurability());
-        assertEquals(.3f, suspensionFR.getCurrentDurability());
-        assertEquals(.3f, suspensionRR.getCurrentDurability());
+        assertEquals(70f, suspensionFL.getCurrentDurability());
+        assertEquals(70f, suspensionRL.getCurrentDurability());
+        assertEquals(30f, suspensionFR.getCurrentDurability());
+        assertEquals(30f, suspensionRR.getCurrentDurability());
 
         MockSuspension mockSuspensionFL = (MockSuspension) suspensionFL;
         MockSuspension mockSuspensionFR = (MockSuspension) suspensionFR;
@@ -277,10 +277,10 @@ public class CarTest {
     }
 
     private static Suspension[] getMockSuspension() {
-        Suspension mockSuspensionFL = new MockSuspension("mockSuspensionFL", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
-        Suspension mockSuspensionFR = new MockSuspension("mockSuspensionFR", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
-        Suspension mockSuspensionRL = new MockSuspension("mockSuspensionRL", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
-        Suspension mockSuspensionRR = new MockSuspension("mockSuspensionRR", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
+        Suspension mockSuspensionFL = new MockSuspension("mockSuspensionFL", 18f, 100,100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
+        Suspension mockSuspensionFR = new MockSuspension("mockSuspensionFR", 18f, 100,100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Suspension mockSuspensionRL = new MockSuspension("mockSuspensionRL", 18f, 100,100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
+        Suspension mockSuspensionRR = new MockSuspension("mockSuspensionRR", 18f, 100,100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
 
         return new Suspension[]{mockSuspensionFL, mockSuspensionFR, mockSuspensionRL, mockSuspensionRR};
     }
@@ -299,27 +299,27 @@ public class CarTest {
         brakeRL = getComponentByPosition(car.getBrakes(), CarAxis.REAR, CarSides.LEFT);
         brakeRR = getComponentByPosition(car.getBrakes(), CarAxis.REAR, CarSides.RIGHT);
 
-        assertEquals(.45f, brakeFL.getCurrentDurability());
-        assertEquals(.45f, brakeFR.getCurrentDurability());
-        assertEquals(.55f, brakeRL.getCurrentDurability());
-        assertEquals(.55f, brakeRR.getCurrentDurability());
+        assertEquals(45f, brakeFL.getCurrentDurability());
+        assertEquals(45f, brakeFR.getCurrentDurability());
+        assertEquals(55f, brakeRL.getCurrentDurability());
+        assertEquals(55f, brakeRR.getCurrentDurability());
 
         MockBrakes mockBrakesFL = (MockBrakes) brakeFL;
         MockBrakes mockBrakesFR = (MockBrakes) brakeFR;
         MockBrakes mockBrakesRL = (MockBrakes) brakeRL;
         MockBrakes mockBrakesRR = (MockBrakes) brakeRR;
 
-        assertEquals(.55f, mockBrakesFL.getLastDegradation());
-        assertEquals(.45f, mockBrakesRL.getLastDegradation());
-        assertEquals(.55f, mockBrakesFR.getLastDegradation());
-        assertEquals(.45f, mockBrakesRR.getLastDegradation());
+        assertEquals(.45f, mockBrakesFL.getLastDegradation());
+        assertEquals(.55f, mockBrakesRL.getLastDegradation());
+        assertEquals(.45f, mockBrakesFR.getLastDegradation());
+        assertEquals(.55f, mockBrakesRR.getLastDegradation());
     }
 
     private static Brakes[] getMockBrakes() {
-        Brakes mockBrakeFL = new MockBrakes("mockBrakeFL", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
-        Brakes mockBrakeFR = new MockBrakes("mockBrakeFR", 18f, 100,1, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
-        Brakes mockBrakeRL = new MockBrakes("mockBrakeRL", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
-        Brakes mockBrakeRR = new MockBrakes("mockBrakeRR", 18f, 100,1, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
+        Brakes mockBrakeFL = new MockBrakes("mockBrakeFL", 18f, 100,100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
+        Brakes mockBrakeFR = new MockBrakes("mockBrakeFR", 18f, 100,100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Brakes mockBrakeRL = new MockBrakes("mockBrakeRL", 18f, 100,100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
+        Brakes mockBrakeRR = new MockBrakes("mockBrakeRR", 18f, 100,100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
 
         return new Brakes[]{mockBrakeFL, mockBrakeFR, mockBrakeRL, mockBrakeRR};
     }

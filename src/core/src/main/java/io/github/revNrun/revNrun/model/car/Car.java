@@ -159,10 +159,10 @@ public class Car {
         assert brakeRL != null;
         assert brakeRR != null;
 
-        brakeFL.degrade(brakeBalance + .05f);
-        brakeFR.degrade(brakeBalance + .05f);
-        brakeRL.degrade(brakeBalance - .05f);
-        brakeRR.degrade(brakeBalance - .05f);
+        brakeFL.degrade(brakeBalance - .05f);
+        brakeFR.degrade(brakeBalance - .05f);
+        brakeRL.degrade(brakeBalance + .05f);
+        brakeRR.degrade(brakeBalance + .05f);
     }
 
     public void degradeFloor(float value) {
