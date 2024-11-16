@@ -115,22 +115,30 @@ public class AbstractComponentTest {
         // Limit values
 
         // External frontier values
-        final float[] values = new float[]{0.9f, component.getMaxDurability() + 0.1f, -1f, component.getMaxDurability() + 20};
+        final float[] negativeValues = new float[]{-0.1f, -1f};
+        final float[] positiveValues = new float[]{component.getMaxDurability() + 0.1f, component.getMaxDurability() + 20};
         float prev = component.getCurrentDurability();
 
-        for (float value1 : values) {
+        for (float value1 : negativeValues) {
             assertThrows(IllegalArgumentException.class, () -> component.repair(value1));
             assertEquals(prev, component.getCurrentDurability());
         }
 
+        for (float value1 : positiveValues) {
+            assertEquals(maxDurability, component.getCurrentDurability());
+        }
+
         // Internal and frontier values
         final float[] validValues = new float[]{1, 1.1f, 5, 43, component.getMaxDurability() - 0.1f, component.getMaxDurability()};
-        for (float value1 : values) {
+        for (float value1 : validValues) {
             Component component1 = new AbstractComponent(name, weight, maxDurability,
                 1, effects, wearFactor) {};
-            float expected = value1 + component.getCurrentDurability();
-
-            assertEquals(expected, component.getCurrentDurability());
+            float expected = value1 + component1.getCurrentDurability();
+            if (expected > maxDurability) {
+                expected = maxDurability;
+            }
+            component1.repair(value1);
+            assertEquals(expected, component1.getCurrentDurability());
         }
     }
 
