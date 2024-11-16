@@ -38,4 +38,10 @@ public class Vector2 {
         float dy = v.getY() - this.getY();
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
+
+    public float angleBetween(Vector2 other) {
+        float dx = other.x - this.x;
+        float dy = other.y - this.y;
+        return (float) Math.atan2(dy, dx);
+    }
 }
