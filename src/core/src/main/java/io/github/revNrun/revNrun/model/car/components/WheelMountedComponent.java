@@ -19,6 +19,10 @@ public abstract class WheelMountedComponent extends AbstractComponent {
         this.side = side;
     }
 
+    public void degrade(float delta, float percentage) {
+        currentDurability *= (1 - wearFactor * delta * percentage);
+    }
+
     public CarAxis getAxle() {
         return axle;
     }
