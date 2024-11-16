@@ -73,7 +73,7 @@ public class CarTest {
     public void testCarConstructor() {
         // Verify all components are correctly initialized
         assertEquals(engine, car.getEngine());
-        assertEquals(chassis, car.getChasis());
+        assertEquals(chassis, car.getChassis());
         assertArrayEquals(tires, car.getTires());
         assertArrayEquals(suspensions, car.getSuspension());
         assertArrayEquals(brakes, car.getBrakes());
