@@ -55,4 +55,14 @@ public class AbstractComponentTest {
         assertDoesNotThrow(() -> component.degrade(collisionDamage));
         assertEquals(component.getMaxDurability() / 2, component.getCurrentDurability());
     }
+
+    @Test
+    public void invalidValuesDegrade() {
+        final float[] collisionDamage = new float[]{1};
+
+        for (float damage : collisionDamage) {
+            assertThrows(IllegalArgumentException.class, () -> component.degrade(damage));
+            assertEquals(component.getMaxDurability(), component.getCurrentDurability());
+        }
+    }
 }
