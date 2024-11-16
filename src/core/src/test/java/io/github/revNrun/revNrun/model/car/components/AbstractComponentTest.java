@@ -115,7 +115,7 @@ public class AbstractComponentTest {
         // Limit values
 
         // External frontier values
-        final float[] values = new float[]{0.9f, component.getMaxDurability() + 0.1f};
+        final float[] values = new float[]{0.9f, component.getMaxDurability() + 0.1f, -1f, component.getMaxDurability() + 20};
         float prev = component.getCurrentDurability();
 
         for (float value1 : values) {
