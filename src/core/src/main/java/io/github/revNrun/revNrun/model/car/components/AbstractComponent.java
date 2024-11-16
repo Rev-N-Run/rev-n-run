@@ -34,7 +34,7 @@ public abstract class AbstractComponent implements Component {
 
     @Override
     public void degrade(float delta) {
-
+        currentDurability *= (1 - wearFactor * delta);
     }
 
     public String getName() {
