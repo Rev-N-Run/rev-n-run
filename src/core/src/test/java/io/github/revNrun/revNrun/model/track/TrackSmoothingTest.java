@@ -25,12 +25,16 @@ class TrackSmoothingTest {
             new Vector2(5, 2)
         ));
 
-        int numSamples = 10;
-
-        List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, numSamples);
+        int interpolatedDistance = 1;
+        List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance);
 
         // ComputeCatmullRom should have created numSamples points for each given pair of points, except the first and last pair
-        assertEquals(numSamples * (controlPoints.size() - 3), smoothedPoints.size());
+        int numSamples = (Math.round(new Vector2(2, 4).distance(new Vector2(4, 0))) / interpolatedDistance - 1) +
+            (Math.round(new Vector2(4, 0).distance(new Vector2(6, 4))) / interpolatedDistance - 1) +
+            (Math.round(new Vector2(6, 4).distance(new Vector2(8, 2))) / interpolatedDistance - 1) +
+            (Math.round(new Vector2(8, 2).distance(new Vector2(6, 3))) / interpolatedDistance - 1) +
+            (Math.round(new Vector2(6, 3).distance(new Vector2(7, 0))) / interpolatedDistance - 1) ;
+        assertEquals(numSamples, smoothedPoints.size());
 
         // Interpolated points should not be the same as control points
         for(Vector2 controlPoint : controlPoints){
@@ -45,16 +49,17 @@ class TrackSmoothingTest {
         List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
             new Vector2(0, 0),
             new Vector2(6, 4),
-            new Vector2(4, 2),
-            new Vector2(2, 4)
+            new Vector2(1, 14),
+            new Vector2(5, 4)
         ));
 
-        int numSamples = 10;
+        int interpolatedDistance = 2;
 
-        List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, numSamples);
+        List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance);
 
         // ComputeCatmullRom should have created numSamples points for each given pair of points, except the first and last pair, so just numSample points
-        assertEquals(numSamples * (controlPoints.size() - 3), smoothedPoints.size());
+        int numSamples = Math.round(new Vector2(6, 4).distance(new Vector2(1, 14))) / interpolatedDistance - 1;
+        assertEquals(numSamples, smoothedPoints.size());
 
         // Interpolated points should not be the same as control points
         for(Vector2 controlPoint : controlPoints){
@@ -71,26 +76,26 @@ class TrackSmoothingTest {
             new Vector2(6, 4)
         ));
 
-        int numSamples = 10;
+        int interpolatedDistance = 2;
 
-        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, numSamples));
+        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance));
     }
 
     @Test
     void testComputeCatmullRom_SingleControlPoint() {
         List<Vector2> controlPoints = new ArrayList<>(Collections.singletonList(new Vector2(2, 4)));
-        int numSamples = 10;
+        int interpolatedDistance = 10;
 
         // Should return an argument error
-        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, numSamples));
+        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance));
     }
 
     @Test
     void testComputeCatmullRom_EmptyControlPoints() {
         List<Vector2> controlPoints = new ArrayList<>();
-        int numSamples = 10;
+        int interpolatedDistance = 10;
 
-        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, numSamples));
+        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance));
     }
 
     // This test focuses in validating that there are not interpolated points of the first and last pair of points
@@ -117,11 +122,11 @@ class TrackSmoothingTest {
             new Vector2(2, 4)
         ));
 
-        int numSamples = 10;
+        int interpolatedDistance = 11;
 
-        List<Vector2> smoothedPoints1 = TrackSmoothing.computeCatmullRom(controlPoints1, numSamples);
-        List<Vector2> smoothedPoints2 = TrackSmoothing.computeCatmullRom(controlPoints2, numSamples);
-        List<Vector2> smoothedPoints3 = TrackSmoothing.computeCatmullRom(controlPoints2, numSamples);
+        List<Vector2> smoothedPoints1 = TrackSmoothing.computeCatmullRom(controlPoints1, interpolatedDistance);
+        List<Vector2> smoothedPoints2 = TrackSmoothing.computeCatmullRom(controlPoints2, interpolatedDistance);
+        List<Vector2> smoothedPoints3 = TrackSmoothing.computeCatmullRom(controlPoints3, interpolatedDistance);
 
         for(Vector2 point1 : smoothedPoints1){
             for(Vector2 point2 : smoothedPoints2){
@@ -137,30 +142,29 @@ class TrackSmoothingTest {
     }
 
     @Test
-    void testComputeCatmullRomSpline_NegativeNumSamples() {
+    void testComputeCatmullRomSpline_NegativeInterpolatedDistance() {
         List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
             new Vector2(0, 0),
             new Vector2(2, 4),
             new Vector2(4, 0),
             new Vector2(6, 4)
         ));
-        int numSamples = -10;
+        int interpolatedDistance = -10;
 
-        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, numSamples));
+        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance));
     }
 
     @Test
-    void testComputeCatmullRomSpline_ZeroNumSamples() {
+    void testComputeCatmullRomSpline_ZeroInterpolatedDistance() {
         List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
             new Vector2(0, 0),
             new Vector2(2, 4),
             new Vector2(4, 0),
             new Vector2(6, 4)
         ));
-        int numSamples = 0;
+        int interpolatedDistance = 0;
 
-        // Should return an empty list, as there are no possible interpolations
-        assertTrue(TrackSmoothing.computeCatmullRom(controlPoints, numSamples).isEmpty());
+        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance));
     }
 
     @Test
