@@ -111,6 +111,11 @@ public class AbstractComponentTest {
         float value = maxDurability * 2;
         component.repair(value);
         assertEquals(maxDurability, component.getCurrentDurability());
+
+        value = -20;
+        float prev = component.getCurrentDurability();
+        component.repair(value);
+        assertEquals(prev, component.getCurrentDurability());
     }
 
     @Test
