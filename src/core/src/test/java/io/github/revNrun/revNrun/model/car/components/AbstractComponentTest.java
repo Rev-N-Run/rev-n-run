@@ -40,6 +40,10 @@ public class AbstractComponentTest {
         float badWearFactor3 = -1f;
         assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, maxDurability,
             maxDurability, effects, badWearFactor3) {});
+
+        float badWearFactor4 = 0f;
+        assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, maxDurability,
+            maxDurability, effects, badWearFactor4) {});
     }
 
     @Test
