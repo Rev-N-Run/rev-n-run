@@ -159,6 +159,48 @@ public class AbstractComponentTest {
             maxDurability, effects, wearFactor) {});
         assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, -20,
             -20, effects, wearFactor) {});
+
+        // Limit test
+
+        // External frontier values
+        final float[] invalidValues = new float[]{-2, -0.1f};
+        for (float value : invalidValues) {
+            assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, value,
+                maxDurability, effects, wearFactor) {});
+        }
+
+        for (float value : invalidValues) {
+            assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, maxDurability,
+                value, effects, wearFactor) {});
+        }
+
+        for (float value : invalidValues) {
+            assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, value,
+                value, effects, wearFactor) {});
+        }
+
+        // Internal and frontier values
+        final float[] validValues = new float[]{0.1f, 1, 2};
+        for (float value : validValues) {
+            Component component = new AbstractComponent(name, weight, maxDurability,
+                value, effects, wearFactor) {};
+            assertEquals(value, component.getCurrentDurability());
+            assertEquals(maxDurability, component.getMaxDurability());
+        }
+
+        for (float value : validValues) {
+            Component component = new AbstractComponent(name, weight, value,
+                value - 0.01f, effects, wearFactor) {};
+            assertEquals(value - 0.01f, component.getCurrentDurability());
+            assertEquals(value, component.getMaxDurability());
+        }
+
+        for (float value : validValues) {
+            Component component = new AbstractComponent(name, weight, value,
+                value, effects, wearFactor) {};
+            assertEquals(value, component.getCurrentDurability());
+            assertEquals(value, component.getMaxDurability());
+        }
     }
 
     @Test
