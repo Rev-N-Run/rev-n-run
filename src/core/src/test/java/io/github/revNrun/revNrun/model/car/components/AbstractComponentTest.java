@@ -14,6 +14,7 @@ public class AbstractComponentTest {
     private final int maxDurability = 100;
     private final List<Effect> effects = new ArrayList<>();
     private final float wearFactor = 0.1f;
+    private final float delta = 0.001f;
     private Component component;
 
     @BeforeEach
@@ -57,7 +58,7 @@ public class AbstractComponentTest {
     }
 
     @Test
-    public void invalidValuesDegrade() {
+    public void invalidValuesDegradeByImpact() {
         // Check frontier and external frontier values
         final float[] collisionDamage = new float[]{1, 0, 1.01f, -0.1f, -1, 2};
         for (float damage : collisionDamage) {
@@ -73,5 +74,12 @@ public class AbstractComponentTest {
             assertDoesNotThrow(() -> component.degradeByImpact(damage));
             assertEquals(res, component.getCurrentDurability());
         }
+    }
+
+    @Test
+    public void checkDegrade() {
+        float expected = maxDurability * (1 - wearFactor * delta);
+        component.degrade(delta);
+        assertEquals(expected, component.getCurrentDurability());
     }
 }
