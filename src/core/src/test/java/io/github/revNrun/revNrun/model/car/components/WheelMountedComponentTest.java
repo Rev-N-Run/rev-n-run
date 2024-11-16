@@ -62,7 +62,7 @@ class WheelMountedComponentTest {
     @Test
     void testDegrade() {
         float percentage = 0.5f;
-        float expected = wheelMountedComponent.getMaxDurability() / 2;
+        float expected = TEST_CURRENT_DURABILITY * (1 - TEST_WEAR_FACTOR * percentage);
         wheelMountedComponent.degrade(TEST_DELTA, percentage);
         assertEquals(expected, wheelMountedComponent.getMaxDurability());
     }
