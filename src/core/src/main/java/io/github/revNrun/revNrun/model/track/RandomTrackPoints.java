@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-//TODO eliminar base points masssa junts
 
 /**
  * <p>
