@@ -10,6 +10,7 @@ public abstract class AbstractComponent implements Component {
     protected float currentDurability;
     protected List<Effect> effects;
     protected float wearFactor;
+    protected static final float MIN_DELTA = 1f/30f;
 
     public AbstractComponent(String name, float weight, int maxDurability,
                              int currentDurability, List<Effect> effects, float wearFactor) {
@@ -34,6 +35,7 @@ public abstract class AbstractComponent implements Component {
 
     @Override
     public void degrade(float delta) {
+        delta = Math.min(delta, MIN_DELTA);
         currentDurability *= (1 - wearFactor * delta);
     }
 
