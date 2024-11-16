@@ -28,6 +28,7 @@ public class CarTest {
     Sides sides;
     int fuel;
     Car car;
+    float delta = 0.001f;
 
     @BeforeEach
     public  void setUp() {
@@ -206,7 +207,7 @@ public class CarTest {
         Map<CarSides, Float> sides = new HashMap<>();
         sides.put(CarSides.LEFT, 30f);
         sides.put(CarSides.RIGHT, 70f);
-        car.degradeTires(sides);
+        car.degradeTires(delta, sides);
 
         WheelMountedComponent tireFL, tireFR, tireRL, tireRR;
 
@@ -251,7 +252,7 @@ public class CarTest {
         Map<CarSides, Float> sides = new HashMap<>();
         sides.put(CarSides.LEFT, 30f);
         sides.put(CarSides.RIGHT, 70f);
-        car.degradeSuspension(sides);
+        car.degradeSuspension(delta, sides);
 
         WheelMountedComponent suspensionFL, suspensionFR, suspensionRL, suspensionRR;
 
@@ -290,7 +291,7 @@ public class CarTest {
         Brakes[] mockBrakes = getMockBrakes();
         car = new Car(engine, chassis, tires, suspensions, mockBrakes, floor, front, back, sides, 100);
 
-        car.degradeBrakes();
+        car.degradeBrakes(0);
 
         WheelMountedComponent brakeFL, brakeFR, brakeRL, brakeRR;
 

@@ -115,7 +115,7 @@ public class Car {
         return getComponentByPosition(components, CarAxis.REAR, CarSides.RIGHT);
     }
 
-    private void degradeBySide(WheelMountedComponent[] components, Map<CarSides, Float> sides) {
+    private void degradeBySide(float delta, WheelMountedComponent[] components, Map<CarSides, Float> sides) {
         WheelMountedComponent componentFL = getComponentFL(components);
         WheelMountedComponent componentFR = getComponentFR(components);
         WheelMountedComponent componentRL = getComponentRL(components);
@@ -126,29 +126,35 @@ public class Car {
         assert componentRL != null;
         assert componentRR != null;
 
-        componentFL.degradeByImpact(sides.get(CarSides.LEFT));
-        componentFR.degradeByImpact(sides.get(CarSides.RIGHT));
-        componentRL.degradeByImpact(sides.get(CarSides.LEFT));
-        componentRR.degradeByImpact(sides.get(CarSides.RIGHT));
+        componentFL.degrade(delta, sides.get(CarSides.LEFT));
+        componentFR.degrade(delta, sides.get(CarSides.RIGHT));
+        componentRL.degrade(delta, sides.get(CarSides.LEFT));
+        componentRR.degrade(delta, sides.get(CarSides.RIGHT));
     }
 
-    public void degradeEngine(float value) {
-        engine.degradeByImpact(value);
+    private void degradeByImpactWheelMounted(float percentage, WheelMountedComponent[] components) {
+        for (WheelMountedComponent component : components) {
+            component.degradeByImpact(percentage);
+        }
     }
 
-    public void degradeChasis(float value) {
-        engine.degradeByImpact(value);
+    public void degradeEngine(float delta) {
+        engine.degrade(delta);
     }
 
-    public void degradeTires(Map<CarSides, Float> sides) {
-        degradeBySide(tires, sides);
+    public void degradeChassis(float delta) {
+        engine.degrade(delta);
     }
 
-    public void degradeSuspension(Map<CarSides, Float> sides) {
-        degradeBySide(suspension, sides);
+    public void degradeTires(float delta, Map<CarSides, Float> sides) {
+        degradeBySide(delta, tires, sides);
     }
 
-    public void degradeBrakes() {
+    public void degradeSuspension(float delta, Map<CarSides, Float> sides) {
+        degradeBySide(delta, suspension, sides);
+    }
+
+    public void degradeBrakes(float delta) {
         WheelMountedComponent brakeFL = getComponentFL(brakes);
         WheelMountedComponent brakeFR = getComponentFR(brakes);
         WheelMountedComponent brakeRL = getComponentRL(brakes);
@@ -159,25 +165,45 @@ public class Car {
         assert brakeRL != null;
         assert brakeRR != null;
 
-        brakeFL.degradeByImpact(brakeBalance - .05f);
-        brakeFR.degradeByImpact(brakeBalance - .05f);
-        brakeRL.degradeByImpact(brakeBalance + .05f);
-        brakeRR.degradeByImpact(brakeBalance + .05f);
+        brakeFL.degrade(delta,brakeBalance - .05f);
+        brakeFR.degrade(delta,brakeBalance - .05f);
+        brakeRL.degrade(delta,brakeBalance + .05f);
+        brakeRR.degrade(delta,brakeBalance + .05f);
     }
 
-    public void degradeFloor(float value) {
+    public void degradeEngineByImpact(float value) {
+        engine.degradeByImpact(value);
+    }
+
+    public void degradeChassisByImpact(float value) {
+        engine.degradeByImpact(value);
+    }
+
+    public void degradeTiresByImpact(float percentage) {
+        degradeByImpactWheelMounted(percentage, tires);
+    }
+
+    public void degradeSuspensionByImpact(float percentage) {
+        degradeByImpactWheelMounted(percentage, suspension);
+    }
+
+    public void degradeBrakesByImpact(float percentage) {
+        degradeByImpactWheelMounted(percentage, brakes);
+    }
+
+    public void degradeFloorByImpact(float value) {
         floor.degradeByImpact(value);
     }
 
-    public void degradeFront(float value) {
+    public void degradeFrontByImpact(float value) {
         front.degradeByImpact(value);
     }
 
-    public void degradeBack(float value) {
+    public void degradeBackByImpact(float value) {
         back.degradeByImpact(value);
     }
 
-    public void degradeSides(float value) {
+    public void degradeSidesByImpact(float value) {
         sides.degradeByImpact(value);
     }
 

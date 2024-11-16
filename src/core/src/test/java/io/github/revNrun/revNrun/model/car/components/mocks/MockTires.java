@@ -17,7 +17,7 @@ public class MockTires extends Tires implements MockComponent {
     }
 
     @Override
-    public void degradeByImpact(float percentage) {
+    public void degrade(float delta, float percentage) {
         currentDurability -= percentage;
         lastDegradation = percentage;
     }
