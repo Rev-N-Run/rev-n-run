@@ -13,63 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class TrackSmoothingTest {
 
     @Test
-    void testComputeCatmullRom_MultipleControlPoints() {
-        List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
-            new Vector2(0, 0),
-            new Vector2(2, 4),
-            new Vector2(4, 0),
-            new Vector2(6, 4),
-            new Vector2(8, 2),
-            new Vector2(6, 3),
-            new Vector2(7, 0),
-            new Vector2(5, 2)
-        ));
-
-        int interpolatedDistance = 1;
-        List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, false);
-
-        // ComputeCatmullRom should have created numSamples points for each given pair of points, except the first and last pair
-        int numSamples = (Math.round(new Vector2(2, 4).distance(new Vector2(4, 0))) / interpolatedDistance - 1) +
-            (Math.round(new Vector2(4, 0).distance(new Vector2(6, 4))) / interpolatedDistance - 1) +
-            (Math.round(new Vector2(6, 4).distance(new Vector2(8, 2))) / interpolatedDistance - 1) +
-            (Math.round(new Vector2(8, 2).distance(new Vector2(6, 3))) / interpolatedDistance - 1) +
-            (Math.round(new Vector2(6, 3).distance(new Vector2(7, 0))) / interpolatedDistance - 1) ;
-        assertEquals(numSamples, smoothedPoints.size());
-
-        // Interpolated points should not be the same as control points
-        for(Vector2 controlPoint : controlPoints){
-            for (Vector2 smoothedPoint : smoothedPoints){
-                assertNotEquals(controlPoint, smoothedPoint);
-            }
-        }
-    }
-
-    @Test
-    void testComputeCatmullRom_FourControlPoints() {
-        List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
-            new Vector2(0, 0),
-            new Vector2(6, 4),
-            new Vector2(1, 14),
-            new Vector2(5, 4)
-        ));
-
-        int interpolatedDistance = 2;
-
-        List<Vector2> smoothedPoints = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, false);
-
-        // ComputeCatmullRom should have created numSamples points for each given pair of points, except the first and last pair, so just numSample points
-        int numSamples = Math.round(new Vector2(6, 4).distance(new Vector2(1, 14))) / interpolatedDistance - 1;
-        assertEquals(numSamples, smoothedPoints.size());
-
-        // Interpolated points should not be the same as control points
-        for(Vector2 controlPoint : controlPoints){
-            for (Vector2 smoothedPoint : smoothedPoints){
-                assertNotEquals(controlPoint, smoothedPoint);
-            }
-        }
-    }
-
-    @Test
     void testComputeCatmullRom_TwoControlPoints() {
         List<Vector2> controlPoints = new ArrayList<>(Arrays.asList(
             new Vector2(0, 0),

@@ -37,7 +37,8 @@ class TrackSmoothing {
         int numSegments = controlPoints.size() - 1;
 
         Vector2 p0, p1, p2 = null, p3;
-        int numSamples;
+        float distance, curveRatio;
+        int numSegmentsNeeded, numSamples;
 
         for (int i = 1; i < numSegments - 1; i++) {
             // We use the first and last points to set the start and end direction of the curve that goes from p1 to p2
@@ -46,12 +47,23 @@ class TrackSmoothing {
             p2 = controlPoints.get(i + 1);
             p3 = controlPoints.get(i + 2);
 
-            //TODO millorar el càlcul de numSamples segons la curvatura
-            // Calculate the number of interpolated points needed for the specific segment
-            numSamples = Math.round(p1.distance(p2)) / interpolatedDistance - 1;
-
             // Add the control point of the start of the curve of every segment (the end of the curve of the past segment)
             if (addControlPoints) smoothedPoints.add(p1);
+
+            // Calculate the distance between the control points
+            distance = p1.distance(p2);
+
+            // If the distance is less or equal than interpolatedDistance, no need of interpolation, we can skip the rest of the iteration
+            if (distance <= interpolatedDistance) continue;
+
+            // Calculate the number of necessary segments
+            numSegmentsNeeded = (int)Math.ceil(distance / interpolatedDistance);
+            numSamples = numSegmentsNeeded - 1;
+
+            // Curve factor to adjust the number of points on heavy curves
+            curveRatio = calculateCurveRatio(p0, p1, p2, p3);
+            numSamples = Math.round(numSamples * curveRatio);
+
 
             for (int j = 1; j <= numSamples; j++) {
                 float t = (float) j / (float) (numSamples + 1);
@@ -87,6 +99,21 @@ class TrackSmoothing {
         float y = smoothingFactor * ((2 * p1.getY()) + (-p0.getY() + p2.getY()) * t + (2 * p0.getY() - 5 * p1.getY() + 4 * p2.getY() - p3.getY()) * tt + (-p0.getY() + 3 * p1.getY() - 3 * p2.getY() + p3.getY()) * ttt);
 
         return new Vector2(x, y);
+    }
+
+    /**
+     * Calculate a curvature factor based on the angles between the control points.
+     * A value close to 1 indicates a smooth curve, while higher values indicate
+     * sharper curves that will require more interpolation points.
+     */
+    private static float calculateCurveRatio(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3) {
+        float angle1 = Math.abs(p0.angleBetween(p1) - p1.angleBetween(p2));
+        float angle2 = Math.abs(p1.angleBetween(p2) - p2.angleBetween(p3));
+
+        float averageAngle = (angle1 + angle2) / 2.0f;
+        float curveRatio = 1.0f + (averageAngle / (float)Math.PI);
+
+        return Math.max(1.0f, curveRatio);
     }
 
     // TEST METHODS

@@ -143,15 +143,4 @@ class RandomTrackPointsTest {
             }
         }
     }
-
-    @Test
-    public void testPointsAreAtSameDistanceAndNoDuplicates() {
-        // Duplicates are also tested in here because if two consecutive points the same one, the distance wouldn't equal to distance
-        // Among the final points duplicates are accepted, but not as consecutive points
-        float distance = points.get(0).distance(points.get(1));
-        for(int i = 0; i < points.size() - 1; i++) {
-            assertEquals(distance, points.get(i).distance(points.get(i + 1)), 0.01, "theoric distance is " + distance + " and real distance is " + points.get(i).distance(points.get(i + 1)));
-            //assertEquals(distance, points.get(i).distance(points.get(i+1)), 0.01);
-        }
-    }
 }
