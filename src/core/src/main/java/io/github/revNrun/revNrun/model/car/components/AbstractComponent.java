@@ -45,14 +45,7 @@ public abstract class AbstractComponent implements Component {
             throw new IllegalArgumentException("Value cannot be less than 0");
         }
 
-        if (value > maxDurability) {
-            currentDurability = maxDurability;
-        } else if (currentDurability + value >= maxDurability) {
-            currentDurability = maxDurability;
-        } else {
-            currentDurability += value;
-        }
-
+        currentDurability = Math.min(currentDurability + value, maxDurability);
     }
 
     public String getName() {
