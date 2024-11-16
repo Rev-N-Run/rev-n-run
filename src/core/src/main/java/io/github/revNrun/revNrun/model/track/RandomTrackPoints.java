@@ -96,19 +96,22 @@ public class RandomTrackPoints {
 
     /**
      * generateRandomness randomly calculates the final values of numInitialPoints, radius, octaves and noiseIterations,
-     * based on the declared constants. octaves and noiseIterations are calculated with the same random value as
-     * numInitialPoints, so they are relative to it.
+     * all them based on the declared constants. octaves and noiseIterations are calculated with the same random value as
+     * numInitialPoints, so they are proportional to it. numInitialPoints is calculated with the mean of the random value used
+     * to calculate the radius and another new random value. The purpose of this new random value calculation is to get
+     * a semi relation between radius and numInitialPoints, so big radius can get a medium or big quantity of points, but
+     * not too few, and a small radius can get a small or medium quantity of points, but never too much.
      */
     private void generateRandomness() {
-        radius = RANDOM.nextFloat() * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
-
-        //TODO mirar si convertir random en la mitjana del random utilitzat pel radi amb el nou random dona millors resultats
         float random = RANDOM.nextFloat();
+
+        radius = random * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
+
+        random = (random + RANDOM.nextFloat()) / 2;
 
         numInitialPoints = Math.round(random * (MAX_NUM_INITIAL_POINTS - MIN_NUM_INITIAL_POINTS) + MIN_NUM_INITIAL_POINTS);
         octaves = Math.round(random * (MAX_NUM_OCTAVES - MIN_NUM_OCTAVES) + MIN_NUM_OCTAVES);
         noiseIterations = Math.round(MAX_NOISE_ITERATIONS - (random * (MAX_NOISE_ITERATIONS - MIN_NOISE_ITERATIONS)));
-
     }
 
     /**
