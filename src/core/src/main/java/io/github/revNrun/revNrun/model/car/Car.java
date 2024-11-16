@@ -45,99 +45,6 @@ public class Car {
         this.fuel = fuel;
     }
 
-    private void validateComponents(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
-                                    Floor floor, Front front, Back back, Sides sides) {
-        if (engine == null || chassis == null || tires == null || suspension == null || brakes == null
-            || floor == null || front == null || back == null || sides == null) {
-            throw new IllegalArgumentException("Arguments can't be null");
-        }
-        if (tires.length != N_TIRES) {
-            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " tires");
-        }
-        if (suspension.length != N_TIRES) {
-            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " suspension units");
-        }
-        if (brakes.length != N_TIRES) {
-            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " brakes");
-        }
-
-        for (AbstractComponent component : tires) {
-            if (component == null) {
-                throw new IllegalArgumentException("Tire can't be null");
-            }
-        }
-
-        for (AbstractComponent component : brakes) {
-            if (component == null) {
-                throw new IllegalArgumentException("Brake can't be null");
-            }
-        }
-
-        for (AbstractComponent component : suspension) {
-            if (component == null) {
-                throw new IllegalArgumentException("Suspension can't be null");
-            }
-        }
-    }
-
-    private void validateFuel(int fuel) {
-        if (fuel < MIN_FUEL || fuel > maxFuel) {
-            throw new IllegalArgumentException("Fuel must be between " + MIN_FUEL + " and " + maxFuel);
-        }
-    }
-
-    private boolean isSpecifiedComponent(WheelMountedComponent component, CarAxis axle, CarSides side) {
-        return component.getAxle() == axle && component.getSide() == side;
-    }
-
-    private WheelMountedComponent getComponentByPosition(WheelMountedComponent[] components, CarAxis axle, CarSides side) {
-        for (WheelMountedComponent component : components) {
-            if (isSpecifiedComponent(component, axle, side)) {
-                return component;
-            }
-        }
-        return null;
-    }
-
-    private WheelMountedComponent getComponentFL(WheelMountedComponent[] components) {
-        return getComponentByPosition(components, CarAxis.FRONT, CarSides.LEFT);
-    }
-
-    private WheelMountedComponent getComponentFR(WheelMountedComponent[] components) {
-        return getComponentByPosition(components, CarAxis.FRONT, CarSides.RIGHT);
-    }
-
-    private WheelMountedComponent getComponentRL(WheelMountedComponent[] components) {
-        return getComponentByPosition(components, CarAxis.REAR, CarSides.LEFT);
-    }
-
-    private WheelMountedComponent getComponentRR(WheelMountedComponent[] components) {
-        return getComponentByPosition(components, CarAxis.REAR, CarSides.RIGHT);
-    }
-
-    private void degradeBySide(float delta, WheelMountedComponent[] components, Map<CarSides, Float> sides) {
-        WheelMountedComponent componentFL = getComponentFL(components);
-        WheelMountedComponent componentFR = getComponentFR(components);
-        WheelMountedComponent componentRL = getComponentRL(components);
-        WheelMountedComponent componentRR = getComponentRR(components);
-
-        assert componentFL != null;
-        assert componentFR != null;
-        assert componentRL != null;
-        assert componentRR != null;
-
-        componentFL.degrade(delta, sides.get(CarSides.LEFT));
-        componentFR.degrade(delta, sides.get(CarSides.RIGHT));
-        componentRL.degrade(delta, sides.get(CarSides.LEFT));
-        componentRR.degrade(delta, sides.get(CarSides.RIGHT));
-    }
-
-    private void degradeByImpactWheelMounted(float percentage, WheelMountedComponent[] components) {
-        for (WheelMountedComponent component : components) {
-            component.degradeByImpact(percentage);
-        }
-    }
-
     public void degradeEngine(float delta) {
         engine.degrade(delta);
     }
@@ -265,5 +172,98 @@ public class Car {
 
     public float getWeight() {
         return weight;
+    }
+
+    private void validateComponents(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
+                                    Floor floor, Front front, Back back, Sides sides) {
+        if (engine == null || chassis == null || tires == null || suspension == null || brakes == null
+            || floor == null || front == null || back == null || sides == null) {
+            throw new IllegalArgumentException("Arguments can't be null");
+        }
+        if (tires.length != N_TIRES) {
+            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " tires");
+        }
+        if (suspension.length != N_TIRES) {
+            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " suspension units");
+        }
+        if (brakes.length != N_TIRES) {
+            throw new IllegalArgumentException("Car must have exactly " + N_TIRES + " brakes");
+        }
+
+        for (AbstractComponent component : tires) {
+            if (component == null) {
+                throw new IllegalArgumentException("Tire can't be null");
+            }
+        }
+
+        for (AbstractComponent component : brakes) {
+            if (component == null) {
+                throw new IllegalArgumentException("Brake can't be null");
+            }
+        }
+
+        for (AbstractComponent component : suspension) {
+            if (component == null) {
+                throw new IllegalArgumentException("Suspension can't be null");
+            }
+        }
+    }
+
+    private void validateFuel(int fuel) {
+        if (fuel < MIN_FUEL || fuel > maxFuel) {
+            throw new IllegalArgumentException("Fuel must be between " + MIN_FUEL + " and " + maxFuel);
+        }
+    }
+
+    private boolean isSpecifiedComponent(WheelMountedComponent component, CarAxis axle, CarSides side) {
+        return component.getAxle() == axle && component.getSide() == side;
+    }
+
+    private WheelMountedComponent getComponentByPosition(WheelMountedComponent[] components, CarAxis axle, CarSides side) {
+        for (WheelMountedComponent component : components) {
+            if (isSpecifiedComponent(component, axle, side)) {
+                return component;
+            }
+        }
+        return null;
+    }
+
+    private WheelMountedComponent getComponentFL(WheelMountedComponent[] components) {
+        return getComponentByPosition(components, CarAxis.FRONT, CarSides.LEFT);
+    }
+
+    private WheelMountedComponent getComponentFR(WheelMountedComponent[] components) {
+        return getComponentByPosition(components, CarAxis.FRONT, CarSides.RIGHT);
+    }
+
+    private WheelMountedComponent getComponentRL(WheelMountedComponent[] components) {
+        return getComponentByPosition(components, CarAxis.REAR, CarSides.LEFT);
+    }
+
+    private WheelMountedComponent getComponentRR(WheelMountedComponent[] components) {
+        return getComponentByPosition(components, CarAxis.REAR, CarSides.RIGHT);
+    }
+
+    private void degradeBySide(float delta, WheelMountedComponent[] components, Map<CarSides, Float> sides) {
+        WheelMountedComponent componentFL = getComponentFL(components);
+        WheelMountedComponent componentFR = getComponentFR(components);
+        WheelMountedComponent componentRL = getComponentRL(components);
+        WheelMountedComponent componentRR = getComponentRR(components);
+
+        assert componentFL != null;
+        assert componentFR != null;
+        assert componentRL != null;
+        assert componentRR != null;
+
+        componentFL.degrade(delta, sides.get(CarSides.LEFT));
+        componentFR.degrade(delta, sides.get(CarSides.RIGHT));
+        componentRL.degrade(delta, sides.get(CarSides.LEFT));
+        componentRR.degrade(delta, sides.get(CarSides.RIGHT));
+    }
+
+    private void degradeByImpactWheelMounted(float percentage, WheelMountedComponent[] components) {
+        for (WheelMountedComponent component : components) {
+            component.degradeByImpact(percentage);
+        }
     }
 }
