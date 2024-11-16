@@ -10,7 +10,6 @@ public abstract class AbstractComponent implements Component {
     protected float currentDurability;
     protected List<Effect> effects;
     protected float wearFactor;
-    protected static final float MIN_DELTA = 1f/30f;
 
     public AbstractComponent(String name, float weight, float maxDurability,
                              float currentDurability, List<Effect> effects, float wearFactor) {
