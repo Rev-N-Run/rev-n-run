@@ -52,7 +52,7 @@ public class AbstractComponentTest {
     public void checkDegradeByCollision() {
         final float collisionDamage = .5f;
 
-        assertDoesNotThrow(() -> component.degrade(collisionDamage));
+        assertDoesNotThrow(() -> component.degradeByImpact(collisionDamage));
         assertEquals(component.getMaxDurability() / 2, component.getCurrentDurability());
     }
 
@@ -61,7 +61,7 @@ public class AbstractComponentTest {
         // Check frontier and external frontier values
         final float[] collisionDamage = new float[]{1, 0, 1.01f, -0.1f, -1, 2};
         for (float damage : collisionDamage) {
-            assertThrows(IllegalArgumentException.class, () -> component.degrade(damage));
+            assertThrows(IllegalArgumentException.class, () -> component.degradeByImpact(damage));
             assertEquals(component.getMaxDurability(), component.getCurrentDurability());
         }
 
@@ -70,7 +70,7 @@ public class AbstractComponentTest {
         float res;
         for (float damage : collisionDamage2) {
             res = (component.getCurrentDurability() * damage);
-            assertDoesNotThrow(() -> component.degrade(damage));
+            assertDoesNotThrow(() -> component.degradeByImpact(damage));
             assertEquals(res, component.getCurrentDurability());
         }
     }

@@ -8,6 +8,6 @@ public interface Component {
     float getMaxDurability();
     float getCurrentDurability();
     List<Effect> getEffects();
-    void degrade(float percentage);
-    void degrade(float value, float delta);
+    void degradeByImpact(float percentage);
+    void degrade(float delta);
 }

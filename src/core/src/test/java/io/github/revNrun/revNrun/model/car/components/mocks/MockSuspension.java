@@ -16,7 +16,7 @@ public class MockSuspension extends Suspension implements MockComponent {
     }
 
     @Override
-    public void degrade(float percentage) {
+    public void degradeByImpact(float percentage) {
         currentDurability -= percentage;
         lastDegradation = percentage;
     }

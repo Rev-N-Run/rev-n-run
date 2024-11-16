@@ -25,7 +25,7 @@ public abstract class AbstractComponent implements Component {
     }
 
     @Override
-    public void degrade(float percentage) {
+    public void degradeByImpact(float percentage) {
         if (percentage >= 1 || percentage <= 0) {
             throw new IllegalArgumentException("Not a valid value");
         }
@@ -33,7 +33,7 @@ public abstract class AbstractComponent implements Component {
     }
 
     @Override
-    public void degrade(float value, float delta) {
+    public void degrade(float delta) {
 
     }
 

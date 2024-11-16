@@ -126,18 +126,18 @@ public class Car {
         assert componentRL != null;
         assert componentRR != null;
 
-        componentFL.degrade(sides.get(CarSides.LEFT));
-        componentFR.degrade(sides.get(CarSides.RIGHT));
-        componentRL.degrade(sides.get(CarSides.LEFT));
-        componentRR.degrade(sides.get(CarSides.RIGHT));
+        componentFL.degradeByImpact(sides.get(CarSides.LEFT));
+        componentFR.degradeByImpact(sides.get(CarSides.RIGHT));
+        componentRL.degradeByImpact(sides.get(CarSides.LEFT));
+        componentRR.degradeByImpact(sides.get(CarSides.RIGHT));
     }
 
     public void degradeEngine(float value) {
-        engine.degrade(value);
+        engine.degradeByImpact(value);
     }
 
     public void degradeChasis(float value) {
-        engine.degrade(value);
+        engine.degradeByImpact(value);
     }
 
     public void degradeTires(Map<CarSides, Float> sides) {
@@ -159,26 +159,26 @@ public class Car {
         assert brakeRL != null;
         assert brakeRR != null;
 
-        brakeFL.degrade(brakeBalance - .05f);
-        brakeFR.degrade(brakeBalance - .05f);
-        brakeRL.degrade(brakeBalance + .05f);
-        brakeRR.degrade(brakeBalance + .05f);
+        brakeFL.degradeByImpact(brakeBalance - .05f);
+        brakeFR.degradeByImpact(brakeBalance - .05f);
+        brakeRL.degradeByImpact(brakeBalance + .05f);
+        brakeRR.degradeByImpact(brakeBalance + .05f);
     }
 
     public void degradeFloor(float value) {
-        floor.degrade(value);
+        floor.degradeByImpact(value);
     }
 
     public void degradeFront(float value) {
-        front.degrade(value);
+        front.degradeByImpact(value);
     }
 
     public void degradeBack(float value) {
-        back.degrade(value);
+        back.degradeByImpact(value);
     }
 
     public void degradeSides(float value) {
-        sides.degrade(value);
+        sides.degradeByImpact(value);
     }
 
     public int getPositionX() {
