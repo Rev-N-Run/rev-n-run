@@ -48,5 +48,11 @@ public class AbstractComponentTest {
 
     }
 
+    @Test
+    public void checkDegradeByCollision() {
+        final float collisionDamage = .5f;
 
+        assertDoesNotThrow(() -> component.degrade(collisionDamage));
+        assertEquals(component.getMaxDurability() / 2, component.getCurrentDurability());
+    }
 }
