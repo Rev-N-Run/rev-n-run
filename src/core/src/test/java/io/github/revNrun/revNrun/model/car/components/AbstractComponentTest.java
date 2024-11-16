@@ -58,7 +58,7 @@ public class AbstractComponentTest {
 
     @Test
     public void invalidValuesDegrade() {
-        final float[] collisionDamage = new float[]{1, -1};
+        final float[] collisionDamage = new float[]{1, -1, 0};
 
         for (float damage : collisionDamage) {
             assertThrows(IllegalArgumentException.class, () -> component.degrade(damage));
