@@ -29,9 +29,13 @@ public class AbstractComponentTest {
         assertDoesNotThrow(() -> new AbstractComponent(name, weight, maxDurability,
             maxDurability, effects, wearFactor) {});
 
-        float badWearFactor = 1.2f;
+        float badWearFactor1 = 1.2f;
         assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, maxDurability,
-            maxDurability, effects, badWearFactor) {});
+            maxDurability, effects, badWearFactor1) {});
+
+        float badWearFactor2 = 1f;
+        assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, maxDurability,
+            maxDurability, effects, badWearFactor2) {});
     }
 
     @Test
