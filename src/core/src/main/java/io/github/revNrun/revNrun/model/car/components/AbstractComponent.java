@@ -27,9 +27,10 @@ public abstract class AbstractComponent implements Component {
 
     @Override
     public void degradeByImpact(float percentage) {
-        if (percentage >= 1 || percentage <= 0) {
+        // TODO: Assign this responsability to the controller
+        /*if (percentage >= 1 || percentage <= 0) {
             throw new IllegalArgumentException("Not a valid value");
-        }
+        }*/
         currentDurability *= percentage;
     }
 
