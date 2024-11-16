@@ -41,7 +41,7 @@ public abstract class AbstractComponent implements Component {
 
     @Override
     public void repair(float value) {
-
+        currentDurability += value;
     }
 
     public String getName() {
