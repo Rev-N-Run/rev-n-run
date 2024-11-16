@@ -208,5 +208,7 @@ public class AbstractComponentTest {
         Component component = new AbstractComponent(name, weight, maxDurability,
             maxDurability + 20, effects, wearFactor) {};
         assertEquals(maxDurability, component.getCurrentDurability());
+
+
     }
 }
