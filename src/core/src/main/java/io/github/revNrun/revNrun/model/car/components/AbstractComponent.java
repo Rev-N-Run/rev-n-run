@@ -12,8 +12,8 @@ public abstract class AbstractComponent implements Component {
     protected float wearFactor;
     protected static final float MIN_DELTA = 1f/30f;
 
-    public AbstractComponent(String name, float weight, int maxDurability,
-                             int currentDurability, List<Effect> effects, float wearFactor) {
+    public AbstractComponent(String name, float weight, float maxDurability,
+                             float currentDurability, List<Effect> effects, float wearFactor) {
         if (currentDurability <= 0 || maxDurability <= 0) {
             throw new IllegalArgumentException("Durability must be greater than 0");
         } else if (currentDurability > maxDurability) {
