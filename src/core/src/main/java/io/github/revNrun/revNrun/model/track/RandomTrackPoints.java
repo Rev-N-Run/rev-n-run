@@ -6,28 +6,56 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-//TODO javadocs comments
-public class RandomTrackPoints {
-    private static final int MIN_NUM_INITIAL_POINTS = 10;
-    private static final int MAX_NUM_INITIAL_POINTS = 40;
-    private static final float MIN_RADIUS = 100;
-    private static final float MAX_RADIUS = 150;
-    private static final float NOISE_SCALE = 0.6f;
-    private static final int MIN_NUM_OCTAVES= 1;
-    private static final int MAX_NUM_OCTAVES = 4;
-    private static final int MIN_NOISE_ITERATIONS = 1;
-    private static final int MAX_NOISE_ITERATIONS = 8;
-    private static final float TWO_PI = (float) (2 * Math.PI);
+//TODO eliminar base points masssa junts
 
-    private final Random RANDOM = new Random();
+/**
+ * <p>
+ * RandomTrackPoints generates the points of the track.
+ * All points are automatically generated when an instance is created.
+ * There are three types of points, all of them can be returned with their specific getter method.
+ * </p>
+ * <p>
+ * Initial points: These points could be compared to a 'track idea' or the track's 'general shape'. These
+ * points randomly determine the size of the track and the number of control points to create curves.
+ * </p>
+ * <p>
+ * Base points: These are a random distortion of the initial points, they're used as control points to generate
+ * the curves. The distortion from initial points is made with one or several SimplexNoise iterations. There could
+ * be not as many base points as initial points to favor smoothness.
+ * </p>
+ * <p>
+ * Points: These are the final points, the track with curves. It's the result of applying smooth interpolation
+ * to the base points.
+ * </p>
+ */
+public class RandomTrackPoints {
+    // The following values determine the randomness of the track
+    private static final int MIN_NUM_INITIAL_POINTS = 10;   // Minimum number of initial points
+    private static final int MAX_NUM_INITIAL_POINTS = 40;   // Maximum number of initial points, can't be the same as MIN_NUM_INITIAL_POINTS
+    private static final float MIN_RADIUS = 100;            // Minimum radius for the track
+    private static final float MAX_RADIUS = 150;            // Maximum radius, can't be the same as MIN_RADIUS
+    private static final float NOISE_SCALE = 0.6f;          // Noise scale: values can go from 0 to 1
+    private static final int MIN_NUM_OCTAVES = 1;           // Minimum number of octaves to calculate the distortion of the base points, minimum 1
+    private static final int MAX_NUM_OCTAVES = 4;           // Maximum number of octaves, can't be the same as MIN_NUM_OCTAVES
+    private static final int MIN_NOISE_ITERATIONS = 1;      // Minimum number of times the base points are distorted from the previous distortion
+    private static final int MAX_NOISE_ITERATIONS = 8;      // Maximum number of times the base points are distorted from the previous distortion, can't be the same as MIN_NOISE_ITERATIONS
+
+    // The following values are the final ones, calculated randomly in generateRandomness()
     private int numInitialPoints;
     private float radius;
     private static int octaves;
     private static int noiseIterations;
+
+    private static final float TWO_PI = (float) (2 * Math.PI);
+    private final Random RANDOM = new Random();
+
     private final List<Vector2> initialPoints;
     private List<Vector2> basePoints;
     private final List<Vector2> points;
 
+    /**
+     * RandomTrackPoints constructor generates the random points of the track automatically when called.
+     */
     public RandomTrackPoints() {
         initialPoints = new ArrayList<>();
         basePoints = new ArrayList<>();
@@ -66,16 +94,27 @@ public class RandomTrackPoints {
         return points;
     }
 
+    /**
+     * generateRandomness randomly calculates the final values of numInitialPoints, radius, octaves and noiseIterations,
+     * based on the declared constants. octaves and noiseIterations are calculated with the same random value as
+     * numInitialPoints, so they are relative to it.
+     */
     private void generateRandomness() {
+        radius = RANDOM.nextFloat() * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
+
+        //TODO mirar si convertir random en la mitjana del random utilitzat pel radi amb el nou random dona millors resultats
         float random = RANDOM.nextFloat();
 
         numInitialPoints = Math.round(random * (MAX_NUM_INITIAL_POINTS - MIN_NUM_INITIAL_POINTS) + MIN_NUM_INITIAL_POINTS);
-        radius = random * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
         octaves = Math.round(random * (MAX_NUM_OCTAVES - MIN_NUM_OCTAVES) + MIN_NUM_OCTAVES);
         noiseIterations = Math.round(MAX_NOISE_ITERATIONS - (random * (MAX_NOISE_ITERATIONS - MIN_NOISE_ITERATIONS)));
 
     }
 
+    /**
+     * Generates the initial points. This method is called from by the constructor and fills the initialPoints array.
+     * Right now, initial points are just a circle determined by the random radius and the random number of initial points.
+     */
     private void generateInitialPoints() {
         float angle, xBase, yBase;
         Vector2 initialPoint;
@@ -92,14 +131,27 @@ public class RandomTrackPoints {
         }
     }
 
+    /**
+     * generateBasePoints applies SimplexNoise to the given points. It's used to generate the base points
+     * from the previous base points list.
+     * @param controlPoints Vector2 list containing all points to be distorted by SimplexNoise.
+     * @return Vector2 List containing only the generated points.
+     */
     private List<Vector2> generateBasePoints(List<Vector2> controlPoints) {
         List<Vector2> points = new ArrayList<>();
-        for(Vector2 controlPoint : controlPoints) {
+        for (Vector2 controlPoint : controlPoints) {
             points.add(displacePoint(controlPoint));
         }
         return points;
     }
 
+    /**
+     * displacePoint applies SimplexNoise to a given point. It applies a given number of octaves (minimum 1).
+     * Octaves are combined to generate a smoother result, so as more octaves we use, smoother and natural
+     * results we'll get.
+     * @param initialPoint Vector2 point to be distorted.
+     * @return Vector2 distorted point.
+     */
     private Vector2 displacePoint(Vector2 initialPoint) {
         float xBase = initialPoint.getX(), yBase = initialPoint.getY();
         float xNoise = 0, yNoise = 0;
@@ -131,6 +183,10 @@ public class RandomTrackPoints {
         );
     }
 
+    /**
+     * Given the base points, generates the final points using the TrackSmoothing class.
+     * The method adds the base control points and their generated interpolations to the points list.
+     */
     private void generatePoints() {
         /* As Catmull-Rom implementation uses first and last control points as direction guides and
         doesn't generate interpolations for their segments, we add to the basePoints the second last and second
