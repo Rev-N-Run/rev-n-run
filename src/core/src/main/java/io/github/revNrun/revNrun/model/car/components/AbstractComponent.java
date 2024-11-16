@@ -45,6 +45,8 @@ public abstract class AbstractComponent implements Component {
             currentDurability = maxDurability;
         } else if (currentDurability + value > maxDurability) {
             currentDurability = maxDurability;
+        } else if (value <= 0) {
+            throw new IllegalArgumentException("Value cannot be less than 0");
         } else {
             currentDurability += value;
         }
