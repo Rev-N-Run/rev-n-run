@@ -446,4 +446,21 @@ public class CarTest {
 
         assertEquals(expected, carWithEffects.getSpeed());
     }
+
+    @Test
+    public void accelerateToMaximumAndKeep() {
+        float delta = 0.1f;
+        while(carWithEffects.getSpeed() < carWithEffects.getMaxSpeed()) {
+            carWithEffects.accelerate(delta);
+        }
+
+        float expected = carWithEffects.getMaxSpeed();
+
+        assertEquals(expected, carWithEffects.getSpeed());
+
+        for (int i = 0; i < 10000; i++) {
+            carWithEffects.accelerate(delta);
+            assertEquals(expected, carWithEffects.getSpeed());
+        }
+    }
 }
