@@ -3,7 +3,6 @@ package io.github.revNrun.revNrun.model.car;
 import io.github.revNrun.revNrun.model.car.components.*;
 import io.github.revNrun.revNrun.model.car.components.enums.CarAxis;
 import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
-import io.github.revNrun.revNrun.model.car.components.enums.EffectType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +11,15 @@ import java.util.Map;
 public class Car {
     private static final int N_TIRES = 4;
     private static final int MIN_FUEL = 0;
+    private static final float GRIP_INFLUENCE = 0.8f;
+    private static final float MIN_GRIP_MULTIPLIER = 0.2f;
 
     private int positionX = 0;
     private int positionY = 0;
-    private int speed = 0;
-    private int maxSpeed = 100;
+    private float speed = 0;
+    private float maxSpeed = 100;
     private int maxFuel = 100;
-    private int fuel = 100;
+    private float fuel = 100;
     private float weight;
     private Engine engine;
     private Chassis chassis;
@@ -35,7 +36,7 @@ public class Car {
     private float grip = 0;
 
     public Car(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
-               Floor floor, Front front, Back back, Sides sides, int fuel) {
+               Floor floor, Front front, Back back, Sides sides, float fuel) {
         validateComponents(engine, chassis, tires, suspension, brakes, floor, front, back, sides);
         validateFuel(fuel);
 
@@ -51,6 +52,10 @@ public class Car {
         this.fuel = fuel;
 
         setAttributes();
+    }
+
+    public void accelerate(float delta) {
+
     }
 
     private float getWheelMountedComponentsWeight(WheelMountedComponent[] components) {
@@ -188,15 +193,15 @@ public class Car {
         return positionY;
     }
 
-    public int getSpeed() {
+    public float getSpeed() {
         return speed;
     }
 
-    public int getMaxSpeed() {
+    public float getMaxSpeed() {
         return maxSpeed;
     }
 
-    public int getFuelLevel() {
+    public float getFuelLevel() {
         return fuel;
     }
 
@@ -238,10 +243,6 @@ public class Car {
 
     public float getWeight() {
         return weight;
-    }
-
-    public int getFuel() {
-        return fuel;
     }
 
     public float getBrakePower() {
@@ -291,7 +292,7 @@ public class Car {
         }
     }
 
-    private void validateFuel(int fuel) {
+    private void validateFuel(float fuel) {
         if (fuel < MIN_FUEL || fuel > maxFuel) {
             throw new IllegalArgumentException("Fuel must be between " + MIN_FUEL + " and " + maxFuel);
         }
