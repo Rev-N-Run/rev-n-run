@@ -55,7 +55,8 @@ public class Car {
     }
 
     public void accelerate(float delta) {
-        speed += acceleration * delta;
+        float newSpeed = speed + delta;
+        speed = Math.min(newSpeed, maxSpeed);
     }
 
     private float getWheelMountedComponentsWeight(WheelMountedComponent[] components) {
