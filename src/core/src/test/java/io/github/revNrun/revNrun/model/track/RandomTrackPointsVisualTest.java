@@ -72,7 +72,7 @@ public class Main extends ApplicationAdapter {
             float y = point.getY() + Gdx.graphics.getHeight() / 2f;
 
             // Dibuja cada punto como un pequeño círculo
-            shapeRenderer.circle(x, y, 2);
+            shapeRenderer.circle(x, y, 1);
         }
 
         shapeRenderer.end();
@@ -90,7 +90,7 @@ public class Main extends ApplicationAdapter {
             float y = point.getY() + Gdx.graphics.getHeight() / 2f;
 
             // Dibuja cada punto como un pequeño círculo
-            shapeRenderer.circle(x, y, 3);
+            shapeRenderer.circle(x, y, 1);
         }
 
         shapeRenderer.end();

@@ -1,30 +1,67 @@
 package io.github.revNrun.revNrun.model.track;
 
-// classic SimplexNoise implementation, keeping it simple and using array instead of objects for better game performance
+/**
+ * A simple implementation of 2D Simplex Noise, optimized for game performance.
+ * Simplex Noise generates smooth, natural-looking noise patterns suitable for procedural
+ * content generation such as terrain, textures, and tracks.
+ * <p>This implementation avoids object overhead by using arrays and pre-calculated constants.</p>
+ */
 class SimplexNoise {
 
+    /**
+     * Gradient vectors for Simplex Noise calculations.
+     */
     private static final int[][] grad3 = {{1, 1, 0}, {-1, 1, 0}, {1, -1, 0}, {-1, -1, 0}, {1, 0, 1}, {-1, 0, 1}, {1, 0, -1}, {-1, 0, -1}, {0, 1, 1}, {0, -1, 1}, {0, 1, -1}, {0, -1, -1}};
 
+    /**
+     * Permutation table for hashing coordinates. This is a pre-defined pseudo-random sequence.
+     */
     private static final int[] p = {151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169, 200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64, 52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59, 227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9, 129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104, 218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241, 81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180};
 
+    /**
+     * Permutation table doubled to avoid modulo operations.
+     */
     private static final int[] perm = new int[512];
 
-    // Pre-calculated constants for better performance
+    /**
+     * Skewing and unskewing factors for 2D simplex grid.
+     */
     private static final float F2 = 0.5f * ((float)Math.sqrt(3.0f) - 1.0f);
     private static final float G2 = (3.0f - (float)Math.sqrt(3.0f)) / 6.0f;
 
+    // Static initializer to fill the perm array
     static {
         for (int i = 0; i < 512; i++) perm[i] = p[i & 255];
     }
 
+    /**
+     * Fast floor function that computes the largest integer less than or equal to a given float.
+     *
+     * @param x the input float.
+     * @return the largest integer less than or equal to {@code x}.
+     */
     private static int fastfloor(float x) {
         return x > 0 ? (int) x : (int) x - 1;
     }
 
+    /**
+     * Computes the dot product of a gradient vector and the vector formed by x and y.
+     *
+     * @param g the gradient vector.
+     * @param x the x-coordinate of the input vector.
+     * @param y the y-coordinate of the input vector.
+     * @return the dot product.
+     */
     private static float dot(int[] g, float x, float y) {
         return g[0] * x + g[1] * y;
     }
 
+    /**
+     * Generates 2D Simplex Noise at the specified coordinates.
+     * @param xin the x-coordinate.
+     * @param yin the y-coordinate.
+     * @return the noise value, in the range [-1, 1].
+     */
     static float noise(float xin, float yin) {
         float n0, n1, n2;
         float s = (xin + yin) * F2;
