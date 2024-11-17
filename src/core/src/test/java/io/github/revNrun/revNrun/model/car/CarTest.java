@@ -378,7 +378,7 @@ public class CarTest {
 
         car = new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, sides, fuel);
 
-        float expectedSpeed = car.getSpeed();
+        float expectedSpeed = car.getMaxSpeed();
         float expectedGrip = 0;
         float expectedBrake = 0;
         float expectedAcceleration = 0;
