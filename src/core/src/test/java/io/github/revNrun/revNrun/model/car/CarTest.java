@@ -486,4 +486,21 @@ public class CarTest {
 
         assertEquals(expected, carWithEffects.getSpeed());
     }
+
+    @Test
+    public void reverseToMaximumAndKeep() {
+        float delta = 0.1f;
+        while(carWithEffects.getSpeed() > carWithEffects.getMaxReverseSpeed()) {
+            carWithEffects.brakeAndReverse(delta);
+        }
+
+        float expected = carWithEffects.getMaxReverseSpeed();
+
+        assertEquals(expected, carWithEffects.getSpeed());
+
+        for (int i = 0; i < 10000; i++) {
+            carWithEffects.brakeAndReverse(delta);
+            assertEquals(expected, carWithEffects.getSpeed());
+        }
+    }
 }
