@@ -45,6 +45,14 @@ public class CarTest {
     }
 
     private static Brakes[] getBrakes() {
+        Brakes brakeFL = new Brakes("brakeFL", 5f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
+        Brakes brakeFR = new Brakes("brakeFR", 5f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Brakes brakeRL = new Brakes("brakeRL", 5f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
+        Brakes brakeRR = new Brakes("brakeRR", 5f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
+        return new Brakes[]{brakeFL, brakeFR, brakeRL, brakeRR};
+    }
+
+    private static Brakes[] getBrakesWithEffects() {
         Effect brake15 = new Effect(EffectType.BRAKE, 15);
         List<Effect> brakesEffects = new ArrayList<>(Arrays.asList(brake15));
 
@@ -57,6 +65,14 @@ public class CarTest {
     }
 
     private static Tires[] getTires() {
+        Tires tireFL = new Tires("tireFL", 20f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
+        Tires tireFR = new Tires("tireFR", 20f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Tires tireRL = new Tires("tireRL", 20f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
+        Tires tireRR = new Tires("tireRR", 20f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
+        return new Tires[]{tireFL, tireFR, tireRL, tireRR};
+    }
+
+    private static Tires[] getTiresWithEffects() {
         Effect grip10 = new Effect(EffectType.GRIP, 10);
         Effect brake3 = new Effect(EffectType.BRAKE, 3);
         Effect maxSpeedMinus2 = new Effect(EffectType.MAX_SPEED, -2);
@@ -73,6 +89,14 @@ public class CarTest {
     }
 
     private static Suspension[] getSuspensions() {
+        Suspension suspensionFL = new Suspension("suspensionFL", 25f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
+        Suspension suspensionFR = new Suspension("suspensionFR", 25f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Suspension suspensionRL = new Suspension("suspensionRL", 25f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
+        Suspension suspensionRR = new Suspension("suspensionRR", 25f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
+        return new Suspension[]{suspensionFL, suspensionFR, suspensionRL, suspensionRR};
+    }
+
+    private static Suspension[] getSuspensionsWithEffects() {
         Effect grip3 = new Effect(EffectType.GRIP, 3);
         Effect brake3 = new Effect(EffectType.BRAKE, 3);
         Effect acceleration1 = new Effect(EffectType.ACCELERATION, 1);
@@ -367,16 +391,14 @@ public class CarTest {
 
         engine = new Engine("engine1", 200f, 100, 100, engineEffects, .1f);
         chassis = new Chassis("chasis1", 500f, 100, 100, chassisEffects, .1f);
-        tires = getTires();
-        suspensions = getSuspensions();
-        brakes = getBrakes();
+        tires = getTiresWithEffects();
+        suspensions = getSuspensionsWithEffects();
+        brakes = getBrakesWithEffects();
         floor = new Floor("floor", 20f, 100, 100, floorEffects, .1f);
         front = new Front("front", 20f, 100, 100, frontEffects, .1f);
         back = new Back("back", 20f, 100, 100, backEffects, .1f);
         sides = new Sides("sides", 20f, 100, 100, sidesEffects, .1f);
         fuel = 100;
-
-        car = new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, sides, fuel);
 
         float expectedSpeed = car.getMaxSpeed();
         float expectedGrip = 0;
@@ -385,6 +407,8 @@ public class CarTest {
         float expectedWeight = engine.getWeight() + chassis.getWeight() + tires[0].getWeight() * 4 +
             suspensions[0].getWeight() * 4 + brakes[0].getWeight() * 4 + floor.getWeight() + front.getWeight() +
             back.getWeight() + sides.getWeight();
+
+        car = new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, sides, fuel);
 
         List<Effect> effects = new ArrayList<>();
         effects.addAll(engineEffects);
