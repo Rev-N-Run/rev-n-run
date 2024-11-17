@@ -55,7 +55,7 @@ public class Car {
     }
 
     public void accelerate(float delta) {
-        float newSpeed = speed + delta;
+        float newSpeed = speed + acceleration * delta;
         speed = Math.min(newSpeed, maxSpeed);
     }
 
