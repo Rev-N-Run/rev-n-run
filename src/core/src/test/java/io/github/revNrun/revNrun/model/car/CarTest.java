@@ -378,7 +378,7 @@ public class CarTest {
 
         car = new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, sides, fuel);
 
-        float expectedSpeed = 0;
+        float expectedSpeed = car.getSpeed();
         float expectedGrip = 0;
         float expectedBrake = 0;
         float expectedAcceleration = 0;
@@ -437,5 +437,6 @@ public class CarTest {
         assertEquals(expectedSpeed, car.getMaxSpeed());
         assertEquals(expectedGrip, car.getGrip());
         assertEquals(expectedBrake, car.getBrakePower());
+        assertEquals(expectedWeight, car.getWeight());
     }
 }
