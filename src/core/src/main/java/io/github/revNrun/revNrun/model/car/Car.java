@@ -30,10 +30,10 @@ public class Car {
     private Sides sides;
     private float brakeBalance = .5f;
     private float brakePower = 0;
-    private float acceleration = 0;
+    private float acceleration;
     private float grip = 0;
-    private float maxReverseSpeed = -maxSpeed / 4f;
-    private float reverseAcceleration = acceleration / 4f;
+    private float maxReverseSpeed;
+    private float reverseAcceleration;
 
     public Car(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
                Floor floor, Front front, Back back, Sides sides, float fuel) {
@@ -120,6 +120,9 @@ public class Car {
                     break;
             }
         }
+
+        maxReverseSpeed = -maxSpeed / 4f;
+        reverseAcceleration = acceleration / 4f;
     }
 
     public void degradeEngine(float delta) {

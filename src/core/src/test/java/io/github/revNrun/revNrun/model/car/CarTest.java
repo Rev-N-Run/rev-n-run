@@ -475,5 +475,15 @@ public class CarTest {
         carWithEffects.brakeAndReverse(delta);
 
         assertEquals(expected, carWithEffects.getSpeed());
+
+        while (carWithEffects.getSpeed() > 0) {
+            carWithEffects.brakeAndReverse(delta);
+        }
+
+        expected = carWithEffects.getSpeed() - (carWithEffects.getReverseAcceleration()) * delta;
+
+        carWithEffects.brakeAndReverse(delta);
+
+        assertEquals(expected, carWithEffects.getSpeed());
     }
 }
