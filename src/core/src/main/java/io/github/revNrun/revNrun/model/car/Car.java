@@ -3,7 +3,10 @@ package io.github.revNrun.revNrun.model.car;
 import io.github.revNrun.revNrun.model.car.components.*;
 import io.github.revNrun.revNrun.model.car.components.enums.CarAxis;
 import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
+import io.github.revNrun.revNrun.model.car.components.enums.EffectType;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Car {
@@ -16,7 +19,7 @@ public class Car {
     private int maxSpeed = 100;
     private int maxFuel = 100;
     private int fuel = 100;
-    private float weight = 0;
+    private float weight;
     private Engine engine;
     private Chassis chassis;
     private Tires[] tires;
@@ -27,6 +30,9 @@ public class Car {
     private Back back;
     private Sides sides;
     private float brakeBalance = .5f;
+    private float brakePower = 0;
+    private float acceleration = 0;
+    private float grip = 0;
 
     public Car(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
                Floor floor, Front front, Back back, Sides sides, int fuel) {
@@ -43,6 +49,66 @@ public class Car {
         this.back = back;
         this.sides = sides;
         this.fuel = fuel;
+
+        setAttributes();
+    }
+
+    private float getWheelMountedComponentsWeight(WheelMountedComponent[] components) {
+        float weight = 0;
+
+        for (Component component : components) {
+            weight += component.getWeight();
+        }
+
+        return weight;
+    }
+
+    private float getWeightSum() {
+        return engine.getWeight() + chassis.getWeight() + getWheelMountedComponentsWeight(tires) +
+            getWheelMountedComponentsWeight(suspension) + getWheelMountedComponentsWeight(brakes) +
+            floor.getWeight() + front.getWeight() + back.getWeight() + sides.getWeight();
+    }
+
+    private List<Effect> getWheelMountedComponentEffects(WheelMountedComponent[] components) {
+        ArrayList<Effect> effects = new ArrayList<>();
+
+        for (WheelMountedComponent component : components) {
+            effects.addAll(component.getEffects());
+        }
+
+        return effects;
+    }
+
+    private void setAttributes() {
+        weight = getWeightSum();
+        List<Effect> effects = new ArrayList<>();
+        effects.addAll(engine.getEffects());
+        effects.addAll(chassis.getEffects());
+        effects.addAll(getWheelMountedComponentEffects(tires));
+        effects.addAll(getWheelMountedComponentEffects(suspension));
+        effects.addAll(getWheelMountedComponentEffects(brakes));
+        effects.addAll(floor.getEffects());
+        effects.addAll(front.getEffects());
+        effects.addAll(back.getEffects());
+        effects.addAll(sides.getEffects());
+
+
+        for (Effect effect : effects) {
+            switch (effect.getEffect()) {
+                case GRIP:
+                    grip += effect.getValue();
+                    break;
+                case MAX_SPEED:
+                    maxSpeed += effect.getValue();
+                    break;
+                case ACCELERATION:
+                    acceleration += effect.getValue();
+                    break;
+                case BRAKE:
+                    brakePower += effect.getValue();
+                    break;
+            }
+        }
     }
 
     public void degradeEngine(float delta) {
@@ -172,6 +238,22 @@ public class Car {
 
     public float getWeight() {
         return weight;
+    }
+
+    public int getFuel() {
+        return fuel;
+    }
+
+    public float getBrakePower() {
+        return brakePower;
+    }
+
+    public float getAcceleration() {
+        return acceleration;
+    }
+
+    public float getGrip() {
+        return grip;
     }
 
     private void validateComponents(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
