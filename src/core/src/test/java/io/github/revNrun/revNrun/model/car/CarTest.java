@@ -463,4 +463,17 @@ public class CarTest {
             assertEquals(expected, carWithEffects.getSpeed());
         }
     }
+
+    @Test
+    public void brakeAndReverse() {
+        float delta = 0.1f;
+        for (int i = 0; i < 20; i++) {
+            carWithEffects.accelerate(delta);
+        }
+        float expected = (carWithEffects.getSpeed() / 4f ) * delta;
+
+        carWithEffects.brakeAndReverse(delta);
+
+        assertEquals(expected, carWithEffects.getSpeed());
+    }
 }

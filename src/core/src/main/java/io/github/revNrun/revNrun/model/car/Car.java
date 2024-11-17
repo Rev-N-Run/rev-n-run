@@ -11,8 +11,6 @@ import java.util.Map;
 public class Car {
     private static final int N_TIRES = 4;
     private static final int MIN_FUEL = 0;
-    private static final float GRIP_INFLUENCE = 0.8f;
-    private static final float MIN_GRIP_MULTIPLIER = 0.2f;
 
     private int positionX = 0;
     private int positionY = 0;
@@ -34,6 +32,8 @@ public class Car {
     private float brakePower = 0;
     private float acceleration = 0;
     private float grip = 0;
+    private final float maxReverseSpeed = maxSpeed / 4f;
+    private final float reverseAcceleration = acceleration / 4f;
 
     public Car(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
                Floor floor, Front front, Back back, Sides sides, float fuel) {
@@ -57,6 +57,10 @@ public class Car {
     public void accelerate(float delta) {
         float newSpeed = speed + acceleration * delta;
         speed = Math.min(newSpeed, maxSpeed);
+    }
+
+    public void brakeAndReverse(float delta) {
+
     }
 
     private float getWheelMountedComponentsWeight(WheelMountedComponent[] components) {
