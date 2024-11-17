@@ -440,6 +440,10 @@ public class CarTest {
 
     @Test
     public void accelerate() {
+        float delta = 0.1f;
+        float expected = 15 * 0.1f;
+        carWithEffects.accelerate(delta);
 
+        assertEquals(expected, carWithEffects.getSpeed());
     }
 }
