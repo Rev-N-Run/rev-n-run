@@ -470,7 +470,7 @@ public class CarTest {
         for (int i = 0; i < 20; i++) {
             carWithEffects.accelerate(delta);
         }
-        float expected = (carWithEffects.getSpeed() / 4f ) * delta;
+        float expected = carWithEffects.getSpeed() - (carWithEffects.getReverseAcceleration()) * delta;
 
         carWithEffects.brakeAndReverse(delta);
 
