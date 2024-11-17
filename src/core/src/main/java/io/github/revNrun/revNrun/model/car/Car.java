@@ -32,8 +32,8 @@ public class Car {
     private float brakePower = 0;
     private float acceleration = 0;
     private float grip = 0;
-    private final float maxReverseSpeed = maxSpeed / 4f;
-    private final float reverseAcceleration = acceleration / 4f;
+    private float maxReverseSpeed = -maxSpeed / 4f;
+    private float reverseAcceleration = acceleration / 4f;
 
     public Car(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
                Floor floor, Front front, Back back, Sides sides, float fuel) {
@@ -60,7 +60,8 @@ public class Car {
     }
 
     public void brakeAndReverse(float delta) {
-
+        float newSpeed = speed - reverseAcceleration * delta;
+        speed = Math.max(newSpeed, maxReverseSpeed);
     }
 
     private float getWheelMountedComponentsWeight(WheelMountedComponent[] components) {
