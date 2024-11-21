@@ -28,15 +28,16 @@ import java.util.Random;
  */
 public class RandomTrackPoints {
     // The following values determine the randomness of the track
-    private static final int MIN_NUM_INITIAL_POINTS = 10;   // Minimum number of initial points
-    private static final int MAX_NUM_INITIAL_POINTS = 40;   // Maximum number of initial points, can't be the same as MIN_NUM_INITIAL_POINTS
-    private static final float MIN_RADIUS = 200;            // Minimum radius for the track
+    private static final int MIN_NUM_INITIAL_POINTS = 20;   // Minimum number of initial points
+    private static final int MAX_NUM_INITIAL_POINTS = 100;   // Maximum number of initial points, can't be the same as MIN_NUM_INITIAL_POINTS
+    private static final float MIN_RADIUS = 100;            // Minimum radius for the track
     private static final float MAX_RADIUS = 250;            // Maximum radius, can't be the same as MIN_RADIUS
-    private static final float NOISE_SCALE = 0.6f;          // Noise scale: values can go from 0 to 1
+    private static final float NOISE_SCALE = 360f;          // Noise scale: values can go from 0 to 1
     private static final int MIN_NUM_OCTAVES = 1;           // Minimum number of octaves to calculate the distortion of the base points, minimum 1
-    private static final int MAX_NUM_OCTAVES = 4;           // Maximum number of octaves, can't be the same as MIN_NUM_OCTAVES
+    private static final int MAX_NUM_OCTAVES = 2;           // Maximum number of octaves, can't be the same as MIN_NUM_OCTAVES
     private static final int MIN_NOISE_ITERATIONS = 1;      // Minimum number of times the base points are distorted from the previous distortion
-    private static final int MAX_NOISE_ITERATIONS = 8;      // Maximum number of times the base points are distorted from the previous distortion, can't be the same as MIN_NOISE_ITERATIONS
+    private static final int MAX_NOISE_ITERATIONS = 4;      // Maximum number of times the base points are distorted from the previous distortion, can't be the same as MIN_NOISE_ITERATIONS
+    private static final int CONTROL_POINT_MIN_DISTANCE = 30;
 
     // The following values are the final ones, calculated randomly in generateRandomness()
     private int numInitialPoints;
@@ -63,12 +64,12 @@ public class RandomTrackPoints {
         this.generateRandomness();
 
         // Generate the initial points (basics)
-        // Base points (randomized by SimplexNoise) are also generated from the initial points (first noise iteration)
         this.generateInitialPoints();
 
-        // Generate again the base points, from the past base points, so there's more even more noise (second and higher noise iterations)
-        for (int i = 0; i < noiseIterations - 1; i++) {
-            basePoints = generateBasePoints(basePoints);
+        // Generate the base points from the initial base points, further iterations generate base points from previous base points
+        for (int i = 0; i <= noiseIterations - 1; i++) {
+            if (i > 0) basePoints = generateBasePoints(basePoints);
+            else basePoints = generateBasePoints(initialPoints);
         }
 
         // Add the first initialPoint as the last point too
@@ -128,21 +129,69 @@ public class RandomTrackPoints {
             initialPoint = new Vector2(xBase, yBase);
 
             initialPoints.add(initialPoint);
-            basePoints.add(displacePoint(initialPoint));
         }
     }
 
     /**
      * generateBasePoints applies SimplexNoise to the given points. It's used to generate the base points
-     * from the previous base points list.
+     * from the previous base points list. The method also ensures that there aren't too closed angles.
+     *
      * @param controlPoints Vector2 list containing all points to be distorted by SimplexNoise.
      * @return Vector2 List containing only the generated points.
      */
     private List<Vector2> generateBasePoints(List<Vector2> controlPoints) {
         List<Vector2> points = new ArrayList<>();
+        //List<Vector2> adjustedPoints = new ArrayList<>();
+
+        // Generate the base points
         for (Vector2 controlPoint : controlPoints) {
             points.add(displacePoint(controlPoint));
         }
+
+        /*
+        // Adjust the base points that produce too closed angles.
+        Vector2 prev, current, next;
+        float angle;
+        int attempts;
+        for (int i = 1; i < points.size() - 1; i++) {
+            prev = points.get(i - 1);
+            current = points.get(i);
+            next = points.get(i + 1);
+            angle = Vector2.calculateAngle(prev, current, next);    // Calculates the angles formed on the middle point
+            attempts = 0;
+            while (angle < minAngle && attempts < MAX_NOISE_ATTEMPTS) {
+                current = displacePoint(current);
+                angle = Vector2.calculateAngle(prev, current, next);
+                attempts++;
+            }
+            if (attempts < MAX_NOISE_ATTEMPTS) adjustedPoints.add(current); // If it hasn't been possible to adjust the point, just don't add it.
+
+            if (angle > minAngle) adjustedPoints.add(current); // If it hasn't been possible to adjust the point, just don't add it.
+        }
+        return adjustedPoints;
+
+         */
+
+
+
+        Vector2 prev2, prev, current, next, next2;
+        float dp2,dp, dn, dn2;
+        for (int i = points.size() - 1; i >= 0; i--) {
+            prev2 = i < 2 ? points.get(points.size() - 2 + i) : points.get(i - 2);                      // i == 0: second last, i == 1: last, i == 2: first...
+            prev = i == 0 ? points.get(points.size() - 1) : points.get(i - 1);                          // i == 0: last, i == 1: first...
+            current = points.get(i);
+            next = i == points.size() - 1 ? points.get(0) : points.get(i + 1);                          // ..., i == second last: last, i == last: first
+            next2 = i > points.size() - 3 ? points.get(i - points.size() + 2) : points.get(i + 2);     // ..., i == second last: first, i == last: second
+
+            dp2 = current.distance(prev2);
+            dp = current.distance(prev);
+            dn = current.distance(next);
+            dn2 = current.distance(next2);
+
+            if (dp2 < CONTROL_POINT_MIN_DISTANCE || dp < CONTROL_POINT_MIN_DISTANCE || dn < CONTROL_POINT_MIN_DISTANCE || dn2 < CONTROL_POINT_MIN_DISTANCE) points.remove(i);
+        }
+
+
         return points;
     }
 
@@ -150,20 +199,27 @@ public class RandomTrackPoints {
      * displacePoint applies SimplexNoise to a given point. It applies a given number of octaves (minimum 1).
      * Octaves are combined to generate a smoother result, so as more octaves we use, smoother and natural
      * results we'll get.
+     *
      * @param initialPoint Vector2 point to be distorted.
      * @return Vector2 distorted point.
      */
     private Vector2 displacePoint(Vector2 initialPoint) {
         float xBase = initialPoint.getX(), yBase = initialPoint.getY();
-        float xNoise = 0, yNoise = 0;
+        float noise, xNoise = 0, yNoise = 0;
         float freq, amplitude;
-        float rndSeed = RANDOM.nextFloat() * 1000;
+        //float rndSeed = 1;
 
-        // Sum of 3 noise octaves
-        for (int octave = 0; octave < octaves; octave++) {
-            freq = (float) Math.pow(2, octave);
-            amplitude = (float) Math.pow(0.5, octave);
+        // Sum of noise octaves
+        for (int octave = 1; octave <= octaves; octave++) {
+            freq = (float) Math.pow(0.1, octave);
+            amplitude = (float) Math.pow(10, octave);
 
+
+            noise = SimplexNoise.noise(xBase * freq, yBase * freq) * amplitude;
+            xNoise += (float) Math.cos(noise * NOISE_SCALE);
+            yNoise += (float) Math.sin(noise * NOISE_SCALE);
+
+            /*
             xNoise += SimplexNoise.noise(
                 (xBase * NOISE_SCALE + rndSeed) * freq,
                 (yBase * NOISE_SCALE) * freq
@@ -173,10 +229,12 @@ public class RandomTrackPoints {
                 (yBase * NOISE_SCALE + rndSeed) * freq,
                 (xBase * NOISE_SCALE) * freq
             ) * amplitude;
+
+             */
         }
 
         // Apply the noise with a variable distortionFactor
-        float distortionFactor = 0.15f; // Need to find the best value between 0 and 1
+        float distortionFactor = 0.1f; // Need to find the best value between 0 and 1
 
         return new Vector2(
             xBase + xNoise * radius * distortionFactor,
