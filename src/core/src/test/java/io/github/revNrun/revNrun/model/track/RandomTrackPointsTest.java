@@ -10,13 +10,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RandomTrackPointsTest {
 
+    private static RandomTrackPoints track;
     private static List<Vector2> initialPoints;
     private static List<Vector2> basePoints;
     private static List<Vector2> points;
 
     @BeforeEach
     public void setUp() {
-        RandomTrackPoints track = new RandomTrackPoints();
+        track = new RandomTrackPoints();
         initialPoints = track.getInitialPoints();
         basePoints = track.getBasePoints();
         points = track.getPoints();
@@ -140,6 +141,30 @@ class RandomTrackPointsTest {
                     assertEquals(initialPoints.get(i), initialPoints.get(j));
                 }
                 assertNotEquals(initialPoints.get(i), initialPoints.get(j));
+            }
+        }
+    }
+
+    @Test
+    public void testBaseControlPointsMinDistance() {
+        for (int i = 0; i < basePoints.size() - 1; i++) {
+            for (int j = i + 1; j < basePoints.size(); j++) {
+                if (j == basePoints.size() - 1) {
+                    // Last point can't be tested cause is forced to be the same as the first point
+                    continue;
+                }
+                assertTrue(basePoints.get(i).distance(basePoints.get(j)) >= track.getControlPointMinDistance());
+            }
+        }
+    }
+
+    @Test
+    public void testNoIntersections() {
+        // Again, not testing the last point (it does not intersect, but a point that lies on another segment
+        // is also considered as intersecting)
+        for(int i = 0; i < basePoints.size() - 2; i++) {
+            for (int j = i + 2; j < basePoints.size() - 2; j++) {
+                assertFalse(Vector2.doIntersect(basePoints.get(i), basePoints.get(i + 1), basePoints.get(j), basePoints.get(j + 1)));
             }
         }
     }
