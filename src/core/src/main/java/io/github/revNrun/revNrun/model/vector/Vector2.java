@@ -120,6 +120,52 @@ public class Vector2 {
     }
 
     /**
+     * Checks if a point is near a segment within a given minimum distance.
+     *
+     * @param p the starting point of the segment
+     * @param q the point to check
+     * @param r the ending point of the segment
+     * @param minDistance the minimum distance threshold
+     * @return true if the point is near the segment, false otherwise
+     */
+    private static boolean nearSegment(Vector2 p, Vector2 q, Vector2 r, float minDistance) {
+        // Calculate the components of the line (p-r)
+        double dx = r.x - p.x;
+        double dy = r.y - p.y;
+
+        // Handle degenerate case where p and r are the same point
+        if (dx == 0 && dy == 0) {
+            double distToP = Math.sqrt((q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y));
+            return distToP <= minDistance;
+        }
+
+        // Calculate the perpendicular distance from q to the line p-r
+        double numerator = Math.abs(dy * q.x - dx * q.y + r.x * p.y - r.y * p.x);
+        double denominator = Math.sqrt(dx * dx + dy * dy);
+        double perpDistance = numerator / denominator;
+
+        // If the perpendicular distance is more than minDistance, point is too far
+        if (perpDistance > minDistance) {
+            return false;
+        }
+
+        // Check if the projection of q falls within the segment p-r
+        double dot = (q.x - p.x) * dx + (q.y - p.y) * dy;
+        double lengthSquared = dx * dx + dy * dy;
+        double t = Math.max(0, Math.min(1, dot / lengthSquared));
+
+        // Calculate the closest point on the segment
+        double closestX = p.x + t * dx;
+        double closestY = p.y + t * dy;
+
+        // Calculate the actual distance to the closest point
+        double actualDistance = Math.sqrt((q.x - closestX) * (q.x - closestX) +
+            (q.y - closestY) * (q.y - closestY));
+
+        return actualDistance <= minDistance;
+    }
+
+    /**
      * Determines if a value is effectively zero, within a small epsilon threshold.
      *
      * @param val the value to check
@@ -140,7 +186,7 @@ public class Vector2 {
      * @param q2 the second endpoint of the second segment
      * @return true if the segments intersect, false otherwise
      */
-    public static boolean doIntersect(Vector2 p1, Vector2 q1, Vector2 p2, Vector2 q2) {
+    public static boolean doIntersect(Vector2 p1, Vector2 q1, Vector2 p2, Vector2 q2, float minDistance) {
         int o1 = orientation(p1, q1, p2);
         int o2 = orientation(p1, q1, q2);
         int o3 = orientation(p2, q2, p1);
@@ -149,12 +195,18 @@ public class Vector2 {
         // General case (formal intersection)
         if (o1 != o2 && o3 != o4) return true;
 
-        // Special cases (not exactly an intersection, but one point is on a segment, so it's considered as
-        // an intersection)
+        // Special cases: not exactly an intersection, but one point is on a segment, so it's considered as
+        // an intersection
         if (o1 == 0 && onSegment(p1, p2, q1)) return true;
         if (o2 == 0 && onSegment(p1, q2, q1)) return true;
         if (o3 == 0 && onSegment(p2, p1, q2)) return true;
         if (o4 == 0 && onSegment(p2, q1, q2)) return true;
+
+        // Special cases: a point very near to a segment is also considered as an intersection
+        if (o1 == 0 && nearSegment(p1, p2, q1, minDistance)) return true;
+        if (o2 == 0 && nearSegment(p1, q2, q1, minDistance)) return true;
+        if (o3 == 0 && nearSegment(p2, p1, q2, minDistance)) return true;
+        if (o4 == 0 && nearSegment(p2, q1, q2, minDistance)) return true;
 
         // Segments do not intersect
         return false;
@@ -173,6 +225,10 @@ public class Vector2 {
 
     public static boolean onSegmentTest(Vector2 p, Vector2 q, Vector2 r) {
         return onSegment(p, q, r);
+    }
+
+    public static boolean nearSegmentTest(Vector2 p, Vector2 q, Vector2 r, float minDistance){
+        return nearSegment(p, q, r, minDistance);
     }
 
     public static int orientationTest(Vector2 p, Vector2 q, Vector2 r) {
