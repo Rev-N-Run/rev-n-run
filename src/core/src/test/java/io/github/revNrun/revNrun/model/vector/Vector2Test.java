@@ -263,24 +263,22 @@ class Vector2Test {
         // Intersecting segments
         Vector2 p1 = new Vector2(1, 1);
         Vector2 q1 = new Vector2(10, 1);
-        Vector2 p2 = new Vector2(1, 2);
-        Vector2 q2 = new Vector2(10, 2);
-        Vector2 p3 = new Vector2(5, 0);
-        Vector2 q3 = new Vector2(5, 5);
-        Vector2 p4 = new Vector2(0, 3);
-        Vector2 q4 = new Vector2(10, 3);
+        Vector2 p2 = new Vector2(5, 0);
+        Vector2 q2 = new Vector2(5, 5);
+        Vector2 p3 = new Vector2(0, 3);
+        Vector2 q3 = new Vector2(10, 3);
 
         // Normal intersection
-        assertTrue(doIntersect(p3, q3, p1, q1), "Segments should intersect");
-        assertTrue(doIntersect(p3, q3, p4, q4), "Segments should intersect");
+        assertTrue(doIntersect(p2, q2, p1, q1), "Segments should intersect");
+        assertTrue(doIntersect(p2, q2, p3, q3), "Segments should intersect");
 
         // Non-intersecting segments
-        Vector2 p5 = new Vector2(1, 1);
-        Vector2 q5 = new Vector2(2, 2);
-        Vector2 p6 = new Vector2(3, 3);
-        Vector2 q6 = new Vector2(4, 4);
+        Vector2 p4 = new Vector2(1, 1);
+        Vector2 q4 = new Vector2(2, 2);
+        Vector2 p5 = new Vector2(3, 3);
+        Vector2 q5 = new Vector2(4, 4);
 
-        assertFalse(doIntersect(p5, q5, p6, q6), "Segments should not intersect");
+        assertFalse(doIntersect(p4, q4, p5, q5), "Segments should not intersect");
     }
 
     @Test
