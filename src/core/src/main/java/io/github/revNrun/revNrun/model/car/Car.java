@@ -54,6 +54,10 @@ public class Car {
         setAttributes();
     }
 
+    public void updatePosition(float delta) {
+
+    }
+
     public void accelerate(float delta) {
         float newSpeed = speed + acceleration * delta;
         speed = Math.min(newSpeed, maxSpeed);

@@ -503,4 +503,27 @@ public class CarTest {
             assertEquals(expected, carWithEffects.getSpeed());
         }
     }
+
+    @Test
+    public void testNoMovementAtZeroSpeed() {
+        int initialX = car.getPositionX();
+        int initialY = car.getPositionY();
+
+        car.updatePosition(1);
+
+        assertEquals(initialX, car.getPositionX());
+        assertEquals(initialY, car.getPositionY());
+    }
+
+    @Test
+    public void testForwardMovement() {
+        int initialX = car.getPositionX();
+        int initialY = car.getPositionY();
+
+        car.accelerate(1);
+        car.updatePosition(1);
+        
+        assertTrue(car.getPositionX() > initialX);
+        assertEquals(initialY, car.getPositionY());
+    }
 }
