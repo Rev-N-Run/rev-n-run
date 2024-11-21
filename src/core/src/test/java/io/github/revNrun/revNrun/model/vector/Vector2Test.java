@@ -2,6 +2,7 @@ package io.github.revNrun.revNrun.model.vector;
 
 import org.junit.jupiter.api.Test;
 
+import static io.github.revNrun.revNrun.model.vector.Vector2.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class Vector2Test {
@@ -232,5 +233,65 @@ class Vector2Test {
         float angle = vector.angleBetween(other);
         assertEquals(Math.PI/4, angle, EPSILON,
             "Angle should be consistent when points are in opposite quadrants");
+    }
+
+    @Test
+    void testOrientation() {
+        Vector2 p = new Vector2(0, 0);
+        Vector2 q = new Vector2(1, 1);
+        Vector2 r1 = new Vector2(2, 2);  // Collinear
+        Vector2 r2 = new Vector2(2, 0);  // Clockwise
+        Vector2 r3 = new Vector2(0, 2);  // Counterclockwise
+
+        assertEquals(0, orientationTest(p, q, r1), "Collinear points should return 0");
+        assertEquals(1, orientationTest(p, q, r2), "Clockwise points should return 1");
+        assertEquals(2, orientationTest(p, q, r3), "Counterclockwise points should return 2");
+    }
+
+    @Test
+    void testOnSegment() {
+        Vector2 p = new Vector2(0, 0);
+        Vector2 q = new Vector2(5, 5);
+        Vector2 r1 = new Vector2(3, 3);  // On segment
+        Vector2 r2 = new Vector2(6, 6);  // Outside segment
+
+        assertTrue(onSegmentTest(p, r1, q), "Point should be on segment");
+        assertFalse(onSegmentTest(p, r2, q), "Point should not be on segment");
+    }
+
+    @Test
+    void testDoIntersect() {
+        // Intersecting segments
+        Vector2 p1 = new Vector2(1, 1);
+        Vector2 q1 = new Vector2(10, 1);
+        Vector2 p2 = new Vector2(1, 2);
+        Vector2 q2 = new Vector2(10, 2);
+        Vector2 p3 = new Vector2(5, 0);
+        Vector2 q3 = new Vector2(5, 5);
+        Vector2 p4 = new Vector2(0, 3);
+        Vector2 q4 = new Vector2(10, 3);
+
+        // Normal intersection
+        assertTrue(doIntersect(p3, q3, p1, q1), "Segments should intersect");
+        assertTrue(doIntersect(p3, q3, p4, q4), "Segments should intersect");
+
+        // Non-intersecting segments
+        Vector2 p5 = new Vector2(1, 1);
+        Vector2 q5 = new Vector2(2, 2);
+        Vector2 p6 = new Vector2(3, 3);
+        Vector2 q6 = new Vector2(4, 4);
+
+        assertFalse(doIntersect(p5, q5, p6, q6), "Segments should not intersect");
+    }
+
+    @Test
+    void testSpecialCases() {
+        // Collinear point on segment
+        Vector2 p1 = new Vector2(0, 0);
+        Vector2 q1 = new Vector2(10, 0);
+        Vector2 p2 = new Vector2(5, 0);
+        Vector2 q2 = new Vector2(15, 0);
+
+        assertTrue(doIntersect(p1, q1, p2, q2), "Collinear segments should intersect");
     }
 }
