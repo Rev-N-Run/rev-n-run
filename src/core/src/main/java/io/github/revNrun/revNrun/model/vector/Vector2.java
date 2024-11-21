@@ -203,10 +203,10 @@ public class Vector2 {
         if (o4 == 0 && onSegment(p2, q1, q2)) return true;
 
         // Special cases: a point very near to a segment is also considered as an intersection
-        if (o1 == 0 && nearSegment(p1, p2, q1, minDistance)) return true;
-        if (o2 == 0 && nearSegment(p1, q2, q1, minDistance)) return true;
-        if (o3 == 0 && nearSegment(p2, p1, q2, minDistance)) return true;
-        if (o4 == 0 && nearSegment(p2, q1, q2, minDistance)) return true;
+        if (nearSegment(p1, p2, q1, minDistance)) return true;
+        if (nearSegment(p1, q2, q1, minDistance)) return true;
+        if (nearSegment(p2, p1, q2, minDistance)) return true;
+        if (nearSegment(p2, q1, q2, minDistance)) return true;
 
         // Segments do not intersect
         return false;
