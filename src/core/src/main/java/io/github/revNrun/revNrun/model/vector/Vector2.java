@@ -42,16 +42,8 @@ public class Vector2 {
         return x;
     }
 
-    public void setX(float x) {
-        this.x = x;
-    }
-
     public float getY() {
         return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
     }
 
     /**
@@ -169,6 +161,16 @@ public class Vector2 {
     }
 
     // TEST METHODS
+
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
     public static boolean onSegmentTest(Vector2 p, Vector2 q, Vector2 r) {
         return onSegment(p, q, r);
     }
