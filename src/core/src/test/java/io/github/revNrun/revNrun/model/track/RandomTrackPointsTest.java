@@ -164,7 +164,7 @@ class RandomTrackPointsTest {
         // is also considered as intersecting)
         for(int i = 0; i < basePoints.size() - 2; i++) {
             for (int j = i + 2; j < basePoints.size() - 2; j++) {
-                assertFalse(Vector2.doIntersect(basePoints.get(i), basePoints.get(i + 1), basePoints.get(j), basePoints.get(j + 1)));
+                assertFalse(Vector2.doIntersect(basePoints.get(i), basePoints.get(i + 1), basePoints.get(j), basePoints.get(j + 1), track.getControlPointMinDistance()));
             }
         }
     }
