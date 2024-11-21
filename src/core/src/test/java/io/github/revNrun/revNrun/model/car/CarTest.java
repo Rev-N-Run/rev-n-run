@@ -517,13 +517,13 @@ public class CarTest {
 
     @Test
     public void testForwardMovement() {
-        int initialX = car.getPositionX();
-        int initialY = car.getPositionY();
+        int initialX = carWithEffects.getPositionX();
+        int initialY = carWithEffects.getPositionY();
 
-        car.accelerate(1);
-        car.updatePosition(1);
-        
-        assertTrue(car.getPositionX() > initialX);
-        assertEquals(initialY, car.getPositionY());
+        carWithEffects.accelerate(1);
+        carWithEffects.updatePosition(1);
+
+        assertTrue(carWithEffects.getPositionX() > initialX);
+        assertEquals(initialY, carWithEffects.getPositionY());
     }
 }

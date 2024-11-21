@@ -34,6 +34,7 @@ public class Car {
     private float grip = 0;
     private float maxReverseSpeed;
     private float reverseAcceleration;
+    private float angle = 0;
 
     public Car(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
                Floor floor, Front front, Back back, Sides sides, float fuel) {
@@ -55,7 +56,17 @@ public class Car {
     }
 
     public void updatePosition(float delta) {
+        if (speed == 0) {
+            return;
+        }
 
+        // Calculate velocity components
+        float velocityX = (float) (speed * Math.cos(angle));
+        float velocityY = (float) (speed * Math.sin(angle));
+
+        // Update position
+        positionX += velocityX * delta;
+        positionY += velocityY * delta;
     }
 
     public void accelerate(float delta) {
