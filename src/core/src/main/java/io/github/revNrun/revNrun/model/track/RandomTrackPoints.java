@@ -225,7 +225,7 @@ public class RandomTrackPoints {
             for (int j = i + 2; j < basePoints.size() - 1; j++) {
                 Vector2 c = basePoints.get(j);
                 Vector2 d = basePoints.get(j + 1);
-                if (Vector2.doIntersect(a, b, c, d)) {
+                if (Vector2.doIntersect(a, b, c, d, controlPointMinDistance)) {
                     basePoints.remove(j + 1);
                     basePoints.remove(j);
                     i = 0;
