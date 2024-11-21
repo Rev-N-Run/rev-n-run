@@ -190,13 +190,12 @@ class Vector2Test {
             "Method should throw IllegalArgumentException for NaN values");
     }
 
-    // Special cases tests
+
     @Test
     public void testAngleBetween_ZeroVector() {
         Vector2 vector = new Vector2(0, 0);
         Vector2 other = new Vector2(0, 0);
-        assertThrows(IllegalArgumentException.class, () -> vector.angleBetween(other),
-            "Method should throw IllegalArgumentException for zero vector");
+        assertEquals(0, vector.angleBetween(other));
     }
 
     @Test

@@ -79,11 +79,16 @@ public class Vector2 {
      *
      * @param other the other vector. Must not be {@code null}.
      * @return the angle between the vectors in radians, in the range (-π, π].
-     * @throws NullPointerException if {@code other} is null.
+     * @throws NullPointerException if {@code other} is null, has a Nan, or has an infinite value.
      */
     public float angleBetween(Vector2 other) {
-        // TODO fer exepcions
-        if (other == null) throw new NullPointerException("Vector2 cannot be null.");
+        // Preconditions
+        if (other == null) throw new IllegalArgumentException("Vector cannot be null.");
+        else if (Float.isNaN(other.getX()) || Float.isNaN(other.getY())) throw new IllegalArgumentException("Vector cannot contain a NaN value.");
+        else if (Float.isInfinite(other.getX()) || Float.isInfinite(other.getY())) throw new IllegalArgumentException("Vector cannot contain an Infinite value.");
+        if (Float.isNaN(this.getX()) || Float.isNaN(this.getY())) throw new IllegalArgumentException("Vector cannot contain a NaN value.");
+        else if (Float.isInfinite(this.getX()) || Float.isInfinite(this.getY())) throw new IllegalArgumentException("Vector cannot contain an Infinite value.");
+
         float dx = other.x - this.x;
         float dy = other.y - this.y;
         return (float) Math.atan2(dy, dx);
