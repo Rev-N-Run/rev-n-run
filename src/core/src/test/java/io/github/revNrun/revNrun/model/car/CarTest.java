@@ -542,4 +542,16 @@ public class CarTest {
         // Speed should be reduced due to low grip in turn
         assertTrue(car.getSpeed() < initialSpeed);
     }
+
+    @Test
+    public void testCarTurnsRight() {
+        for (int i = 0; i < 5; i++) {
+            carWithEffects.accelerate(1);
+        }
+        float initialPosY = carWithEffects.getPositionY();
+
+        carWithEffects.moveRight(1);
+
+        assertTrue(carWithEffects.getPositionY() < initialPosY);
+    }
 }
