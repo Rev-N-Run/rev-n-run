@@ -526,4 +526,20 @@ public class CarTest {
         assertTrue(carWithEffects.getPositionX() > initialX);
         assertEquals(initialY, carWithEffects.getPositionY());
     }
+
+    @Test
+    public void testSpeedReductionInTurns() {
+        // First accelerate to high speed
+        for (int i = 0; i < 5; i++) {
+            car.accelerate(1);
+        }
+        float initialSpeed = car.getSpeed();
+
+        // Apply a sharp turn
+        car.moveRight(1);
+        car.updatePosition(1);
+
+        // Speed should be reduced due to low grip in turn
+        assertTrue(car.getSpeed() < initialSpeed);
+    }
 }

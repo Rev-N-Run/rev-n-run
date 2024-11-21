@@ -79,6 +79,14 @@ public class Car {
         speed = Math.max(newSpeed, maxReverseSpeed);
     }
 
+    public void moveRight(float delta) {
+
+    }
+
+    public void moveLeft(float delta) {
+
+    }
+
     private float getWheelMountedComponentsWeight(WheelMountedComponent[] components) {
         float weight = 0;
 
