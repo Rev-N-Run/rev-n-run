@@ -259,36 +259,81 @@ class Vector2Test {
     }
 
     @Test
-    void testDoIntersect() {
-        // Intersecting segments
-        Vector2 p1 = new Vector2(1, 1);
-        Vector2 q1 = new Vector2(10, 1);
-        Vector2 p2 = new Vector2(5, 0);
-        Vector2 q2 = new Vector2(5, 5);
-        Vector2 p3 = new Vector2(0, 3);
-        Vector2 q3 = new Vector2(10, 3);
+    void testNearSegment() {
+        Vector2 p = new Vector2(0, 0);
+        Vector2 r = new Vector2(4, 0);
+        float minDistance = 0.5f;
 
-        // Normal intersection
-        assertTrue(doIntersect(p2, q2, p1, q1), "Segments should intersect");
-        assertTrue(doIntersect(p2, q2, p3, q3), "Segments should intersect");
+        // Test point exactly on segment
+        Vector2 q1 = new Vector2(2, 0);
+        assertTrue(nearSegmentTest(p, q1, r, minDistance), "Point on segment should be near");
 
-        // Non-intersecting segments
-        Vector2 p4 = new Vector2(1, 1);
-        Vector2 q4 = new Vector2(2, 2);
-        Vector2 p5 = new Vector2(3, 3);
-        Vector2 q5 = new Vector2(4, 4);
+        // Test point slightly above segment within minDistance
+        Vector2 q2 = new Vector2(2, 0.4f);
+        assertTrue(nearSegmentTest(p, q2, r, minDistance), "Point near segment should be detected");
 
-        assertFalse(doIntersect(p4, q4, p5, q5), "Segments should not intersect");
+        // Test point too far from segment
+        Vector2 q3 = new Vector2(2, 1);
+        assertFalse(nearSegmentTest(p, q3, r, minDistance), "Point far from segment should not be detected");
+
+        // Test degenerate case (p = r)
+        Vector2 q4 = new Vector2(0.3f, 0.3f);
+        assertTrue(nearSegmentTest(p, q4, p, minDistance), "Point near degenerate segment should be detected");
+
+        // Test point near endpoint
+        Vector2 q5 = new Vector2(4.3f, 0.3f);
+        assertTrue(nearSegmentTest(p, q5, r, minDistance), "Point near endpoint should be detected");
     }
 
     @Test
-    void testSpecialCases() {
-        // Collinear point on segment
-        Vector2 p1 = new Vector2(0, 0);
-        Vector2 q1 = new Vector2(10, 0);
-        Vector2 p2 = new Vector2(5, 0);
-        Vector2 q2 = new Vector2(15, 0);
+    void testDoIntersectWithMinDistance() {
+        float minDistance = 0.5f;
 
-        assertTrue(doIntersect(p1, q1, p2, q2), "Collinear segments should intersect");
+        // Test segments that don't actually intersect but are very close
+        Vector2 p1 = new Vector2(0, 0);
+        Vector2 q1 = new Vector2(4, 0);
+        Vector2 p2 = new Vector2(2, 0.4f);
+        Vector2 q2 = new Vector2(2, 4);
+        assertTrue(doIntersect(p1, q1, p2, q2, minDistance), "Near-intersecting segments should be detected");
+
+        // Test segments that are definitely too far to intersect
+        Vector2 p3 = new Vector2(0, 0);
+        Vector2 q3 = new Vector2(4, 0);
+        Vector2 p4 = new Vector2(2, 1);
+        Vector2 q4 = new Vector2(2, 4);
+        assertFalse(doIntersect(p3, q3, p4, q4, minDistance), "Non-intersecting segments should not be detected");
+
+        // Test segments that intersect normally
+        Vector2 p5 = new Vector2(0, 0);
+        Vector2 q5 = new Vector2(4, 4);
+        Vector2 p6 = new Vector2(0, 4);
+        Vector2 q6 = new Vector2(4, 0);
+        assertTrue(doIntersect(p5, q5, p6, q6, minDistance), "Intersecting segments should be detected");
+    }
+
+    @Test
+    void testDoIntersectSpecialCases() {
+        float minDistance = 0.5f;
+
+        // Test collinear segments that touch
+        Vector2 p1 = new Vector2(0, 0);
+        Vector2 q1 = new Vector2(4, 0);
+        Vector2 p2 = new Vector2(4, 0);
+        Vector2 q2 = new Vector2(8, 0);
+        assertTrue(doIntersect(p1, q1, p2, q2, minDistance), "Touching collinear segments should intersect");
+
+        // Test collinear segments that are near but don't touch
+        Vector2 p3 = new Vector2(0, 0);
+        Vector2 q3 = new Vector2(4, 0);
+        Vector2 p4 = new Vector2(4.3f, 0);
+        Vector2 q4 = new Vector2(8, 0);
+        assertTrue(doIntersect(p3, q3, p4, q4, minDistance), "Near collinear segments should intersect");
+
+        // Test T-junction with small gap
+        Vector2 p5 = new Vector2(0, 0);
+        Vector2 q5 = new Vector2(4, 0);
+        Vector2 p6 = new Vector2(2, 0.4f);
+        Vector2 q6 = new Vector2(2, 4);
+        assertTrue(doIntersect(p5, q5, p6, q6, minDistance), "T-junction with small gap should intersect");
     }
 }
