@@ -37,11 +37,11 @@ public class RandomTrackPoints {
     private static final int MAX_NUM_OCTAVES = 2;           // Maximum number of octaves, can't be the same as MIN_NUM_OCTAVES
     private static final int MIN_NOISE_ITERATIONS = 1;      // Minimum number of times the base points are distorted from the previous distortion
     private static final int MAX_NOISE_ITERATIONS = 4;      // Maximum number of times the base points are distorted from the previous distortion, can't be the same as MIN_NOISE_ITERATIONS
-    private static final int CONTROL_POINT_MIN_DISTANCE = 30;
 
     // The following values are the final ones, calculated randomly in generateRandomness()
     private int numInitialPoints;
     private float radius;
+    private static int controlPointMinDistance;
     private static int octaves;
     private static int noiseIterations;
 
@@ -111,6 +111,8 @@ public class RandomTrackPoints {
         numInitialPoints = Math.round(random * (MAX_NUM_INITIAL_POINTS - MIN_NUM_INITIAL_POINTS) + MIN_NUM_INITIAL_POINTS);
         octaves = Math.round(random * (MAX_NUM_OCTAVES - MIN_NUM_OCTAVES) + MIN_NUM_OCTAVES);
         noiseIterations = Math.round(MAX_NOISE_ITERATIONS - (random * (MAX_NOISE_ITERATIONS - MIN_NOISE_ITERATIONS)));
+
+        controlPointMinDistance = Math.round(radius / 100 * 20);
     }
 
     /**
@@ -188,7 +190,7 @@ public class RandomTrackPoints {
             dn = current.distance(next);
             dn2 = current.distance(next2);
 
-            if (dp2 < CONTROL_POINT_MIN_DISTANCE || dp < CONTROL_POINT_MIN_DISTANCE || dn < CONTROL_POINT_MIN_DISTANCE || dn2 < CONTROL_POINT_MIN_DISTANCE) points.remove(i);
+            if (dp2 < controlPointMinDistance || dp < controlPointMinDistance || dn < controlPointMinDistance || dn2 < controlPointMinDistance) points.remove(i);
         }
 
 
@@ -258,7 +260,7 @@ public class RandomTrackPoints {
         assert controlPoints.getLast() == basePoints.get(0) : "Start point has not been added as the last point of the track";
         controlPoints.add(basePoints.get(1));
 
-        points.addAll(TrackSmoothing.computeCatmullRom(controlPoints, 1, true));
+        points.addAll(TrackSmoothing.computeCatmullRom(controlPoints, 10, true));
     }
 
     // TEST GETTERS
