@@ -60,8 +60,8 @@ public class RandomTrackPoints {
         basePoints = new ArrayList<>();
         points = new ArrayList<>();
 
-        // Generate the values that determines the initial and base points randomness
-        this.generateRandomness();
+        // Generate the values that determines the randomness
+        this.generateCustomValues();
 
         // Generate the initial points (basics)
         this.generateInitialPoints();
@@ -71,6 +71,9 @@ public class RandomTrackPoints {
             if (i > 0) basePoints = generateBasePoints(basePoints);
             else basePoints = generateBasePoints(initialPoints);
         }
+
+        // Removes unwanted base points (too near points, intersections...)
+        adjustBasePoints();
 
         // Add the first initialPoint as the last point too
         initialPoints.add(initialPoints.get(0));
@@ -101,7 +104,7 @@ public class RandomTrackPoints {
      * a semi relation between radius and numInitialPoints, so big radius can get a medium or big quantity of points, but
      * not too few, and a small radius can get a small or medium quantity of points, but never too much.
      */
-    private void generateRandomness() {
+    private void generateCustomValues() {
         float random = RANDOM.nextFloat();
 
         radius = random * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
@@ -136,7 +139,8 @@ public class RandomTrackPoints {
 
     /**
      * generateBasePoints applies SimplexNoise to the given points. It's used to generate the base points
-     * from the previous base points list. The method also ensures that there aren't too closed angles.
+     * from the previous base points list. The method also ensures that there aren't too near points nor
+     * intersections.
      *
      * @param controlPoints Vector2 list containing all points to be distorted by SimplexNoise.
      * @return Vector2 List containing only the generated points.
@@ -149,50 +153,6 @@ public class RandomTrackPoints {
         for (Vector2 controlPoint : controlPoints) {
             points.add(displacePoint(controlPoint));
         }
-
-        /*
-        // Adjust the base points that produce too closed angles.
-        Vector2 prev, current, next;
-        float angle;
-        int attempts;
-        for (int i = 1; i < points.size() - 1; i++) {
-            prev = points.get(i - 1);
-            current = points.get(i);
-            next = points.get(i + 1);
-            angle = Vector2.calculateAngle(prev, current, next);    // Calculates the angles formed on the middle point
-            attempts = 0;
-            while (angle < minAngle && attempts < MAX_NOISE_ATTEMPTS) {
-                current = displacePoint(current);
-                angle = Vector2.calculateAngle(prev, current, next);
-                attempts++;
-            }
-            if (attempts < MAX_NOISE_ATTEMPTS) adjustedPoints.add(current); // If it hasn't been possible to adjust the point, just don't add it.
-
-            if (angle > minAngle) adjustedPoints.add(current); // If it hasn't been possible to adjust the point, just don't add it.
-        }
-        return adjustedPoints;
-
-         */
-
-
-
-        Vector2 prev2, prev, current, next, next2;
-        float dp2,dp, dn, dn2;
-        for (int i = points.size() - 1; i >= 0; i--) {
-            prev2 = i < 2 ? points.get(points.size() - 2 + i) : points.get(i - 2);                      // i == 0: second last, i == 1: last, i == 2: first...
-            prev = i == 0 ? points.get(points.size() - 1) : points.get(i - 1);                          // i == 0: last, i == 1: first...
-            current = points.get(i);
-            next = i == points.size() - 1 ? points.get(0) : points.get(i + 1);                          // ..., i == second last: last, i == last: first
-            next2 = i > points.size() - 3 ? points.get(i - points.size() + 2) : points.get(i + 2);     // ..., i == second last: first, i == last: second
-
-            dp2 = current.distance(prev2);
-            dp = current.distance(prev);
-            dn = current.distance(next);
-            dn2 = current.distance(next2);
-
-            if (dp2 < controlPointMinDistance || dp < controlPointMinDistance || dn < controlPointMinDistance || dn2 < controlPointMinDistance) points.remove(i);
-        }
-
 
         return points;
     }
@@ -235,13 +195,44 @@ public class RandomTrackPoints {
              */
         }
 
-        // Apply the noise with a variable distortionFactor
-        float distortionFactor = 0.1f; // Need to find the best value between 0 and 1
+        // Apply a distortion factor to the noise
+        float distortionFactor = 0.1f;
 
         return new Vector2(
             xBase + xNoise * radius * distortionFactor,
             yBase + yNoise * radius * distortionFactor
         );
+    }
+
+    private void adjustBasePoints() {
+        // Check the base control points to not have a near point too close. If so, remove it from the list.
+        for (int i = basePoints.size() - 1; i >= 1; i--) {
+            Vector2 a = basePoints.get(i);
+            for (int j = i - 1; j >= 0; j--) {
+                Vector2 b = basePoints.get(j);
+                if (a.distance(b) < controlPointMinDistance) {
+                    basePoints.remove(i);
+                    break;
+                }
+            }
+        }
+
+        // Check the base control points to not intersect. If so, remove segments that create an intersection.
+        for (int i = 0; i < basePoints.size() - 1; i++) {
+            Vector2 a = basePoints.get(i);
+            Vector2 b = basePoints.get(i + 1);
+
+            for (int j = i + 2; j < basePoints.size() - 1; j++) {
+                Vector2 c = basePoints.get(j);
+                Vector2 d = basePoints.get(j + 1);
+                if (Vector2.doIntersect(a, b, c, d)) {
+                    basePoints.remove(j + 1);
+                    basePoints.remove(j);
+                    i = 0;
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -282,5 +273,9 @@ public class RandomTrackPoints {
 
     public static float getMaxRadius() {
         return MAX_RADIUS;
+    }
+
+    public int getControlPointMinDistance() {
+        return controlPointMinDistance;
     }
 }
