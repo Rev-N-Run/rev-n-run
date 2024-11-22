@@ -72,13 +72,13 @@ public class RandomTrackPoints {
             else basePoints = generateBasePoints(initialPoints);
         }
 
-        // Removes unwanted base points (too near points, intersections...)
-        adjustBasePoints();
-
         // Add the first initialPoint as the last point too
         initialPoints.add(initialPoints.get(0));
         // Add the first basePoint as the last point too, we cannot recalculate it or the end would probably become a different point than the start one
         basePoints.add(basePoints.get(0));
+
+        // Removes unwanted base points (too near points, intersections...)
+        adjustBasePoints();
 
         // Generate the points (final ones, smoothed) from the base points
         this.generatePoints();
@@ -204,9 +204,19 @@ public class RandomTrackPoints {
         );
     }
 
+    /**
+     * Removes unwanted base points (too near points, intersections of segments, points too near to a segment...)
+     * from the basePoints list.
+     * This method MUST be applied after assigning the first point as last point too to the basePoints list.
+     */
     private void adjustBasePoints() {
         // Check the base control points to not have a near point too close. If so, remove it from the list.
-        for (int i = basePoints.size() - 1; i >= 1; i--) {
+        /*
+        i iterates from size()-2 cause size()-1 is also the first point. If the first point is too close
+        to the last point, the last point should be the removed one, that's what happens when j == 0,
+        so it's unnecessary to check the first and last point distance twice.
+         */
+        for (int i = basePoints.size() - 2; i >= 1; i--) {
             Vector2 a = basePoints.get(i);
             for (int j = i - 1; j >= 0; j--) {
                 Vector2 b = basePoints.get(j);
@@ -222,16 +232,21 @@ public class RandomTrackPoints {
             Vector2 a = basePoints.get(i);
             Vector2 b = basePoints.get(i + 1);
 
-            for (int j = i + 2; j < basePoints.size() - 1; j++) {
+            for (int j = i + 2; j < basePoints.size() - 2; j++) {
                 Vector2 c = basePoints.get(j);
                 Vector2 d = basePoints.get(j + 1);
                 if (Vector2.doIntersect(a, b, c, d, controlPointMinDistance)) {
                     basePoints.remove(j + 1);
                     basePoints.remove(j);
-                    i = 0;
+                    i = -1;
                     break;
                 }
             }
+        }
+
+        if (basePoints.size() <= 3) {
+            RandomTrackPoints newTrack = new RandomTrackPoints();
+            basePoints = newTrack.getBasePoints();
         }
     }
 

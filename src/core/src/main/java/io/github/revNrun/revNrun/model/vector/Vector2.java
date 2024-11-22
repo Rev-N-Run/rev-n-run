@@ -76,10 +76,14 @@ public class Vector2 {
     public float angleBetween(Vector2 other) {
         // Preconditions
         if (other == null) throw new IllegalArgumentException("Vector cannot be null.");
-        else if (Float.isNaN(other.getX()) || Float.isNaN(other.getY())) throw new IllegalArgumentException("Vector cannot contain a NaN value.");
-        else if (Float.isInfinite(other.getX()) || Float.isInfinite(other.getY())) throw new IllegalArgumentException("Vector cannot contain an Infinite value.");
-        if (Float.isNaN(this.getX()) || Float.isNaN(this.getY())) throw new IllegalArgumentException("Vector cannot contain a NaN value.");
-        else if (Float.isInfinite(this.getX()) || Float.isInfinite(this.getY())) throw new IllegalArgumentException("Vector cannot contain an Infinite value.");
+        else if (Float.isNaN(other.getX()) || Float.isNaN(other.getY()))
+            throw new IllegalArgumentException("Vector cannot contain a NaN value.");
+        else if (Float.isInfinite(other.getX()) || Float.isInfinite(other.getY()))
+            throw new IllegalArgumentException("Vector cannot contain an Infinite value.");
+        if (Float.isNaN(this.getX()) || Float.isNaN(this.getY()))
+            throw new IllegalArgumentException("Vector cannot contain a NaN value.");
+        else if (Float.isInfinite(this.getX()) || Float.isInfinite(this.getY()))
+            throw new IllegalArgumentException("Vector cannot contain an Infinite value.");
 
         float dx = other.x - this.x;
         float dy = other.y - this.y;
@@ -122,9 +126,9 @@ public class Vector2 {
     /**
      * Checks if a point is near a segment within a given minimum distance.
      *
-     * @param p the starting point of the segment
-     * @param q the point to check
-     * @param r the ending point of the segment
+     * @param p           the starting point of the segment
+     * @param q           the point to check
+     * @param r           the ending point of the segment
      * @param minDistance the minimum distance threshold
      * @return true if the point is near the segment, false otherwise
      */
@@ -178,12 +182,13 @@ public class Vector2 {
     /**
      * Determines if two line segments intersect.
      * Each segment is defined by two endpoints: (p1, q1) and (p2, q2).
-     * This method considers both general and special cases of intersection.
+     * This method considers general and special cases of intersection.
      *
      * @param p1 the first endpoint of the first segment
      * @param q1 the second endpoint of the first segment
      * @param p2 the first endpoint of the second segment
      * @param q2 the second endpoint of the second segment
+     * @param minDistance the minimum distance threshold
      * @return true if the segments intersect, false otherwise
      */
     public static boolean doIntersect(Vector2 p1, Vector2 q1, Vector2 p2, Vector2 q2, float minDistance) {
@@ -227,7 +232,7 @@ public class Vector2 {
         return onSegment(p, q, r);
     }
 
-    public static boolean nearSegmentTest(Vector2 p, Vector2 q, Vector2 r, float minDistance){
+    public static boolean nearSegmentTest(Vector2 p, Vector2 q, Vector2 r, float minDistance) {
         return nearSegment(p, q, r, minDistance);
     }
 
