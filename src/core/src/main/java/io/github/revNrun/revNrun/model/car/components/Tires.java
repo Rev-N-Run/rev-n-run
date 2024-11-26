@@ -22,6 +22,16 @@ public class Tires extends WheelMountedComponent {
     @Override
     public void degrade(float delta, float percentage) {
         currentDurability *= (1 - wearFactor * delta * percentage);
+        degradeGripEffects();
+    }
+
+    @Override
+    public void degradeByImpact(float percentage) {
+        currentDurability *= percentage;
+        degradeGripEffects();
+    }
+
+    private void degradeGripEffects() {
         for (Effect effect : effects) {
             if (effect.getEffect() == EffectType.GRIP) {
                 float factor = Math.min(currentDurability / 100f, 1f);

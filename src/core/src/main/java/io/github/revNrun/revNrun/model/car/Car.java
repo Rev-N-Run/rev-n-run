@@ -3,6 +3,7 @@ package io.github.revNrun.revNrun.model.car;
 import io.github.revNrun.revNrun.model.car.components.*;
 import io.github.revNrun.revNrun.model.car.components.enums.CarAxis;
 import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
+import io.github.revNrun.revNrun.model.car.components.enums.EffectType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,8 @@ public class Car {
     private float brakeBalance = .5f;
     private float brakePower = 0;
     private float acceleration;
-    private float grip = 0;
+    private float tireGrip = 0;
+    private float optionalGrip = 0;
     private float maxReverseSpeed;
     private float reverseAcceleration;
     private float angle = 0;
@@ -80,8 +82,12 @@ public class Car {
     }
 
     public void moveRight(float delta) {
+        if (tireGrip == 0) {
+            return;
+        }
+
         float maxTurnSpeed = maxSpeed - 20;
-        float turnRate = grip * 0.01f * delta;
+        float turnRate = (tireGrip + optionalGrip) * 0.01f * delta;
 
         if (speed > maxTurnSpeed) {
             speed = Math.max(maxTurnSpeed, speed - (speed - maxTurnSpeed) * delta);
@@ -92,6 +98,16 @@ public class Car {
 
     public void moveLeft(float delta) {
 
+    }
+
+    private void degradeTireGrip() {
+        tireGrip = 0;
+        List<Effect> effects = getWheelMountedComponentEffects(tires);
+        for (Effect effect : effects) {
+            if (effect.getEffect() == EffectType.GRIP) {
+                tireGrip += effect.getValue();
+            }
+        }
     }
 
     private float getWheelMountedComponentsWeight(WheelMountedComponent[] components) {
@@ -125,7 +141,6 @@ public class Car {
         List<Effect> effects = new ArrayList<>();
         effects.addAll(engine.getEffects());
         effects.addAll(chassis.getEffects());
-        effects.addAll(getWheelMountedComponentEffects(tires));
         effects.addAll(getWheelMountedComponentEffects(suspension));
         effects.addAll(getWheelMountedComponentEffects(brakes));
         effects.addAll(floor.getEffects());
@@ -133,11 +148,22 @@ public class Car {
         effects.addAll(back.getEffects());
         effects.addAll(sides.getEffects());
 
+        List<Effect> tiresEffects = getWheelMountedComponentEffects(tires);
+        List<Effect> effectsToAdd = new ArrayList<>(tiresEffects);
+        for (Effect effect : tiresEffects) {
+            if (effect.getEffect() == EffectType.GRIP) {
+                tireGrip += effect.getValue();
+            } else  {
+                effectsToAdd.add(effect);
+            }
+        }
+
+        effects.addAll(effectsToAdd);
 
         for (Effect effect : effects) {
             switch (effect.getEffect()) {
                 case GRIP:
-                    grip += effect.getValue();
+                    optionalGrip += effect.getValue();
                     break;
                 case MAX_SPEED:
                     maxSpeed += effect.getValue();
@@ -165,6 +191,7 @@ public class Car {
 
     public void degradeTires(float delta, Map<CarSides, Float> sides) {
         degradeBySide(delta, tires, sides);
+        degradeTireGrip();
     }
 
     public void degradeSuspension(float delta, Map<CarSides, Float> sides) {
@@ -198,6 +225,7 @@ public class Car {
 
     public void degradeTiresByImpact(float percentage) {
         degradeByImpactWheelMounted(percentage, tires);
+        degradeTireGrip();
     }
 
     public void degradeSuspensionByImpact(float percentage) {
@@ -292,8 +320,8 @@ public class Car {
         return acceleration;
     }
 
-    public float getGrip() {
-        return grip;
+    public float getTireGrip() {
+        return tireGrip;
     }
 
     public float getReverseAcceleration() {
