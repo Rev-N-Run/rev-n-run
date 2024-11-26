@@ -550,4 +550,27 @@ public class CarTest {
 
         assertTrue(carWithEffects.getSpeed() <= maxTurnSpeed);
     }
+
+    @Test
+    public void testGripAffectsTurnRate() {
+        Car lowGripCar = new Car(engineWithEffects, chassisWithEffects, tiresWithEffects,
+            suspensionsWithEffects, brakesWithEffects, floorWithEffects, frontWithEffects,
+            backWithEffects, sidesWithEffects, 100);
+
+        while(lowGripCar.getGrip() > 30) {
+            lowGripCar.degradeTiresByImpact(0.9f);
+        }
+
+        float highGripInitialAngle = carWithEffects.getAngle();
+        float lowGripInitialAngle = lowGripCar.getAngle();
+
+        carWithEffects.accelerate(1);
+        lowGripCar.accelerate(1);
+        carWithEffects.moveRight(1);
+        lowGripCar.moveRight(1);
+
+        float highGripTurn = carWithEffects.getAngle() - highGripInitialAngle;
+        float lowGripTurn = lowGripCar.getAngle() - lowGripInitialAngle;
+        assertTrue(highGripTurn > lowGripTurn);
+    }
 }
