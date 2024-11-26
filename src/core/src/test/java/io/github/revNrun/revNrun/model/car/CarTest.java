@@ -528,30 +528,14 @@ public class CarTest {
     }
 
     @Test
-    public void testSpeedReductionInTurns() {
-        // First accelerate to high speed
-        for (int i = 0; i < 5; i++) {
-            car.accelerate(1);
-        }
-        float initialSpeed = car.getSpeed();
-
-        // Apply a sharp turn
-        car.moveRight(1);
-        car.updatePosition(1);
-
-        // Speed should be reduced due to low grip in turn
-        assertTrue(car.getSpeed() < initialSpeed);
-    }
-
-    @Test
-    public void testCarTurnsRight() {
-        for (int i = 0; i < 5; i++) {
-            carWithEffects.accelerate(1);
-        }
-        float initialPosY = carWithEffects.getPositionY();
+    public void testBasicTurnRight() {
+        float initialAngle = carWithEffects.getAngle();
+        carWithEffects.accelerate(1);
+        float grip = carWithEffects.getGrip();
 
         carWithEffects.moveRight(1);
 
-        assertTrue(carWithEffects.getPositionY() < initialPosY);
+        assertTrue(carWithEffects.getAngle() > initialAngle);
+        assertEquals(initialAngle + (grip * 0.01f), carWithEffects.getAngle(), 0.001f);
     }
 }

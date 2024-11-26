@@ -297,6 +297,10 @@ public class Car {
         return maxReverseSpeed;
     }
 
+    public float getAngle() {
+        return angle;
+    }
+
     private void validateComponents(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
                                     Floor floor, Front front, Back back, Sides sides) {
         if (engine == null || chassis == null || tires == null || suspension == null || brakes == null
