@@ -17,7 +17,8 @@ public class Tires extends WheelMountedComponent {
         currentDurability *= (1 - wearFactor * delta * percentage);
         for (Effect effect : effects) {
             if (effect.getEffect() == EffectType.GRIP) {
-                float grip = effect.getValue() * (currentDurability / 100);
+                float factor = Math.min(currentDurability / 100f, 1f);
+                float grip = effect.getValue() * factor;
                 effect.setValue(grip);
             }
         }
