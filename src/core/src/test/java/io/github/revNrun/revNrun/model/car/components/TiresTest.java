@@ -25,5 +25,14 @@ class TiresTest {
 
         List<Effect> tireEffects = tire.getEffects();
         assertTrue(tireEffects.get(0).getValue() < value);
+
+        for (int i = 0; i < 1000; i++) {
+            tire.degrade(0.1f, 1f);
+        }
+
+        assertTrue(tire.getCurrentDurability() >= 0);
+
+        tireEffects = tire.getEffects();
+        assertTrue(tireEffects.get(0).getValue() < value && tireEffects.get(0).getValue() >= -20);
     }
 }
