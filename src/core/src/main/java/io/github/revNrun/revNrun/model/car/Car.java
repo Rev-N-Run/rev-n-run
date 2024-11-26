@@ -80,7 +80,7 @@ public class Car {
     }
 
     public void moveRight(float delta) {
-
+        angle += grip * 0.01f;
     }
 
     public void moveLeft(float delta) {
