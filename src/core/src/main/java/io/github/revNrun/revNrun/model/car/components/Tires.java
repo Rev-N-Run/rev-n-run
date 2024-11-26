@@ -10,6 +10,13 @@ public class Tires extends WheelMountedComponent {
     public Tires(String name, float weight, float maxDurability, float currentDurability,
                  List<Effect> effects, CarAxis axle, CarSides side, float wearFactor) {
         super(name, weight, maxDurability, currentDurability, effects, axle, side, wearFactor);
+        for (Effect effect : effects) {
+            if (effect.getEffect() == EffectType.GRIP) {
+                float value = (effect.getValue() < 0) ? 0 : effect.getValue();
+                effect.setValue(value);
+            }
+        }
+        this.effects = effects;
     }
 
     @Override
