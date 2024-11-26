@@ -80,7 +80,7 @@ public class Car {
     }
 
     public void moveRight(float delta) {
-        float maxTurnSpeed = 120;
+        float maxTurnSpeed = maxSpeed - 20;
         if (speed > maxTurnSpeed) {
             speed = maxTurnSpeed;
         }
