@@ -81,10 +81,13 @@ public class Car {
 
     public void moveRight(float delta) {
         float maxTurnSpeed = maxSpeed - 20;
+        float turnRate = grip * 0.01f * delta;
+
         if (speed > maxTurnSpeed) {
-            speed = maxTurnSpeed;
+            speed = Math.max(maxTurnSpeed, speed - (speed - maxTurnSpeed) * delta);
         }
-        angle += grip * 0.01f;
+
+        angle += turnRate;
     }
 
     public void moveLeft(float delta) {
