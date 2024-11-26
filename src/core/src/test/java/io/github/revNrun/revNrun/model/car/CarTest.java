@@ -573,4 +573,24 @@ public class CarTest {
         float lowGripTurn = lowGripCar.getAngle() - lowGripInitialAngle;
         assertTrue(highGripTurn > lowGripTurn);
     }
+
+    @Test
+    public void testSymmetricalTurning() {
+        float initialAngle = carWithEffects.getAngle();
+        carWithEffects.accelerate(1);
+
+        carWithEffects.moveRight(1);
+        float rightTurnAngle = carWithEffects.getAngle();
+
+        carWithEffects = new Car(engineWithEffects, chassisWithEffects, tiresWithEffects,
+            suspensionsWithEffects, brakesWithEffects, floorWithEffects, frontWithEffects,
+            backWithEffects, sidesWithEffects, 100);
+        carWithEffects.accelerate(1);
+        carWithEffects.moveLeft(1);
+        float leftTurnAngle = carWithEffects.getAngle();
+
+        assertEquals(initialAngle + (rightTurnAngle - initialAngle),
+            initialAngle - (leftTurnAngle - initialAngle),
+            0.001f);
+    }
 }
