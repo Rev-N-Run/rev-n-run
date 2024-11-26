@@ -541,9 +541,10 @@ public class CarTest {
 
     @Test
     public void testSpeedLimitInTurn() {
-        float maxTurnSpeed = 120;
-        while(carWithEffects.getSpeed() < 140) {
+        float maxTurnSpeed = carWithEffects.getMaxSpeed() - 20;
+        while(carWithEffects.getSpeed() < carWithEffects.getMaxSpeed()) {
             carWithEffects.accelerate(0.1f);
+            System.out.println(carWithEffects.getSpeed());
         }
 
         carWithEffects.moveRight(1);
