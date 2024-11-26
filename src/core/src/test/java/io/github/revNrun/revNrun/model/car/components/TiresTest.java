@@ -38,4 +38,17 @@ class TiresTest {
         System.out.println(tireEffects.get(0).getValue());
         assertTrue(tireEffects.get(0).getValue() < value && tireEffects.get(0).getValue() <= 0);
     }
+
+    @Test
+    void testGripRule() {
+        float value = -2f;
+        Effect effect = new Effect(EffectType.GRIP, value);
+        List<Effect> effects = new ArrayList<>();
+        effects.add(effect);
+        Tires tire = new Tires("", 0, 100, 100, effects, CarAxis.FRONT, CarSides.LEFT, 0.2f);
+        tire.degrade(0.1f, 0.7f);
+
+        Effect effectCheck = tire.getEffects().get(0);
+        assertEquals(0, effectCheck.getValue());
+    }
 }
