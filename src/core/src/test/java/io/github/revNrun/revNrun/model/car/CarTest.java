@@ -538,4 +538,16 @@ public class CarTest {
         assertTrue(carWithEffects.getAngle() > initialAngle);
         assertEquals(initialAngle + (grip * 0.01f), carWithEffects.getAngle(), 0.001f);
     }
+
+    @Test
+    public void testSpeedLimitInTurn() {
+        float maxTurnSpeed = 120;
+        while(carWithEffects.getSpeed() < 140) {
+            carWithEffects.accelerate(0.1f);
+        }
+
+        carWithEffects.moveRight(1);
+
+        assertTrue(carWithEffects.getSpeed() <= maxTurnSpeed);
+    }
 }
