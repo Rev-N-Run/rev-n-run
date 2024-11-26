@@ -80,6 +80,10 @@ public class Car {
     }
 
     public void moveRight(float delta) {
+        float maxTurnSpeed = 120;
+        if (speed > maxTurnSpeed) {
+            speed = maxTurnSpeed;
+        }
         angle += grip * 0.01f;
     }
 
