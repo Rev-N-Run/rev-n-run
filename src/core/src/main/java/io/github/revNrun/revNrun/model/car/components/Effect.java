@@ -7,7 +7,7 @@ public class Effect {
     private static final float MIN_VALUE = -20f;
 
     private final EffectType effect;
-    private final float value;
+    private float value;
 
     public Effect(EffectType effect, float value) {
         this.effect = effect;
@@ -22,5 +22,9 @@ public class Effect {
 
     public float getValue() {
         return value;
+    }
+
+    public void setValue(float value) {
+        this.value = value;
     }
 }
