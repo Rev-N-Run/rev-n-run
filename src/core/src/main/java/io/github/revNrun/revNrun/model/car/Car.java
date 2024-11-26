@@ -97,7 +97,18 @@ public class Car {
     }
 
     public void moveLeft(float delta) {
+        if (tireGrip == 0) {
+            return;
+        }
 
+        float maxTurnSpeed = maxSpeed - 20;
+        float turnRate = (tireGrip + optionalGrip) * 0.01f * delta;
+
+        if (speed > maxTurnSpeed) {
+            speed = Math.max(maxTurnSpeed, speed - (speed - maxTurnSpeed) * delta);
+        }
+
+        angle -= turnRate;
     }
 
     private void degradeTireGrip() {
