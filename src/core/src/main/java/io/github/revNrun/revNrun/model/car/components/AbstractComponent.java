@@ -12,7 +12,7 @@ public abstract class AbstractComponent implements Component {
     protected float wearFactor;
 
     public AbstractComponent(String name, float weight, float maxDurability,
-                             float currentDurability, List<Effect> effects, float wearFactor) {
+                                float currentDurability, List<Effect> effects, float wearFactor) {
         if (currentDurability <= 0 || maxDurability <= 0) {
             throw new IllegalArgumentException("Durability must be greater than 0");
         }

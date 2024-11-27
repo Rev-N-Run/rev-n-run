@@ -10,7 +10,7 @@ public class MockBrakes extends Brakes implements MockComponent {
     private float lastDegradation;
 
     public MockBrakes(String name, float weight, int maxDurability, int currentDurability,
-                      List<Effect> effects, CarAxis axle, CarSides side, float wearFactor) {
+                        List<Effect> effects, CarAxis axle, CarSides side, float wearFactor) {
         super(name, weight, maxDurability, currentDurability, effects, axle, side, wearFactor);
     }
 

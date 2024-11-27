@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Tires extends WheelMountedComponent {
     public Tires(String name, float weight, float maxDurability, float currentDurability,
-                 List<Effect> effects, CarAxis axle, CarSides side, float wearFactor) {
+                    List<Effect> effects, CarAxis axle, CarSides side, float wearFactor) {
         super(name, weight, maxDurability, currentDurability, effects, axle, side, wearFactor);
         for (Effect effect : effects) {
             if (effect.getEffect() == EffectType.GRIP) {

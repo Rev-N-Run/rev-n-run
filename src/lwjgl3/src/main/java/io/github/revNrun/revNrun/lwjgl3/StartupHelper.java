@@ -30,7 +30,8 @@ import java.util.ArrayList;
  * to function. Also helps on Windows when users have names with characters from
  * outside the Latin alphabet, a common cause of startup crashes.
  * <br>
- * <a href="https://jvm-gaming.org/t/starting-jvm-on-mac-with-xstartonfirstthread-programmatically/57547">Based on this java-gaming.org post by kappa</a>
+ * <a href="https://jvm-gaming.org/t/starting-jvm-on-mac-with-xstartonfirstthread-programmatically/57547">
+ *     Based on this java-gaming.org post by kappa</a>
  * @author damios
  */
 public class StartupHelper {
@@ -69,10 +70,11 @@ public class StartupHelper {
         String osName = System.getProperty("os.name").toLowerCase();
         if (!osName.contains("mac")) {
             if (osName.contains("windows")) {
-// Here, we are trying to work around an issue with how LWJGL3 loads its extracted .dll files.
-// By default, LWJGL3 extracts to the directory specified by "java.io.tmpdir", which is usually the user's home.
-// If the user's name has non-ASCII (or some non-alphanumeric) characters in it, that would fail.
-// By extracting to the relevant "ProgramData" folder, which is usually "C:\ProgramData", we avoid this.
+                // Here, we are trying to work around an issue with how LWJGL3 loads its extracted .dll files.
+                // By default, LWJGL3 extracts to the directory specified by "java.io.tmpdir",
+                // which is usually the user's home.
+                // If the user's name has non-ASCII (or some non-alphanumeric) characters in it, that would fail.
+                // By extracting to the relevant "ProgramData" folder, which is usually "C:\ProgramData", we avoid this.
                 System.setProperty("java.io.tmpdir", System.getenv("ProgramData") + "/libGDX-temp");
             }
             return false;
@@ -94,7 +96,8 @@ public class StartupHelper {
         // avoids looping, but most certainly leads to a crash
         if ("true".equals(System.getProperty(JVM_RESTARTED_ARG))) {
             System.err.println(
-                    "There was a problem evaluating whether the JVM was started with the -XstartOnFirstThread argument.");
+                    "There was a problem evaluating whether the JVM was started with the " +
+                        "-XstartOnFirstThread argument.");
             return false;
         }
 
@@ -108,7 +111,8 @@ public class StartupHelper {
 
         if (!(new File(javaExecPath)).exists()) {
             System.err.println(
-                    "A Java installation could not be found. If you are distributing this app with a bundled JRE, be sure to set the -XstartOnFirstThread argument manually!");
+                    "A Java installation could not be found. If you are distributing this app with a bundled JRE, " +
+                        "be sure to set the -XstartOnFirstThread argument manually!");
             return false;
         }
 
