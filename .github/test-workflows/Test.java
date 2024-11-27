@@ -3,5 +3,9 @@ public class Test {
     if(true){
       System.out.println("hello");
     }
+
+    while(true){
+
+    }
   }
 }
