@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Chassis extends AbstractComponent {
     public Chassis(String name, float weight, float maxDurability, float currentDurability, List<Effect> effects,
-                   float wearFactor) {
+                    float wearFactor) {
         super(name, weight, maxDurability, currentDurability, effects, wearFactor);
     }
 }

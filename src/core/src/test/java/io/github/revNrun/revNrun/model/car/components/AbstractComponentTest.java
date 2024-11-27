@@ -165,7 +165,7 @@ public class AbstractComponentTest {
         // Limit test
 
         // External frontier values
-        final float[] invalidValues = new float[]{-2, -0.1f};
+        final float[] invalidValues = new float[] {-2, -0.1f};
         for (float value : invalidValues) {
             assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, value,
                 maxDurability, effects, wearFactor) {});
@@ -182,7 +182,7 @@ public class AbstractComponentTest {
         }
 
         // Internal and frontier values
-        final float[] validValues = new float[]{0.1f, 1, 2};
+        final float[] validValues = new float[] {0.1f, 1, 2};
         for (float value : validValues) {
             Component component = new AbstractComponent(name, weight, maxDurability,
                 value, effects, wearFactor) {};

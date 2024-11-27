@@ -1,5 +1,5 @@
 public class Test {
-    public void method (){
+    public void method() {
         if (true) {
             System.out.println("hello");
         }

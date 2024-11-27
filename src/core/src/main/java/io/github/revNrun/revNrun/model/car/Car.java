@@ -393,7 +393,7 @@ public class Car {
     }
 
     private WheelMountedComponent getComponentByPosition(WheelMountedComponent[] components, CarAxis axle,
-                                                         CarSides side) {
+                                                            CarSides side) {
         for (WheelMountedComponent component : components) {
             if (isSpecifiedComponent(component, axle, side)) {
                 return component;

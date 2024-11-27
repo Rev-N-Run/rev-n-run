@@ -169,7 +169,7 @@ public class CarTest {
         Suspension suspensionRR = new Suspension("suspensionRR", 25f, 100,
             100, suspensionEffects, CarAxis.REAR, CarSides.RIGHT, .1f);
 
-        return new Suspension[]{suspensionFL, suspensionFR, suspensionRL, suspensionRR};
+        return new Suspension[] {suspensionFL, suspensionFR, suspensionRL, suspensionRR};
     }
 
     @Test
@@ -290,7 +290,8 @@ public class CarTest {
         return component.getAxle() == axle && component.getSide() == side;
     }
 
-    private WheelMountedComponent getComponentByPosition(WheelMountedComponent[] components, CarAxis axle, CarSides side) {
+    private WheelMountedComponent getComponentByPosition(WheelMountedComponent[] components, CarAxis axle,
+                                                            CarSides side) {
         for (WheelMountedComponent component : components) {
             if (isSpecifiedComponent(component, axle, side)) {
                 return component;
