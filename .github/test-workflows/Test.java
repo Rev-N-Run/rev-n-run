@@ -11,9 +11,5 @@ public class Test {
     for(){
 
     }
-
-    while(){
-
-    }
   }
 }
