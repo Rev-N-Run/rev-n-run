@@ -48,3 +48,8 @@ jobs:
         run: |
           # Check for incorrect assignment spacing
           ! find . -type f -name "*.java" -exec grep -l "[a-zA-Z0-9]=[a-zA-Z0-9]" {} \; | grep .
+
+status-check:
+  permissions:
+    checks: write
+    statuses: write
