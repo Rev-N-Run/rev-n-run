@@ -7,5 +7,9 @@ public class Test {
     while(true){
 
     }
+
+    for(){
+
+    }
   }
 }
