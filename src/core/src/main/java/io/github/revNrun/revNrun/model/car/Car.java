@@ -39,7 +39,7 @@ public class Car {
     private float angle = 0;
 
     public Car(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
-               Floor floor, Front front, Back back, Sides sides, float fuel) {
+                Floor floor, Front front, Back back, Sides sides, float fuel) {
         validateComponents(engine, chassis, tires, suspension, brakes, floor, front, back, sides);
         validateFuel(fuel);
 
@@ -347,8 +347,8 @@ public class Car {
         return angle;
     }
 
-    private void validateComponents(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension, Brakes[] brakes,
-                                    Floor floor, Front front, Back back, Sides sides) {
+    private void validateComponents(Engine engine, Chassis chassis, Tires[] tires, Suspension[] suspension,
+                                    Brakes[] brakes, Floor floor, Front front, Back back, Sides sides) {
         if (engine == null || chassis == null || tires == null || suspension == null || brakes == null
             || floor == null || front == null || back == null || sides == null) {
             throw new IllegalArgumentException("Arguments can't be null");
@@ -392,7 +392,8 @@ public class Car {
         return component.getAxle() == axle && component.getSide() == side;
     }
 
-    private WheelMountedComponent getComponentByPosition(WheelMountedComponent[] components, CarAxis axle, CarSides side) {
+    private WheelMountedComponent getComponentByPosition(WheelMountedComponent[] components, CarAxis axle,
+                                                         CarSides side) {
         for (WheelMountedComponent component : components) {
             if (isSpecifiedComponent(component, axle, side)) {
                 return component;

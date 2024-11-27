@@ -101,7 +101,7 @@ public class CarTest {
         Brakes brakeFR = new Brakes("brakeFR", 5f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
         Brakes brakeRL = new Brakes("brakeRL", 5f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
         Brakes brakeRR = new Brakes("brakeRR", 5f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
-        return new Brakes[]{brakeFL, brakeFR, brakeRL, brakeRR};
+        return new Brakes[] {brakeFL, brakeFR, brakeRL, brakeRR};
     }
 
     private Brakes[] getBrakesWithEffects() {
@@ -113,7 +113,7 @@ public class CarTest {
         Brakes brakeRL = new Brakes("brakeRL", 5f, 100, 100, brakesEffects, CarAxis.REAR, CarSides.LEFT, .1f);
         Brakes brakeRR = new Brakes("brakeRR", 5f, 100, 100, brakesEffects, CarAxis.REAR, CarSides.RIGHT, .1f);
 
-        return new Brakes[]{brakeFL, brakeFR, brakeRL, brakeRR};
+        return new Brakes[] {brakeFL, brakeFR, brakeRL, brakeRR};
     }
 
     private static Tires[] getTires() {
@@ -121,7 +121,7 @@ public class CarTest {
         Tires tireFR = new Tires("tireFR", 20f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
         Tires tireRL = new Tires("tireRL", 20f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
         Tires tireRR = new Tires("tireRR", 20f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
-        return new Tires[]{tireFL, tireFR, tireRL, tireRR};
+        return new Tires[] {tireFL, tireFR, tireRL, tireRR};
     }
 
     private Tires[] getTiresWithEffects() {
@@ -137,15 +137,19 @@ public class CarTest {
         Tires tireRL = new Tires("tireRL", 20f, 100, 100, tiresEffects, CarAxis.REAR, CarSides.LEFT, .1f);
         Tires tireRR = new Tires("tireRR", 20f, 100, 100, tiresEffects, CarAxis.REAR, CarSides.RIGHT, .1f);
 
-        return new Tires[]{tireFL, tireFR, tireRL, tireRR};
+        return new Tires[] {tireFL, tireFR, tireRL, tireRR};
     }
 
     private static Suspension[] getSuspensions() {
-        Suspension suspensionFL = new Suspension("suspensionFL", 25f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
-        Suspension suspensionFR = new Suspension("suspensionFR", 25f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
-        Suspension suspensionRL = new Suspension("suspensionRL", 25f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
-        Suspension suspensionRR = new Suspension("suspensionRR", 25f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
-        return new Suspension[]{suspensionFL, suspensionFR, suspensionRL, suspensionRR};
+        Suspension suspensionFL = new Suspension("suspensionFL", 25f, 100,
+            100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
+        Suspension suspensionFR = new Suspension("suspensionFR", 25f, 100,
+            100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Suspension suspensionRL = new Suspension("suspensionRL", 25f, 100,
+            100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
+        Suspension suspensionRR = new Suspension("suspensionRR", 25f, 100,
+            100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
+        return new Suspension[] {suspensionFL, suspensionFR, suspensionRL, suspensionRR};
     }
 
     private Suspension[] getSuspensionsWithEffects() {
@@ -156,10 +160,14 @@ public class CarTest {
 
         suspensionEffects = new ArrayList<>(Arrays.asList(grip3, brake3, acceleration1, maxSpeed1));
 
-        Suspension suspensionFL = new Suspension("suspensionFL", 25f, 100, 100, suspensionEffects, CarAxis.FRONT, CarSides.LEFT, .1f);
-        Suspension suspensionFR = new Suspension("suspensionFR", 25f, 100, 100, suspensionEffects, CarAxis.FRONT, CarSides.RIGHT, .1f);
-        Suspension suspensionRL = new Suspension("suspensionRL", 25f, 100, 100, suspensionEffects, CarAxis.REAR, CarSides.LEFT, .1f);
-        Suspension suspensionRR = new Suspension("suspensionRR", 25f, 100, 100, suspensionEffects, CarAxis.REAR, CarSides.RIGHT, .1f);
+        Suspension suspensionFL = new Suspension("suspensionFL", 25f, 100,
+            100, suspensionEffects, CarAxis.FRONT, CarSides.LEFT, .1f);
+        Suspension suspensionFR = new Suspension("suspensionFR", 25f, 100,
+            100, suspensionEffects, CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Suspension suspensionRL = new Suspension("suspensionRL", 25f, 100,
+            100, suspensionEffects, CarAxis.REAR, CarSides.LEFT, .1f);
+        Suspension suspensionRR = new Suspension("suspensionRR", 25f, 100,
+            100, suspensionEffects, CarAxis.REAR, CarSides.RIGHT, .1f);
 
         return new Suspension[]{suspensionFL, suspensionFR, suspensionRL, suspensionRR};
     }
@@ -261,9 +269,9 @@ public class CarTest {
             new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, null, 100);
         });
 
-        Tires[] invalidTires = new Tires[]{null, null, null, null};
-        Suspension[] invalidSuspension = new Suspension[]{null, null, null, null};
-        Brakes[] invalidBrakes = new Brakes[]{null, null, null, null};
+        Tires[] invalidTires = new Tires[] {null, null, null, null};
+        Suspension[] invalidSuspension = new Suspension[] {null, null, null, null};
+        Brakes[] invalidBrakes = new Brakes[] {null, null, null, null};
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Car(engine, chassis, invalidTires, suspensions, brakes, floor, front, back, null, 100);
@@ -328,12 +336,16 @@ public class CarTest {
     }
 
     private static Tires[] getMockTires() {
-        Tires mockTireFL = new MockTires("mockTireFL", 18f, 100,100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
-        Tires mockTireFR = new MockTires("mockTireFR", 18f, 100,100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
-        Tires mockTireRL = new MockTires("mockTireRL", 18f, 100,100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
-        Tires mockTireRR = new MockTires("mockTireRR", 18f, 100,100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
+        Tires mockTireFL = new MockTires("mockTireFL", 18f, 100,100,
+            new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
+        Tires mockTireFR = new MockTires("mockTireFR", 18f, 100,100,
+            new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Tires mockTireRL = new MockTires("mockTireRL", 18f, 100,100,
+            new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
+        Tires mockTireRR = new MockTires("mockTireRR", 18f, 100,100,
+            new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
 
-        return new Tires[]{mockTireFL, mockTireFR, mockTireRL, mockTireRR};
+        return new Tires[] {mockTireFL, mockTireFR, mockTireRL, mockTireRR};
     }
 
     @Test
@@ -373,12 +385,16 @@ public class CarTest {
     }
 
     private static Suspension[] getMockSuspension() {
-        Suspension mockSuspensionFL = new MockSuspension("mockSuspensionFL", 18f, 100,100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
-        Suspension mockSuspensionFR = new MockSuspension("mockSuspensionFR", 18f, 100,100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
-        Suspension mockSuspensionRL = new MockSuspension("mockSuspensionRL", 18f, 100,100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
-        Suspension mockSuspensionRR = new MockSuspension("mockSuspensionRR", 18f, 100,100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
+        Suspension mockSuspensionFL = new MockSuspension("mockSuspensionFL", 18f, 100,
+            100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
+        Suspension mockSuspensionFR = new MockSuspension("mockSuspensionFR", 18f, 100,
+            100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Suspension mockSuspensionRL = new MockSuspension("mockSuspensionRL", 18f, 100,
+            100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
+        Suspension mockSuspensionRR = new MockSuspension("mockSuspensionRR", 18f, 100,
+            100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
 
-        return new Suspension[]{mockSuspensionFL, mockSuspensionFR, mockSuspensionRL, mockSuspensionRR};
+        return new Suspension[] {mockSuspensionFL, mockSuspensionFR, mockSuspensionRL, mockSuspensionRR};
     }
 
     @Test
@@ -412,12 +428,16 @@ public class CarTest {
     }
 
     private static Brakes[] getMockBrakes() {
-        Brakes mockBrakeFL = new MockBrakes("mockBrakeFL", 18f, 100,100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
-        Brakes mockBrakeFR = new MockBrakes("mockBrakeFR", 18f, 100,100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
-        Brakes mockBrakeRL = new MockBrakes("mockBrakeRL", 18f, 100,100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
-        Brakes mockBrakeRR = new MockBrakes("mockBrakeRR", 18f, 100,100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
+        Brakes mockBrakeFL = new MockBrakes("mockBrakeFL", 18f, 100,100,
+            new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
+        Brakes mockBrakeFR = new MockBrakes("mockBrakeFR", 18f, 100,100,
+            new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Brakes mockBrakeRL = new MockBrakes("mockBrakeRL", 18f, 100,100,
+            new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
+        Brakes mockBrakeRR = new MockBrakes("mockBrakeRR", 18f, 100,100,
+            new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
 
-        return new Brakes[]{mockBrakeFL, mockBrakeFR, mockBrakeRL, mockBrakeRR};
+        return new Brakes[] {mockBrakeFL, mockBrakeFR, mockBrakeRL, mockBrakeRR};
     }
 
     @Test

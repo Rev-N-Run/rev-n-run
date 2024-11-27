@@ -35,7 +35,7 @@ public class AbstractComponentTest {
         assertDoesNotThrow(() -> new AbstractComponent(name, weight, maxDurability,
             maxDurability, effects, wearFactor) {});
 
-        float[] badWearFactor = new float[]{1.2f, 1f, -1f, 0f};
+        float[] badWearFactor = new float[] {1.2f, 1f, -1f, 0f};
         for (float factor : badWearFactor) {
             assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, maxDurability,
                 maxDurability, effects, factor) {});
@@ -62,14 +62,14 @@ public class AbstractComponentTest {
     /*@Test
     public void invalidValuesDegradeByImpact() {
         // Check frontier and external frontier values
-        final float[] collisionDamage = new float[]{1, 0, 1.01f, -0.1f, -1, 2};
+        final float[] collisionDamage = new float[] {1, 0, 1.01f, -0.1f, -1, 2};
         for (float damage : collisionDamage) {
             assertThrows(IllegalArgumentException.class, () -> component.degradeByImpact(damage));
             assertEquals(component.getMaxDurability(), component.getCurrentDurability());
         }
 
         // Check internal frontier values
-        final float[] collisionDamage2 = new float[]{0.99f, 0.01f};
+        final float[] collisionDamage2 = new float[] {0.99f, 0.01f};
         float res;
         for (float damage : collisionDamage2) {
             res = (component.getCurrentDurability() * damage);
@@ -115,8 +115,9 @@ public class AbstractComponentTest {
         // Limit values
 
         // External frontier values
-        final float[] negativeValues = new float[]{-0.1f, -1f};
-        final float[] positiveValues = new float[]{component.getMaxDurability() + 0.1f, component.getMaxDurability() + 20};
+        final float[] negativeValues = new float[] {-0.1f, -1f};
+        final float[] positiveValues = new float[] {component.getMaxDurability() + 0.1f,
+            component.getMaxDurability() + 20};
         float prev = component.getCurrentDurability();
 
         for (float value1 : negativeValues) {
@@ -129,7 +130,8 @@ public class AbstractComponentTest {
         }
 
         // Internal and frontier values
-        final float[] validValues = new float[]{1, 1.1f, 5, 43, component.getMaxDurability() - 0.1f, component.getMaxDurability()};
+        final float[] validValues = new float[] {1, 1.1f, 5, 43, component.getMaxDurability() - 0.1f,
+            component.getMaxDurability()};
         for (float value1 : validValues) {
             Component component1 = new AbstractComponent(name, weight, maxDurability,
                 1, effects, wearFactor) {};
@@ -145,7 +147,7 @@ public class AbstractComponentTest {
     @Test
     public void exceedsMaxDurability() {
         Component component = new AbstractComponent(name, weight, maxDurability,
-            maxDurability - 1, effects, wearFactor) {};
+            maxDurability - 1, effects, wearFactor) { };
         float value = maxDurability - 1;
         component.repair(value);
         assertEquals(maxDurability, component.getCurrentDurability());
@@ -158,7 +160,7 @@ public class AbstractComponentTest {
         assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, -20,
             maxDurability, effects, wearFactor) {});
         assertThrows(IllegalArgumentException.class, () -> new AbstractComponent(name, weight, -20,
-            -20, effects, wearFactor) {});
+            -20, effects, wearFactor) { });
 
         // Limit test
 

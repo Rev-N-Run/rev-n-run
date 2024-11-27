@@ -11,7 +11,7 @@ public class MockSuspension extends Suspension implements MockComponent {
     private float lastDegradation;
 
     public MockSuspension(String name, float weight, int maxDurability, int currentDurability, List<Effect> effects,
-                          CarAxis axle, CarSides side, float wearFactor) {
+                            CarAxis axle, CarSides side, float wearFactor) {
         super(name, weight, maxDurability, currentDurability, effects, axle, side, wearFactor);
     }
 

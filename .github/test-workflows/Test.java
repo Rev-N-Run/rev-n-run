@@ -1,15 +1,15 @@
 public class Test {
-  public void method (){
-    if(true){
-      System.out.println("hello");
+    public void method (){
+        if (true) {
+            System.out.println("hello");
+        }
+
+        while (true) {
+
+        }
+
+        for () {
+
+        }
     }
-
-    while(true){
-
-    }
-
-    for(){
-
-    }
-  }
 }
