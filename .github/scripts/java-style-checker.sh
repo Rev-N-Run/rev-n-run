@@ -9,18 +9,32 @@ check_file() {
     local file=$1
     local errors=0
     local line_number=0
+    local in_comment=false
 
     echo -e "\n${YELLOW}Analyzing $file${NC}"
 
     while IFS= read -r line; do
         ((line_number++))
 
+        # Check if is the start of a comment
+        if [[ "$line" =~ ^[[:space:]]*\/\* ]]; then
+            in_comment=true
+        fi
+
+        # Check if is the end of a comment
+        if [[ "$line" =~ \*\/ ]]; then
+            in_comment=false
+            continue
+        fi
+
         # Check indentation of 4 spaces
         if [[ "$line" =~ ^[[:space:]] ]]; then
-            indent_count=$(echo "$line" | awk -F'[^ ]' '{print length($1)}')
-            if ((indent_count % 4 != 0)); then
-                echo -e "${RED}Line $line_number: The indentation is not a multiple of 4 spaces${NC}"
-                ((errors++))
+            if ! $in_comment; then
+                indent_count=$(echo "$line" | awk -F'[^ ]' '{print length($1)}')
+                if ((indent_count % 4 != 0)); then
+                    echo -e "${RED}Line $line_number: The indentation is not a multiple of 4 spaces${NC}"
+                    ((errors++))
+                fi
             fi
         fi
 
