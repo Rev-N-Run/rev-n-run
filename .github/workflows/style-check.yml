@@ -3,10 +3,10 @@ name: Code Style Check
 on:
   push:
     branches:
-      - github-ci
+      - '**'
   pull_request:
     branches:
-      - github-ci
+      - main
 
 jobs:
   style-check:
@@ -17,34 +17,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Line Length Check
+      - name: Validate style checker script
         run: |
-          find . -type f -name "*.java" -exec bash -c '
-            while IFS= read -r line; do
-              if [ ${#line} -gt 120 ]; then
-                echo "Line exceeds 120 characters: $line"
-                exit 1
-              fi
-            done < "$1"
-          ' bash {} \;
+          chmod +x ./.github/scripts/java-style-checker.sh
 
-      - name: Control Structures Spacing Check
+      - name: Run style checker
         run: |
-          # Check incorrect control structure spacing
-          ! find . -type f -name "*.java" -exec grep -l "\(if\|for\|while\)(" {} \; | grep . && \
-          # Check correct method calls (no space before parenthesis)
-          ! find . -type f -name "*.java" -exec grep -l "[a-zA-Z0-9]\+ (" {} \; | grep .
-
-      - name: Curly Brace Spacing Check
-        run: |
-          ! find . -type f -name "*.java" -exec grep -l "[^ ]{" {} \; | grep .
-
-      - name: Operators Spacing Check
-        run: |
-          # Check for operators without spaces
-          ! find . -type f -name "*.java" -exec grep -l "[0-9a-zA-Z]=\|=[0-9a-zA-Z]\|[0-9a-zA-Z]+\|+[0-9a-zA-Z]\|[0-9a-zA-Z]-\|-[0-9a-zA-Z]\|[0-9a-zA-Z]\*\|\*[0-9a-zA-Z]\|[0-9a-zA-Z]/\|/[0-9a-zA-Z]\|&&\|\|\|" {} \; | grep .
-
-      - name: Assignment Operator Spacing Check
-        run: |
-          # Check for incorrect assignment spacing
-          ! find . -type f -name "*.java" -exec grep -l "[a-zA-Z0-9]=[a-zA-Z0-9]" {} \; | grep .
+          ./.github/scripts/java-style-checker.sh
+        continue-on-error: false
