@@ -52,10 +52,8 @@ check_file() {
 
     if [ $errors -eq 0 ]; then
         echo -e "${GREEN}The file $file passes all the style requirements!${NC}"
-        #return 0
     else
         echo -e "${RED}There were $errors style errors $file${NC}"
-        #return 1
     fi
 
     return $errors
@@ -78,7 +76,7 @@ while IFS= read -r -d '' file; do
     ((total_files++))
     check_file "$file"
     file_errors=$?
-    #((total_errors += result))
+
     if [ $file_errors -gt 0 ]; then
         ((files_with_errors++))
         ((total_errors += file_errors))
