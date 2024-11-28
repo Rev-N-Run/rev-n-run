@@ -1,5 +1,6 @@
 package io.github.revNrun.revNrun.model.car;
 
+import io.github.revNrun.revNrun.controllers.vectorController.Vector2;
 import io.github.revNrun.revNrun.model.car.components.*;
 import io.github.revNrun.revNrun.model.car.components.enums.CarAxis;
 import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
@@ -13,8 +14,7 @@ public class Car {
     private static final int N_TIRES = 4;
     private static final int MIN_FUEL = 0;
 
-    private int positionX = 0;
-    private int positionY = 0;
+    private Vector2 position;
     private float speed = 0;
     private float maxSpeed = 100;
     private int maxFuel = 100;
@@ -67,8 +67,11 @@ public class Car {
         float velocityY = (float) (speed * Math.sin(angle));
 
         // Update position
-        positionX += velocityX * delta;
-        positionY += velocityY * delta;
+        float positionX = velocityX * delta;
+        float positionY = velocityY * delta;
+
+        this.position.setX(this.position.getX() + positionX);
+        this.position.setY(this.position.getY() + positionY);
     }
 
     public void accelerate(float delta) {
@@ -263,12 +266,12 @@ public class Car {
         sides.degradeByImpact(value);
     }
 
-    public int getPositionX() {
-        return positionX;
+    public float getPositionX() {
+        return position.getX();
     }
 
-    public int getPositionY() {
-        return positionY;
+    public float getPositionY() {
+        return position.getY();
     }
 
     public float getSpeed() {

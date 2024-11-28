@@ -527,8 +527,9 @@ public class CarTest {
 
     @Test
     public void testNoMovementAtZeroSpeed() {
-        int initialX = car.getPositionX();
-        int initialY = car.getPositionY();
+
+        float initialX = car.getPositionX();
+        float initialY = car.getPositionY();
 
         car.updatePosition(1);
 
@@ -538,8 +539,8 @@ public class CarTest {
 
     @Test
     public void testForwardMovement() {
-        int initialX = carWithEffects.getPositionX();
-        int initialY = carWithEffects.getPositionY();
+        float initialX = carWithEffects.getPositionX();
+        float initialY = carWithEffects.getPositionY();
 
         carWithEffects.accelerate(1);
         carWithEffects.updatePosition(1);
