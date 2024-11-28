@@ -2,12 +2,16 @@ package io.github.revNrun.revNrun.model.checkpoints;
 
 import io.github.revNrun.revNrun.model.vector.Vector2;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Checkpoints {
     private final float width;
     private final List<Vector2> controlPoints;
-    private List<Vector2> progress;
+    private final List<Vector2> progress;
+    private boolean hasPassedEveryCheckPointInOrder;
+    private int pointer;
 
     public Checkpoints(List<Vector2> controlPoints, float width) {
         if (controlPoints == null || controlPoints.isEmpty() || width <= 0) {
@@ -17,6 +21,9 @@ public class Checkpoints {
 
         this.width = width;
         this.controlPoints = controlPoints;
+        this.progress = new ArrayList<Vector2>();
+        this.hasPassedEveryCheckPointInOrder = true;
+        this.pointer = 0;
     }
 
     public Vector2 getStartPoint() {
@@ -26,14 +33,29 @@ public class Checkpoints {
     public boolean isInsideCircuit(Vector2 point) {
         for (Vector2 p : controlPoints) {
             if (p.distance(point) <= width) {
+                recordProgress(p);
                 return true;
             }
         }
         return false;
     }
 
-    private void recordProgress() {
-
+    private void recordProgress(Vector2 checkPoint) {
+        boolean alreadySet = false;
+        for (Vector2 p : progress) {
+            if (checkPoint == p) {
+                alreadySet = true;
+                break;
+            }
+        }
+        if (!alreadySet
+            && pointer < controlPoints.size()
+            && checkPoint == controlPoints.get(pointer)) {
+            progress.add(checkPoint);
+            pointer++;
+        } else {
+            hasPassedEveryCheckPointInOrder = false;
+        }
     }
 
     public boolean hasPassedCheckPoints() {
