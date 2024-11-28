@@ -336,4 +336,74 @@ class Vector2Test {
         Vector2 q6 = new Vector2(2, 4);
         assertTrue(doIntersect(p5, q5, p6, q6, minDistance), "T-junction with small gap should intersect");
     }
+
+    @Test
+    void testSub() {
+        Vector2 v1 = new Vector2(5, 7);
+        Vector2 v2 = new Vector2(3, 2);
+        Vector2 result = v1.sub(v2);
+
+        assertEquals(2, result.getX());
+        assertEquals(5, result.getY());
+    }
+
+    @Test
+    void testNor() {
+        Vector2 v = new Vector2(3, 4); // Length = 5
+        Vector2 result = v.nor();
+
+        assertEquals(3 / 5.0, result.getX(), 1e-6);
+        assertEquals(4 / 5.0, result.getY(), 1e-6);
+
+        // Test zero vector
+        Vector2 zero = new Vector2(0, 0);
+        Vector2 zeroResult = zero.nor();
+
+        assertEquals(0, zeroResult.getX());
+        assertEquals(0, zeroResult.getY());
+    }
+
+    @Test
+    void testCpy() {
+        Vector2 original = new Vector2(6, -4);
+        Vector2 copy = original.cpy();
+
+        assertNotSame(original, copy); // Ensure it's a new instance
+        assertEquals(original.getX(), copy.getX());
+        assertEquals(original.getY(), copy.getY());
+    }
+
+    @Test
+    void testAdd() {
+        Vector2 v1 = new Vector2(1, 2);
+        Vector2 v2 = new Vector2(3, 4);
+        Vector2 result = v1.add(v2);
+
+        assertEquals(4, result.getX());
+        assertEquals(6, result.getY());
+    }
+
+    @Test
+    void testScl() {
+        Vector2 v = new Vector2(2, -3);
+        float scalar = 3;
+        Vector2 result = v.scl(scalar);
+
+        assertEquals(6, result.getX());
+        assertEquals(-9, result.getY());
+    }
+
+    @Test
+    void testLength() throws NoSuchMethodException, IllegalAccessException, java.lang.reflect.InvocationTargetException {
+        Vector2 v = new Vector2(3, 4); // Length = 5
+
+        float length = v.lengthTest();
+
+        assertEquals(5, length, 1e-6);
+
+        // Test zero vector
+        Vector2 zero = new Vector2(0, 0);
+        float zeroLength = zero.lengthTest();
+        assertEquals(0, zeroLength, 1e-6);
+    }
 }
