@@ -61,10 +61,12 @@ class LapTimerTest {
         LapTimer lapTimer = new LapTimer();
         lapTimer.start();
         Thread.sleep(1000);
+        lapTimer.stop();
 
-        assertTrue(lapTimer.currentLapTimeFasterThan(lapStart));
+        assertTrue(lapTimer.lastLapTimeFasterThan(lapStart));
         String testLapTime1 = "00:00.836";
-        assertTrue(lapTimer.currentLapTimeFasterThan(testLapTime1));
-        assertFalse(lapTimer.currentLapTimeFasterThan("00:34.000"));
+        assertTrue(lapTimer.lastLapTimeFasterThan(testLapTime1));
+        assertFalse(lapTimer.lastLapTimeFasterThan("00:34.000"));
+        assertTrue(lapTimer.lastLapTimeFasterThan(lapTimer.getLastLapTime()));
     }
 }
