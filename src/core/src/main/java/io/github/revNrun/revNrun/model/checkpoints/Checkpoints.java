@@ -10,6 +10,10 @@ public class Checkpoints {
     private List<Vector2> progress;
 
     public Checkpoints(List<Vector2> controlPoints, float width) {
+        if (controlPoints == null || controlPoints.isEmpty() || width <= 0) {
+            throw new IllegalArgumentException("Control points must not be null or empty," +
+                "or width must not be zero or negative");
+        }
         this.width = width;
         this.controlPoints = controlPoints;
     }
