@@ -30,7 +30,8 @@ public class LapTimer {
     }
 
     public void stop() {
-
+        isRunning = false;
+        currentLapTime = System.nanoTime() - startTime;
     }
 
     private String formatTime(long nanoTime) {
