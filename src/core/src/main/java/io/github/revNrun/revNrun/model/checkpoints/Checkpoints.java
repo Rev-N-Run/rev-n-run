@@ -15,7 +15,7 @@ public class Checkpoints {
     }
 
     public Vector2 getStartPoint() {
-        return null;
+        return controlPoints.getFirst();
     }
 
     public boolean isInsideCircuit(Vector2 point) {
