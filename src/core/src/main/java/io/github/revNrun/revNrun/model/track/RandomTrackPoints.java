@@ -211,38 +211,10 @@ public class RandomTrackPoints {
      */
     private void adjustBasePoints() {
         // Check the base control points to not have a near point too close. If so, remove it from the list.
-        /*
-        i iterates from size()-2 cause size()-1 is also the first point. If the first point is too close
-        to the last point, the last point should be the removed one, that's what happens when j == 0,
-        so it's unnecessary to check the first and last point distance twice.
-         */
-        for (int i = basePoints.size() - 2; i >= 1; i--) {
-            Vector2 a = basePoints.get(i);
-            for (int j = i - 1; j >= 0; j--) {
-                Vector2 b = basePoints.get(j);
-                if (a.distance(b) < controlPointMinDistance) {
-                    basePoints.remove(i);
-                    break;
-                }
-            }
-        }
+        basePoints = AdjustPoints.adjustNearPoints(basePoints, controlPointMinDistance);
 
         // Check the base control points to not intersect. If so, remove segments that create an intersection.
-        for (int i = 0; i < basePoints.size() - 1; i++) {
-            Vector2 a = basePoints.get(i);
-            Vector2 b = basePoints.get(i + 1);
-
-            for (int j = i + 2; j < basePoints.size() - 2; j++) {
-                Vector2 c = basePoints.get(j);
-                Vector2 d = basePoints.get(j + 1);
-                if (Vector2.doIntersect(a, b, c, d, controlPointMinDistance)) {
-                    basePoints.remove(j + 1);
-                    basePoints.remove(j);
-                    i = -1;
-                    break;
-                }
-            }
-        }
+        basePoints = AdjustPoints.adjustIntersections(basePoints, controlPointMinDistance);
 
         if (basePoints.size() <= 3) {
             RandomTrackPoints newTrack = new RandomTrackPoints();
