@@ -47,7 +47,7 @@ class AdjustPoints {
     static List<Vector2> adjustIntersections(List<Vector2> points, int minDistance) {
         List<Vector2> adjustedPoints = new ArrayList<>(points);
 
-        for (int i = 0; i < points.size() - 1; i++) {
+        for (int i = 0; i < adjustedPoints.size() - 1; i++) {
             Vector2 a = adjustedPoints.get(i);
             Vector2 b = adjustedPoints.get(i + 1);
 
