@@ -266,7 +266,7 @@ public class RandomTrackPoints {
         assert controlPoints.getLast() == basePoints.get(0) : "Start point has not been added as the last point of the track";
         controlPoints.add(basePoints.get(1));
 
-        points.addAll(TrackSmoothing.computeCatmullRom(controlPoints, 10, true));
+        points.addAll(TrackSmoothing.computeCatmullRom(controlPoints, 1, true));
     }
 
     // TEST GETTERS

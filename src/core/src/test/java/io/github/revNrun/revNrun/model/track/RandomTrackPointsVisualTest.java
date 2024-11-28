@@ -19,7 +19,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import io.github.revNrun.revNrun.model.track.RandomTrackPoints;
+import io.github.revNrun.revNrun.model.track.Track;
 import io.github.revNrun.revNrun.model.vector.Vector2;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class Main extends ApplicationAdapter {
 
     private OrthographicCamera camera;
     private ShapeRenderer shapeRenderer;
-    private RandomTrackPoints randomTrackPoints;
+    private Track randomTrack;
 
     @Override
     public void create() {
@@ -42,7 +42,7 @@ public class Main extends ApplicationAdapter {
         shapeRenderer = new ShapeRenderer();
 
         // Genera los puntos del circuito
-        randomTrackPoints = new RandomTrackPoints();
+        randomTrack = new Track();
     }
 
     @Override
@@ -57,58 +57,59 @@ public class Main extends ApplicationAdapter {
         // Dibuja los puntos generados
         drawPoints();
         drawBasePoints();
-        drawInitialPoints();
-    }
-
-    private void drawInitialPoints() {
-        List<Vector2> points = randomTrackPoints.getInitialPoints();
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.BLUE);
-
-        for (Vector2 point : points) {
-            // Ajusta las coordenadas al centro de la pantalla
-            float x = point.getX() + Gdx.graphics.getWidth() / 2f;
-            float y = point.getY() + Gdx.graphics.getHeight() / 2f;
-
-            // Dibuja cada punto como un pequeño círculo
-            shapeRenderer.circle(x, y, 1);
-        }
-
-        shapeRenderer.end();
+        drawBorders();
     }
 
     private void drawBasePoints() {
-        List<Vector2> points = randomTrackPoints.getBasePoints();
+        List<Vector2> points = randomTrack.getControlPoints();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.GREEN);
 
         for (Vector2 point : points) {
-            // Ajusta las coordenadas al centro de la pantalla
             float x = point.getX() + Gdx.graphics.getWidth() / 2f;
             float y = point.getY() + Gdx.graphics.getHeight() / 2f;
 
-            // Dibuja cada punto como un pequeño círculo
-            shapeRenderer.circle(x, y, 1);
+            shapeRenderer.circle(x, y, 2);
         }
 
         shapeRenderer.end();
     }
 
     private void drawPoints() {
-        List<Vector2> points = randomTrackPoints.getPoints();
+        List<Vector2> points = randomTrack.getTrackPoints();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.RED);
 
         for (Vector2 point : points) {
-            // Ajusta las coordenadas al centro de la pantalla
             float x = point.getX() + Gdx.graphics.getWidth() / 2f;
             float y = point.getY() + Gdx.graphics.getHeight() / 2f;
 
-            // Dibuja cada punto como un pequeño círculo
-            shapeRenderer.circle(x, y, 2);
+            shapeRenderer.circle(x, y, 1);
+        }
+
+        shapeRenderer.end();
+    }
+
+    private void drawBorders() {
+        List<Vector2> leftPoints = randomTrack.getLeftBorder();
+        List<Vector2> rightPoints = randomTrack.getRightBorder();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.GREEN);
+
+        for (Vector2 point : leftPoints) {
+            float x = point.getX() + Gdx.graphics.getWidth() / 2f;
+            float y = point.getY() + Gdx.graphics.getHeight() / 2f;
+
+            shapeRenderer.circle(x, y, 1);
+        }
+        for (Vector2 point : rightPoints) {
+            float x = point.getX() + Gdx.graphics.getWidth() / 2f;
+            float y = point.getY() + Gdx.graphics.getHeight() / 2f;
+
+            shapeRenderer.circle(x, y, 1);
         }
 
         shapeRenderer.end();
@@ -122,8 +123,9 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void dispose() {
-        // Libera los recursos
         shapeRenderer.dispose();
     }
 }
-*/
+
+
+ */
