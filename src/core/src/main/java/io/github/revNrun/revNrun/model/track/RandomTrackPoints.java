@@ -26,7 +26,7 @@ import java.util.Random;
  * to the base points.
  * </p>
  */
-public class RandomTrackPoints {
+class RandomTrackPoints {
     // The following values determine the randomness of the track
     private static final int MIN_NUM_INITIAL_POINTS = 20;   // Minimum number of initial points
     private static final int MAX_NUM_INITIAL_POINTS = 100;   // Maximum number of initial points, can't be the same as MIN_NUM_INITIAL_POINTS
@@ -55,7 +55,7 @@ public class RandomTrackPoints {
     /**
      * RandomTrackPoints constructor generates the random points of the track automatically when called.
      */
-    public RandomTrackPoints() {
+    RandomTrackPoints() {
         initialPoints = new ArrayList<>();
         basePoints = new ArrayList<>();
         points = new ArrayList<>();
@@ -84,15 +84,15 @@ public class RandomTrackPoints {
         this.generatePoints();
     }
 
-    public List<Vector2> getInitialPoints() {
+    List<Vector2> getInitialPoints() {
         return initialPoints;
     }
 
-    public List<Vector2> getBasePoints() {
+    List<Vector2> getBasePoints() {
         return basePoints;
     }
 
-    public List<Vector2> getPoints() {
+    List<Vector2> getPoints() {
         return points;
     }
 

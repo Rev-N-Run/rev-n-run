@@ -67,8 +67,8 @@ public class Vector2 {
 
     /**
      * Subtracts another vector from this vector.
-     * @param other The vector to subtract
-     * @return A new vector representing the difference
+     * @param other The vector to subtract.
+     * @return A new vector representing the difference.
      */
     public Vector2 sub(Vector2 other) {
         return new Vector2(this.x - other.x, this.y - other.y);
@@ -84,7 +84,7 @@ public class Vector2 {
 
     /**
      * Normalizes the vector (creates a unit vector in the same direction).
-     * @return A new normalized vector
+     * @return A new normalized vector.
      */
     public Vector2 nor() {
         float len = length();
@@ -94,7 +94,7 @@ public class Vector2 {
 
     /**
      * Creates a copy of this vector.
-     * @return A new vector with the same coordinates
+     * @return A new vector with the same coordinates.
      */
     public Vector2 cpy() {
         return new Vector2(x, y);
@@ -102,8 +102,8 @@ public class Vector2 {
 
     /**
      * Adds another vector to this vector.
-     * @param other The vector to add
-     * @return A new vector representing the sum
+     * @param other The vector to add.
+     * @return A new vector representing the sum.
      */
     public Vector2 add(Vector2 other) {
         return new Vector2(this.x + other.x, this.y + other.y);
@@ -111,8 +111,8 @@ public class Vector2 {
 
     /**
      * Scales the vector by a scalar value.
-     * @param scalar The value to multiply the vector by
-     * @return A new vector scaled by the given value
+     * @param scalar The value to multiply the vector by.
+     * @return A new vector scaled by the given value.
      */
     public Vector2 scl(float scalar) {
         return new Vector2(x * scalar, y * scalar);
