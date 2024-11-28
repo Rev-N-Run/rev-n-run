@@ -266,6 +266,10 @@ public class Car {
         sides.degradeByImpact(value);
     }
 
+    public Vector2 getPosition() {
+        return position;
+    }
+
     public float getPositionX() {
         return position.getX();
     }
