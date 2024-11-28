@@ -66,6 +66,59 @@ public class Vector2 {
     }
 
     /**
+     * Subtracts another vector from this vector.
+     * @param other The vector to subtract
+     * @return A new vector representing the difference
+     */
+    public Vector2 sub(Vector2 other) {
+        return new Vector2(this.x - other.x, this.y - other.y);
+    }
+
+    /**
+     * Calculates the length (magnitude) of the vector.
+     * @return The vector's length
+     */
+    private float length() {
+        return (float) Math.sqrt(x * x + y * y);
+    }
+
+    /**
+     * Normalizes the vector (creates a unit vector in the same direction).
+     * @return A new normalized vector
+     */
+    public Vector2 nor() {
+        float len = length();
+        if (len == 0) return new Vector2(0, 0);
+        return new Vector2(x / len, y / len);
+    }
+
+    /**
+     * Creates a copy of this vector.
+     * @return A new vector with the same coordinates
+     */
+    public Vector2 cpy() {
+        return new Vector2(x, y);
+    }
+
+    /**
+     * Adds another vector to this vector.
+     * @param other The vector to add
+     * @return A new vector representing the sum
+     */
+    public Vector2 add(Vector2 other) {
+        return new Vector2(this.x + other.x, this.y + other.y);
+    }
+
+    /**
+     * Scales the vector by a scalar value.
+     * @param scalar The value to multiply the vector by
+     * @return A new vector scaled by the given value
+     */
+    public Vector2 scl(float scalar) {
+        return new Vector2(x * scalar, y * scalar);
+    }
+
+    /**
      * Computes the angle (in radians) between this vector and another vector,
      * measured counterclockwise from this vector to the other.
      *
@@ -238,5 +291,9 @@ public class Vector2 {
 
     public static int orientationTest(Vector2 p, Vector2 q, Vector2 r) {
         return orientation(p, q, r);
+    }
+
+    public float lengthTest() {
+        return length();
     }
 }
