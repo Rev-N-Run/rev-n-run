@@ -37,4 +37,10 @@ class GhostCarTest {
         assertEquals(2, ghostCar.getAngle());
         assertEquals(2, ghostCar.getTimestamp());
     }
+
+    @Test
+    void reset() {
+        ghostCar.reset();
+        assertEquals(0, ghostCar.getCurrentStateIndex());
+    }
 }

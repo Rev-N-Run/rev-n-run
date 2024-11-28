@@ -21,6 +21,10 @@ public class GhostCar {
         }
     }
 
+    public void reset() {
+
+    }
+
     public float getPositionX() {
         GhostState state = states.get(currentStateIndex);
         return state.getX();
@@ -39,5 +43,9 @@ public class GhostCar {
     public float getTimestamp() {
         GhostState state = states.get(currentStateIndex);
         return state.getTimestamp();
+    }
+
+    public int getCurrentStateIndex() {
+        return currentStateIndex;
     }
 }
