@@ -30,5 +30,10 @@ class GhostCarTest {
         assertEquals(ghostCar.getPositionY(1), ghostCar.getPositionY(2));
         assertEquals(ghostCar.getAngle(1), ghostCar.getAngle(2));
         assertEquals(ghostCar.getTimestamp(1), ghostCar.getTimestamp(2));
+
+        assertEquals(2, ghostCar.getPositionX(1));
+        assertEquals(2, ghostCar.getPositionY(1));
+        assertEquals(2, ghostCar.getAngle(1));
+        assertEquals(2, ghostCar.getTimestamp(1));
     }
 }
