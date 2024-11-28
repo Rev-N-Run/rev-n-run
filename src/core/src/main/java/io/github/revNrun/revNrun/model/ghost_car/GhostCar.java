@@ -14,15 +14,7 @@ public class GhostCar {
     }
 
     public float getPositionX(int index) {
-        GhostState state;
-        if (index < 0) {
-            state = states.getFirst();
-            return state.getX();
-        } else if (index >= states.size()) {
-            state = states.getLast();
-            return state.getX();
-        }
-        state = states.get(index);
+        GhostState state = getState(index);
         return state.getX();
     }
 
