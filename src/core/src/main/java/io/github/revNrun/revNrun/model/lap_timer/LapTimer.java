@@ -15,4 +15,8 @@ public class LapTimer {
     public boolean isRunning() {
         return isRunning;
     }
+
+    public String getCurrentLapTime() {
+        return "";
+    }
 }
