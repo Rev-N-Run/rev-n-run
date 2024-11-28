@@ -1,5 +1,6 @@
 package io.github.revNrun.revNrun.controllers.vectorController;
 
+import io.github.revNrun.revNrun.model.vector.Vector2;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

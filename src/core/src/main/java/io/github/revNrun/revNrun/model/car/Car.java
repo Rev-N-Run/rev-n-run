@@ -1,6 +1,6 @@
 package io.github.revNrun.revNrun.model.car;
 
-import io.github.revNrun.revNrun.controllers.vectorController.Vector2;
+import io.github.revNrun.revNrun.model.vector.Vector2;
 import io.github.revNrun.revNrun.model.car.components.*;
 import io.github.revNrun.revNrun.model.car.components.enums.CarAxis;
 import io.github.revNrun.revNrun.model.car.components.enums.CarSides;

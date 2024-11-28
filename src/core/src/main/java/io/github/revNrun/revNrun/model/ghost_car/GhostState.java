@@ -1,6 +1,6 @@
 package io.github.revNrun.revNrun.model.ghost_car;
 
-import io.github.revNrun.revNrun.controllers.vectorController.Vector2;
+import io.github.revNrun.revNrun.model.vector.Vector2;
 
 public class GhostState {
     private final Vector2 position;
