@@ -26,9 +26,9 @@ class GhostCarTest {
         ghostCar.recordState(new Vector2(2, 2), 2, 2);
 
         // >= states.size()
-        assertEquals(ghostCar.getPositionX(1), ghostCar.getPositionX(1));
-        assertEquals(ghostCar.getPositionY(1), ghostCar.getPositionY(1));
-        assertEquals(ghostCar.getAngle(1), ghostCar.getAngle(1));
-        assertEquals(ghostCar.getTimestamp(1), ghostCar.getTimestamp(1));
+        assertEquals(ghostCar.getPositionX(1), ghostCar.getPositionX(2));
+        assertEquals(ghostCar.getPositionY(1), ghostCar.getPositionY(2));
+        assertEquals(ghostCar.getAngle(1), ghostCar.getAngle(2));
+        assertEquals(ghostCar.getTimestamp(1), ghostCar.getTimestamp(2));
     }
 }
