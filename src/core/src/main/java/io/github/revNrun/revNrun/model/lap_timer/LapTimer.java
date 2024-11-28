@@ -6,7 +6,10 @@ public class LapTimer {
     private boolean isRunning = false;
 
     public void start() {
-
+        if (!isRunning) {
+            startTime = System.nanoTime();
+            isRunning = true;
+        }
     }
 
     public boolean isRunning() {
