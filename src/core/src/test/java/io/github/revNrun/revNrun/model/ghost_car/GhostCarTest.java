@@ -42,5 +42,9 @@ class GhostCarTest {
     void reset() {
         ghostCar.reset();
         assertEquals(0, ghostCar.getCurrentStateIndex());
+        assertEquals(0, ghostCar.getPositionX());
+        assertEquals(0, ghostCar.getPositionY());
+        assertEquals(0, ghostCar.getAngle());
+        assertEquals(0, ghostCar.getTimestamp());
     }
 }
