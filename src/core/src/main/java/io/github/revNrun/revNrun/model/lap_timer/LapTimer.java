@@ -17,6 +17,19 @@ public class LapTimer {
     }
 
     public String getCurrentLapTime() {
-        return "";
+        if (!isRunning) {
+            return "00:00.000";
+        }
+        currentLapTime = System.nanoTime() - startTime;
+        return formatTime(currentLapTime);
+    }
+
+    private String formatTime(long nanoTime) {
+        long millis = nanoTime / 1_000_000;
+        long minutes = (millis / 1000) / 60;
+        long seconds = (millis / 1000) % 60;
+        long milliseconds = millis % 1000;
+
+        return String.format("%02d:%02d.%03d", minutes, seconds, milliseconds);
     }
 }
