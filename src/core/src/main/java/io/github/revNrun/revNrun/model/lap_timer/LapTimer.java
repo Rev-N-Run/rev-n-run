@@ -34,6 +34,10 @@ public class LapTimer {
         currentLapTime = System.nanoTime() - startTime;
     }
 
+    public boolean currentLapTimeFasterThan(String lapTime) {
+        return false;
+    }
+
     private String formatTime(long nanoTime) {
         long millis = nanoTime / 1_000_000;
         long minutes = (millis / 1000) / 60;

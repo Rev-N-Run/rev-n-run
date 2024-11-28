@@ -55,4 +55,16 @@ class LapTimerTest {
 
         assertEquals(lapStop, lapTimer.getCurrentLapTime());
     }
+
+    @Test
+    void compareLapTimeTest() throws InterruptedException {
+        LapTimer lapTimer = new LapTimer();
+        lapTimer.start();
+        Thread.sleep(1000);
+
+        assertTrue(lapTimer.currentLapTimeFasterThan(lapStart));
+        String testLapTime1 = "00:00.836";
+        assertTrue(lapTimer.currentLapTimeFasterThan(testLapTime1));
+        assertFalse(lapTimer.currentLapTimeFasterThan("00:34.000"));
+    }
 }
