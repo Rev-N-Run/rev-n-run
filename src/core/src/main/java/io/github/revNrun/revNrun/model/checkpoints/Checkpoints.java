@@ -51,6 +51,6 @@ public class Checkpoints {
     }
 
     public boolean hasPassedCheckPoints() {
-        return false;
+        return hasPassedEveryCheckPointInOrder;
     }
 }
