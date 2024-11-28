@@ -22,4 +22,14 @@ class LapTimerTest {
         assertTrue(lapTimer.getCurrentLapTime().compareTo(lapStart) > 0);
         assertNotEquals(lapStart, lapTimer.getCurrentLapTime());
     }
+
+    @Test
+    void resetTest() throws InterruptedException {
+        LapTimer lapTimer = new LapTimer();
+        lapTimer.start();
+        Thread.sleep(1000);
+        lapTimer.reset();
+        assertFalse(lapTimer.isRunning());
+        assertEquals("00:00.000", lapTimer.getCurrentLapTime());
+    }
 }
