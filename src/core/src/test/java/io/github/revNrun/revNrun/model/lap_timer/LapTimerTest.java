@@ -9,6 +9,9 @@ class LapTimerTest {
     void startLapTest() throws InterruptedException {
         LapTimer lapTimer = new LapTimer();
         String lapStart = "00:00.000";
+        assertFalse(lapTimer.isRunning());
+        assertEquals(lapStart, lapTimer.getCurrentLapTime());
+
         lapTimer.start();
 
         assertTrue(lapTimer.isRunning());
