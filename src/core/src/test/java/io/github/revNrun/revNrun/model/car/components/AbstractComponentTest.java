@@ -1,4 +1,4 @@
-package io.github.revNrun.revNrun.car.components;
+package io.github.revNrun.revNrun.model.car.components;
 
 import io.github.revNrun.revNrun.model.car.components.AbstractComponent;
 import io.github.revNrun.revNrun.model.car.components.Component;
