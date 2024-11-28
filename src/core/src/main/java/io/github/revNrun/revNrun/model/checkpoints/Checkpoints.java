@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Checkpoints {
     private final float width;
-    private List<Vector2> controlPoints;
+    private final List<Vector2> controlPoints;
     private List<Vector2> progress;
 
     public Checkpoints(List<Vector2> controlPoints, float width) {
@@ -14,6 +14,7 @@ public class Checkpoints {
             throw new IllegalArgumentException("Control points must not be null or empty," +
                 "or width must not be zero or negative");
         }
+
         this.width = width;
         this.controlPoints = controlPoints;
     }
@@ -23,6 +24,11 @@ public class Checkpoints {
     }
 
     public boolean isInsideCircuit(Vector2 point) {
+        for (Vector2 p : controlPoints) {
+            if (p.distance(point) <= width) {
+                return true;
+            }
+        }
         return false;
     }
 
