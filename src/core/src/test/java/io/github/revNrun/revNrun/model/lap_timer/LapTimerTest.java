@@ -39,4 +39,20 @@ class LapTimerTest {
 
         assertEquals(lapStart, lapTimer.getCurrentLapTime());
     }
+
+    @Test
+    void stopTest() throws InterruptedException {
+        LapTimer lapTimer = new LapTimer();
+        lapTimer.start();
+        Thread.sleep(1000);
+
+        lapTimer.stop();
+        String lapStop = lapTimer.getCurrentLapTime();
+
+        assertFalse(lapTimer.isRunning());
+
+        Thread.sleep(1000);
+
+        assertEquals(lapStop, lapTimer.getCurrentLapTime());
+    }
 }

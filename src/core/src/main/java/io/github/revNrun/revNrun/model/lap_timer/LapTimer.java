@@ -29,6 +29,10 @@ public class LapTimer {
         isRunning = false;
     }
 
+    public void stop() {
+
+    }
+
     private String formatTime(long nanoTime) {
         long millis = nanoTime / 1_000_000;
         long minutes = (millis / 1000) / 60;
