@@ -7,38 +7,37 @@ import java.util.List;
 
 public class GhostCar {
     private List<GhostState> states = new ArrayList<>();
-    private int curretStateIndex = 0;
+    private int currentStateIndex = 0;
 
     public void recordState(Vector2 position, float angle, float timestamp) {
         states.add(new GhostState(position, angle, timestamp));
     }
 
-    public float getPositionX(int index) {
-        GhostState state = getState(index);
+    public void nextFrame() {
+        currentStateIndex++;
+        int size = states.size();
+        if (currentStateIndex >= size) {
+            currentStateIndex = size - 1;
+        }
+    }
+
+    public float getPositionX() {
+        GhostState state = states.get(currentStateIndex);
         return state.getX();
     }
 
-    public float getPositionY(int index) {
-        GhostState state = getState(index);
+    public float getPositionY() {
+        GhostState state = states.get(currentStateIndex);
         return state.getY();
     }
 
-    public float getAngle(int index) {
-        GhostState state = getState(index);
+    public float getAngle() {
+        GhostState state = states.get(currentStateIndex);
         return state.getAngle();
     }
 
-    public float getTimestamp(int index) {
-        GhostState state = getState(index);
+    public float getTimestamp() {
+        GhostState state = states.get(currentStateIndex);
         return state.getTimestamp();
-    }
-
-    private GhostState getState(int index) {
-        if (index < 0) {
-            return states.getFirst();
-        } else if (index >= states.size()) {
-            return states.getLast();
-        }
-        return states.get(index);
     }
 }
