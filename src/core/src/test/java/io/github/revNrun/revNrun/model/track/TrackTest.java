@@ -14,11 +14,11 @@ class TrackTest {
         Track track = new Track();
 
         // Assert
-        assertNotNull(track.getTrackPoints(), "Track points should not be null.");
+        assertNotNull(track.getTrackPointsTest(), "Track points should not be null.");
         assertNotNull(track.getControlPoints(), "Control points should not be null.");
         assertNotNull(track.getLeftBorder(), "Left border should not be null.");
         assertNotNull(track.getRightBorder(), "Right border should not be null.");
-        assertFalse(track.getTrackPoints().isEmpty(), "Track points should not be empty.");
+        assertFalse(track.getTrackPointsTest().isEmpty(), "Track points should not be empty.");
         assertFalse(track.getLeftBorder().isEmpty(), "Left border should not be empty.");
         assertFalse(track.getRightBorder().isEmpty(), "Right border should not be empty.");
     }
@@ -29,9 +29,9 @@ class TrackTest {
         Track track = new Track();
 
         // Assert
-        assertEquals(track.getTrackPoints().size(), track.getLeftBorder().size(),
+        assertEquals(track.getTrackPointsTest().size(), track.getLeftBorder().size(),
             "Left border should have the same number of points as track points.");
-        assertEquals(track.getTrackPoints().size(), track.getRightBorder().size(),
+        assertEquals(track.getTrackPointsTest().size(), track.getRightBorder().size(),
             "Right border should have the same number of points as track points.");
     }
 
@@ -39,7 +39,7 @@ class TrackTest {
     void testControlPointsAreSubsetOfTrackPoints() {
         // Act
         Track track = new Track();
-        List<Vector2> trackPoints = track.getTrackPoints();
+        List<Vector2> trackPoints = track.getTrackPointsTest();
         List<Vector2> controlPoints = track.getControlPoints();
 
         // Assert
