@@ -22,7 +22,8 @@ public class GhostCar {
     }
 
     public void reset() {
-
+        currentStateIndex = 0;
+        states.clear();
     }
 
     public float getPositionX() {
