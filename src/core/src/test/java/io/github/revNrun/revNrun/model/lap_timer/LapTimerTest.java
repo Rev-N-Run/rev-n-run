@@ -28,8 +28,14 @@ class LapTimerTest {
         LapTimer lapTimer = new LapTimer();
         lapTimer.start();
         Thread.sleep(1000);
+
         lapTimer.reset();
+
         assertFalse(lapTimer.isRunning());
+        assertEquals("00:00.000", lapTimer.getCurrentLapTime());
+
+        Thread.sleep(1000);
+
         assertEquals("00:00.000", lapTimer.getCurrentLapTime());
     }
 }
