@@ -2,7 +2,7 @@ package io.github.revNrun.revNrun.model.lap_timer;
 
 public class LapTimer {
     private long startTime;
-    private long currentLapTime;
+    private long lastLapTime;
     private boolean isRunning = false;
 
     public void start() {
@@ -20,8 +20,12 @@ public class LapTimer {
         if (!isRunning) {
             return "00:00.000";
         }
-        currentLapTime = System.nanoTime() - startTime;
+        long currentLapTime = System.nanoTime() - startTime;
         return formatTime(currentLapTime);
+    }
+
+    public String getLastLapTime() {
+        return formatTime(lastLapTime);
     }
 
     public void reset() {
@@ -31,11 +35,11 @@ public class LapTimer {
 
     public void stop() {
         isRunning = false;
-        currentLapTime = System.nanoTime() - startTime;
+        lastLapTime = System.nanoTime() - startTime;
     }
 
-    public boolean currentLapTimeFasterThan(String lapTime) {
-        return false;
+    public boolean lastLapTimeFasterThan(String lapTime) {
+        return getLastLapTime().compareTo(lapTime) >= 0;
     }
 
     private String formatTime(long nanoTime) {
