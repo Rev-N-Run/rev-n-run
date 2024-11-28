@@ -264,10 +264,9 @@ public class Vector2 {
         if (nearSegment(p1, p2, q1, minDistance)) return true;
         if (nearSegment(p1, q2, q1, minDistance)) return true;
         if (nearSegment(p2, p1, q2, minDistance)) return true;
-        if (nearSegment(p2, q1, q2, minDistance)) return true;
+        return nearSegment(p2, q1, q2, minDistance);
 
         // Segments do not intersect
-        return false;
     }
 
     // TEST METHODS

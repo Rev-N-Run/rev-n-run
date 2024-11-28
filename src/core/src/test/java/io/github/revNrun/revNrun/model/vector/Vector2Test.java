@@ -394,7 +394,7 @@ class Vector2Test {
     }
 
     @Test
-    void testLength() throws NoSuchMethodException, IllegalAccessException, java.lang.reflect.InvocationTargetException {
+    void testLength() {
         Vector2 v = new Vector2(3, 4); // Length = 5
 
         float length = v.lengthTest();
