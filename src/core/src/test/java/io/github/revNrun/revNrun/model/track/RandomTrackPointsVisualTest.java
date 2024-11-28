@@ -55,7 +55,6 @@ public class Main extends ApplicationAdapter {
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         // Dibuja los puntos generados
-        drawPoints();
         drawBasePoints();
         drawBorders();
     }
@@ -64,29 +63,13 @@ public class Main extends ApplicationAdapter {
         List<Vector2> points = randomTrack.getControlPoints();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.setColor(Color.BLUE);
 
         for (Vector2 point : points) {
             float x = point.getX() + Gdx.graphics.getWidth() / 2f;
             float y = point.getY() + Gdx.graphics.getHeight() / 2f;
 
             shapeRenderer.circle(x, y, 2);
-        }
-
-        shapeRenderer.end();
-    }
-
-    private void drawPoints() {
-        List<Vector2> points = randomTrack.getTrackPoints();
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.RED);
-
-        for (Vector2 point : points) {
-            float x = point.getX() + Gdx.graphics.getWidth() / 2f;
-            float y = point.getY() + Gdx.graphics.getHeight() / 2f;
-
-            shapeRenderer.circle(x, y, 1);
         }
 
         shapeRenderer.end();
@@ -126,6 +109,7 @@ public class Main extends ApplicationAdapter {
         shapeRenderer.dispose();
     }
 }
+
 
 
  */
