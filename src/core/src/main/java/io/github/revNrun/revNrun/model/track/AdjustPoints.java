@@ -54,7 +54,7 @@ class AdjustPoints {
             for (int j = i + 2; j < adjustedPoints.size() - 2; j++) {
                 Vector2 c = adjustedPoints.get(j);
                 Vector2 d = adjustedPoints.get(j + 1);
-                if (!Vector2.doIntersect(a, b, c, d, minDistance)) {
+                if (Vector2.doIntersect(a, b, c, d, minDistance)) {
                     adjustedPoints.remove(j + 1);
                     adjustedPoints.remove(j);
                     i = -1;
