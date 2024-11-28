@@ -17,6 +17,14 @@ public class GhostState {
         return position;
     }
 
+    public float getX() {
+        return position.getX();
+    }
+
+    public float getY() {
+        return position.getY();
+    }
+
     public float getAngle() {
         return angle;
     }
