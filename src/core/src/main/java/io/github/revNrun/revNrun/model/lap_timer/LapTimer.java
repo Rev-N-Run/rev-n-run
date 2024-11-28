@@ -25,7 +25,8 @@ public class LapTimer {
     }
 
     public void reset() {
-
+        startTime = System.nanoTime();
+        isRunning = false;
     }
 
     private String formatTime(long nanoTime) {
