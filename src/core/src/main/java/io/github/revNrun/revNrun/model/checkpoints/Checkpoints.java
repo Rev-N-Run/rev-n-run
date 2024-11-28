@@ -2,9 +2,7 @@ package io.github.revNrun.revNrun.model.checkpoints;
 
 import io.github.revNrun.revNrun.model.vector.Vector2;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Checkpoints {
     private final float width;
@@ -21,7 +19,7 @@ public class Checkpoints {
 
         this.width = width;
         this.controlPoints = controlPoints;
-        this.progress = new ArrayList<Vector2>();
+        this.progress = new ArrayList<>();
         this.hasPassedEveryCheckPointInOrder = true;
         this.pointer = 0;
     }
@@ -41,16 +39,10 @@ public class Checkpoints {
     }
 
     private void recordProgress(Vector2 checkPoint) {
-        boolean alreadySet = false;
-        for (Vector2 p : progress) {
-            if (checkPoint == p) {
-                alreadySet = true;
-                break;
-            }
-        }
-        if (!alreadySet
+        Set<Vector2> progressSet = new HashSet<>(progress);
+        if (!progressSet.contains(checkPoint)
             && pointer < controlPoints.size()
-            && checkPoint == controlPoints.get(pointer)) {
+            && checkPoint.equals(controlPoints.get(pointer))) {
             progress.add(checkPoint);
             pointer++;
         } else {
