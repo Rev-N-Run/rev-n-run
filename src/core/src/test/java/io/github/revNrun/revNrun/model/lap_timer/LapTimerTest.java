@@ -5,10 +5,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LapTimerTest {
+    private final String lapStart = "00:00.000";
+
     @Test
     void startLapTest() throws InterruptedException {
         LapTimer lapTimer = new LapTimer();
-        String lapStart = "00:00.000";
         assertFalse(lapTimer.isRunning());
         assertEquals(lapStart, lapTimer.getCurrentLapTime());
 
@@ -32,10 +33,10 @@ class LapTimerTest {
         lapTimer.reset();
 
         assertFalse(lapTimer.isRunning());
-        assertEquals("00:00.000", lapTimer.getCurrentLapTime());
+        assertEquals(lapStart, lapTimer.getCurrentLapTime());
 
         Thread.sleep(1000);
 
-        assertEquals("00:00.000", lapTimer.getCurrentLapTime());
+        assertEquals(lapStart, lapTimer.getCurrentLapTime());
     }
 }
