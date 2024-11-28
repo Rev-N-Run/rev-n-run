@@ -1,26 +1,27 @@
-package io.github.revNrun.revNrun.model.car.components.mocks;
+package io.github.revNrun.revNrun.car.components.mocks;
 
-import io.github.revNrun.revNrun.model.car.components.*;
 import io.github.revNrun.revNrun.model.car.components.enums.CarAxis;
 import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
+import io.github.revNrun.revNrun.model.car.components.Effect;
+import io.github.revNrun.revNrun.model.car.components.Tires;
 
 import java.util.List;
 
-public class MockBrakes extends Brakes implements MockComponent {
+public class MockTires extends Tires implements MockComponent {
     private float lastDegradation;
 
-    public MockBrakes(String name, float weight, int maxDurability, int currentDurability,
-                        List<Effect> effects, CarAxis axle, CarSides side, float wearFactor) {
+    public MockTires(String name, float weight, int maxDurability,
+                        int currentDurability, List<Effect> effects,
+                        CarAxis axle, CarSides side, float wearFactor) {
         super(name, weight, maxDurability, currentDurability, effects, axle, side, wearFactor);
     }
 
     @Override
     public void degrade(float delta, float percentage) {
-        currentDurability *= percentage;
+        currentDurability -= percentage;
         lastDegradation = percentage;
     }
 
-    @Override
     public float getLastDegradation() {
         return lastDegradation;
     }

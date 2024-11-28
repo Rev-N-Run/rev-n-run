@@ -1,6 +1,8 @@
-package io.github.revNrun.revNrun.model.car.components;
+package io.github.revNrun.revNrun.car.components;
 
-import net.bytebuddy.build.ToStringPlugin;
+import io.github.revNrun.revNrun.model.car.components.AbstractComponent;
+import io.github.revNrun.revNrun.model.car.components.Component;
+import io.github.revNrun.revNrun.model.car.components.Effect;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

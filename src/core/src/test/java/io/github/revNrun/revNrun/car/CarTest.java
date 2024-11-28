@@ -1,11 +1,12 @@
-package io.github.revNrun.revNrun.model.car;
+package io.github.revNrun.revNrun.car;
 
+import io.github.revNrun.revNrun.model.car.Car;
 import io.github.revNrun.revNrun.model.car.components.enums.CarAxis;
 import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
 import io.github.revNrun.revNrun.model.car.components.enums.EffectType;
-import io.github.revNrun.revNrun.model.car.components.mocks.MockBrakes;
-import io.github.revNrun.revNrun.model.car.components.mocks.MockSuspension;
-import io.github.revNrun.revNrun.model.car.components.mocks.MockTires;
+import io.github.revNrun.revNrun.car.components.mocks.MockBrakes;
+import io.github.revNrun.revNrun.car.components.mocks.MockSuspension;
+import io.github.revNrun.revNrun.car.components.mocks.MockTires;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
