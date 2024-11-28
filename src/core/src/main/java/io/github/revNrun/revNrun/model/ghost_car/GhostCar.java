@@ -27,26 +27,42 @@ public class GhostCar {
     }
 
     public float getPositionX() {
-        GhostState state = states.get(currentStateIndex);
-        return state.getX();
+        if (notEmpty()) {
+            GhostState state = states.get(currentStateIndex);
+            return state.getX();
+        }
+        return 0;
     }
 
     public float getPositionY() {
-        GhostState state = states.get(currentStateIndex);
-        return state.getY();
+        if (notEmpty()) {
+            GhostState state = states.get(currentStateIndex);
+            return state.getY();
+        }
+        return 0;
     }
 
     public float getAngle() {
+        if (notEmpty()) {
         GhostState state = states.get(currentStateIndex);
         return state.getAngle();
+        }
+        return 0;
     }
 
     public float getTimestamp() {
+        if (notEmpty()) {
         GhostState state = states.get(currentStateIndex);
         return state.getTimestamp();
+        }
+        return 0;
     }
 
     public int getCurrentStateIndex() {
         return currentStateIndex;
+    }
+
+    private boolean notEmpty() {
+        return !states.isEmpty();
     }
 }
