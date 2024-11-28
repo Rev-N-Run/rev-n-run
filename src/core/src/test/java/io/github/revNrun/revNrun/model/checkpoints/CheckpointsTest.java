@@ -68,10 +68,15 @@ class CheckpointsTest {
     @Test
     void isInsideCircuit_shouldHandleEdgeCases() {
         assertThrows(IllegalArgumentException.class, () -> new Checkpoints(new ArrayList<>(), 2));
+        assertThrows(IllegalArgumentException.class, () -> new Checkpoints(null, 2));
         assertThrows(IllegalArgumentException.class, () -> new Checkpoints(new ArrayList<>(Arrays.asList(
             new Vector2(1,2),
             new Vector2(2,3)
         )), 0));
+        assertThrows(IllegalArgumentException.class, () -> new Checkpoints(new ArrayList<>(Arrays.asList(
+            new Vector2(1,2),
+            new Vector2(2,3)
+        )), -1));
     }
 
     @Test
