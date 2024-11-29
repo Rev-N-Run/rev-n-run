@@ -192,8 +192,10 @@ class CarControllerTest {
         carController.execute(1);
 
         Tires[] tires = car.getTires();
+        float symmetricalDurability = tires[0].getCurrentDurability();
         for (Tires tire : tires) {
             assertTrue(tire.getCurrentDurability() < tire.getMaxDurability());
+            assertEquals(symmetricalDurability, tire.getCurrentDurability());
         }
     }
 }
