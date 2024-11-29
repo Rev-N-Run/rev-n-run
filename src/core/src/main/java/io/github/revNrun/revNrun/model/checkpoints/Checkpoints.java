@@ -52,4 +52,9 @@ public class Checkpoints {
     public boolean hasPassedCheckPoints() {
         return hasPassedEveryCheckPointInOrder && pointer == controlPoints.size();
     }
+
+    public void resetProgress() {
+        progress.clear();
+        pointer = 0;
+    }
 }
