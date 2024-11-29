@@ -94,22 +94,22 @@ class InputHandlerTest {
     @Test
     void isDPressed() {
         when(mockInputHelper.isKeyPressed(Input.Keys.D)).thenReturn(true);
-        assertTrue(inputHandler.isLeftPressed());
+        assertTrue(inputHandler.isRightPressed());
     }
 
     @Test
     void isDNotPressed() {
-        assertFalse(inputHandler.isLeftPressed());
+        assertFalse(inputHandler.isRightPressed());
     }
 
     @Test
     void isAPressed() {
         when(mockInputHelper.isKeyPressed(Input.Keys.A)).thenReturn(true);
-        assertTrue(inputHandler.isRightPressed());
+        assertTrue(inputHandler.isLeftPressed());
     }
 
     @Test
     void isANotPressed() {
-        assertFalse(inputHandler.isRightPressed());
+        assertFalse(inputHandler.isLeftPressed());
     }
 }
