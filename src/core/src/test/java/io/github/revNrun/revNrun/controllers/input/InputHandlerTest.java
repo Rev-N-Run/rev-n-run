@@ -1,8 +1,6 @@
-package io.github.revNrun.revNrun.controllers;
+package io.github.revNrun.revNrun.controllers.input;
 
 import com.badlogic.gdx.Input;
-import io.github.revNrun.revNrun.controllers.input.InputHandler;
-import io.github.revNrun.revNrun.controllers.input.InputHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
