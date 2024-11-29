@@ -32,7 +32,7 @@ class CheckpointsTest {
             new Vector2(5,5)
         ));
 
-        Checkpoints checkpoints = new Checkpoints(track, 2);
+        Checkpoints checkpoints = new Checkpoints(track, 4);
 
         assertTrue(checkpoints.isInsideCircuit(new Vector2(2,2)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(4, 4)));
@@ -54,7 +54,7 @@ class CheckpointsTest {
             new Vector2(5,5)
         ));
 
-        Checkpoints checkpoints = new Checkpoints(track, 2);
+        Checkpoints checkpoints = new Checkpoints(track, 4);
 
         assertTrue(checkpoints.isInsideCircuit(new Vector2(1,1)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(2,2)));
@@ -73,7 +73,7 @@ class CheckpointsTest {
             new Vector2(5,5)
         ));
 
-        Checkpoints checkpoints = new Checkpoints(track, 2);
+        Checkpoints checkpoints = new Checkpoints(track, 4);
 
         assertTrue(checkpoints.isInsideCircuit(new Vector2(1,1)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(2,2)));
@@ -120,7 +120,7 @@ class CheckpointsTest {
             new Vector2(3, 3),
             new Vector2(5, 5)
         ));
-        Checkpoints checkpoints = new Checkpoints(track, 2);
+        Checkpoints checkpoints = new Checkpoints(track, 4);
 
         assertTrue(checkpoints.isInsideCircuit(new Vector2(1, 1)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(3, 3)));
@@ -136,7 +136,7 @@ class CheckpointsTest {
             new Vector2(3, 3),
             new Vector2(5, 5)
         ));
-        Checkpoints checkpoints = new Checkpoints(track, 2);
+        Checkpoints checkpoints = new Checkpoints(track, 4);
 
         assertTrue(checkpoints.isInsideCircuit(new Vector2(1, 1)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(5, 5)));
@@ -158,15 +158,22 @@ class CheckpointsTest {
             new Vector2(1,1)
         ));
 
-        Checkpoints checkpoints = new Checkpoints(track, 2);
+        Checkpoints checkpoints = new Checkpoints(track, 4);
 
         assertTrue(checkpoints.isInsideCircuit(new Vector2(1,1)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(2,2)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(3,3)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(4,4)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(5,5)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(5,4)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(5,3)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(5,2)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(5,1)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(5,0)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(4,0)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(3,0)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(2,0)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(1,0)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(0,0)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(1,1)));
 
@@ -176,12 +183,20 @@ class CheckpointsTest {
 
         assertTrue(checkpoints.isInsideCircuit(new Vector2(1,1)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(2,2)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(3,3)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(4,4)));
-        assertTrue(checkpoints.isInsideCircuit(new Vector2(5,2.9f)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(5,5)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(5,4)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(5,3)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(5,2)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(5,1)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(5,0)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(4,0)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(3,0)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(2,0)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(1,0)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(0,0)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(1,1)));
-
         assertTrue(checkpoints.hasPassedCheckPoints());
 
         checkpoints.resetProgress();

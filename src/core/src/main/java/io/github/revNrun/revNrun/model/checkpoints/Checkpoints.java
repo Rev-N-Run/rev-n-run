@@ -17,7 +17,7 @@ public class Checkpoints {
                 "or width must not be zero or negative");
         }
 
-        this.width = width;
+        this.width = width * 0.5f;
         this.controlPoints = controlPoints;
         this.progress = new ArrayList<>();
         this.hasPassedEveryCheckPointInOrder = true;
@@ -50,10 +50,14 @@ public class Checkpoints {
     }
 
     public boolean hasPassedCheckPoints() {
-        return hasPassedEveryCheckPointInOrder && pointer == controlPoints.size();
+        if (pointer == controlPoints.size()) {
+            return true;
+        }
+        return hasPassedEveryCheckPointInOrder;
     }
 
     public void resetProgress() {
+        hasPassedEveryCheckPointInOrder = true;
         progress.clear();
         pointer = 0;
     }
