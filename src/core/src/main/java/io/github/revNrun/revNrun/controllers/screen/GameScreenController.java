@@ -18,6 +18,6 @@ public class GameScreenController extends ScreenController {
 
     @Override
     public void render(float delta) {
-
+        carController.execute(delta);
     }
 }
