@@ -15,4 +15,9 @@ public class GameScreenController extends ScreenController {
         view = new GameView(viewport, camera, batch);
         carController = new CarController();
     }
+
+    @Override
+    public void render(float delta) {
+
+    }
 }
