@@ -140,5 +140,15 @@ class CarControllerTest {
         assertTrue(car.getSpeed() > 0);
         assertEquals(0, car.getAngle());
         assertTrue(car.getPositionX() != 0);
+
+        float currentSpeed = car.getSpeed();
+
+        // Check if car is braking
+        when(mockInputHelper.isKeyPressed(Input.Keys.DOWN)).thenReturn(true);
+        carController.execute(1);
+
+        assertTrue(car.getSpeed() < currentSpeed);
+        assertEquals(0, car.getAngle());
+        assertTrue(car.getPositionX() != 0);
     }
 }

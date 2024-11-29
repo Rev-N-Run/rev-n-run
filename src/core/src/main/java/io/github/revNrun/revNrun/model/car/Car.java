@@ -54,6 +54,8 @@ public class Car {
         this.sides = sides;
         this.fuel = fuel;
 
+        position = new Vector2(0, 0);
+
         setAttributes();
     }
 
