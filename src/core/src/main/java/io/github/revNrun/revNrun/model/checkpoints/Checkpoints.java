@@ -7,7 +7,7 @@ import java.util.*;
 public class Checkpoints {
     private final float width;
     private final List<Vector2> checkPoints;
-    private List<Vector2> remainingLapCheckPoints;
+    private int skippedLapCheckPoints;
     private List<Vector2> progress;
     private final float minPercentOfRequiredCheckPoints;
 
@@ -17,16 +17,15 @@ public class Checkpoints {
                 "or width must not be zero or negative");
         }
 
-        // Crea una copia de la lista original
         this.checkPoints = new ArrayList<>(controlPoints);
 
-        // Elimina el último punto si es idéntico al primero
+        // Delete the last control point
         if (!checkPoints.isEmpty() && checkPoints.get(0).equals(checkPoints.getLast())) {
             this.checkPoints.remove(checkPoints.size() - 1);
         }
 
         this.width = width * 0.5f;
-        this.remainingLapCheckPoints = checkPoints;
+        this.skippedLapCheckPoints = 0;
         this.progress = new ArrayList<>();
         this.minPercentOfRequiredCheckPoints = 0.9f;
     }
@@ -59,6 +58,33 @@ public class Checkpoints {
         if (!progress.contains(checkPoint)) {
             progress.add(checkPoint);
         }
+
+        skippedLapCheckPoints += countSkippedCheckPoints();
+    }
+
+    private int countSkippedCheckPoints() {
+        if (progress.size() < 2) {
+            return 0; // No se pueden saltar números con menos de 2 elementos en B.
+        }
+
+        Vector2 lastAdded = progress.get(progress.size() - 1); // Último número añadido a B.
+        Vector2 previousAdded = progress.get(progress.size() - 2); // Número añadido previamente a B.
+
+        // Encuentra los índices de estos números en A.
+        int indexLast = checkPoints.indexOf(lastAdded);
+        int indexPrevious = checkPoints.indexOf(previousAdded);
+
+        if (indexPrevious == -1 || indexLast == -1) {
+            throw new IllegalArgumentException("Los elementos de B deben estar en A");
+        }
+
+        // Calcula cuántos números se han saltado en A.
+        if (indexLast > indexPrevious) {
+            return indexLast - indexPrevious - 1;
+        } else {
+            // Si el circuito es cíclico, considera los elementos al final de A.
+            return (checkPoints.size() - indexPrevious - 1) + indexLast;
+        }
     }
 
     private boolean isProgressOrdered() {
@@ -76,17 +102,23 @@ public class Checkpoints {
     }
 
     public LapStatus lapStatus() {
-        if (progress.getLast().equals(checkPoints.getLast())) {
-            if (progress.size() >= Math.floor(checkPoints.size() * minPercentOfRequiredCheckPoints)
-                && isProgressOrdered()) {
+        if (remainingLife() > 0 && isProgressOrdered()) {
+            if (progress.getLast().equals(checkPoints.getLast())) {
                 return LapStatus.COMPLETE;
             }
-            return LapStatus.INCOMPLETE;
-        }
-        if (isProgressOrdered()) {
             return LapStatus.GOOD;
         }
+        if (progress.getLast().equals(checkPoints.getLast())) {
+            return LapStatus.INCOMPLETE;
+        }
         return LapStatus.WRONG;
+    }
+
+    public int remainingLife() {
+        int maxSkippedCheckPoints = checkPoints.size() -
+            (int) Math.floor((minPercentOfRequiredCheckPoints * checkPoints.size()));
+        return (maxSkippedCheckPoints - skippedLapCheckPoints + 1) /
+            maxSkippedCheckPoints * 100;
     }
 
     public void resetProgress() {
