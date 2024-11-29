@@ -14,18 +14,18 @@ public class InputHandler {
     }
 
     public boolean isUpPressed() {
-        return false;
+        return inputHelper.isKeyPressed(Input.Keys.UP) ||  inputHelper.isKeyPressed(Input.Keys.W);
     }
 
     public boolean isDownPressed() {
-        return false;
+        return inputHelper.isKeyPressed(Input.Keys.DOWN) ||  inputHelper.isKeyPressed(Input.Keys.S);
     }
 
     public boolean isLeftPressed() {
-        return false;
+        return inputHelper.isKeyPressed(Input.Keys.LEFT) ||  inputHelper.isKeyPressed(Input.Keys.A);
     }
 
     public boolean isRightPressed() {
-        return false;
+        return inputHelper.isKeyPressed(Input.Keys.RIGHT) ||  inputHelper.isKeyPressed(Input.Keys.D);
     }
 }
