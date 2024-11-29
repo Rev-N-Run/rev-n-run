@@ -64,25 +64,22 @@ public class Checkpoints {
 
     private int countSkippedCheckPoints() {
         if (progress.size() < 2) {
-            return 0; // No se pueden saltar números con menos de 2 elementos en B.
+            return 0;
         }
 
-        Vector2 lastAdded = progress.get(progress.size() - 1); // Último número añadido a B.
-        Vector2 previousAdded = progress.get(progress.size() - 2); // Número añadido previamente a B.
+        Vector2 lastAdded = progress.get(progress.size() - 1);
+        Vector2 previousAdded = progress.get(progress.size() - 2);
 
-        // Encuentra los índices de estos números en A.
         int indexLast = checkPoints.indexOf(lastAdded);
         int indexPrevious = checkPoints.indexOf(previousAdded);
 
         if (indexPrevious == -1 || indexLast == -1) {
-            throw new IllegalArgumentException("Los elementos de B deben estar en A");
+            throw new IllegalArgumentException("Progress points have to be in CheckPoints");
         }
 
-        // Calcula cuántos números se han saltado en A.
         if (indexLast > indexPrevious) {
             return indexLast - indexPrevious - 1;
         } else {
-            // Si el circuito es cíclico, considera los elementos al final de A.
             return (checkPoints.size() - indexPrevious - 1) + indexLast;
         }
     }
