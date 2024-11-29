@@ -50,6 +50,6 @@ public class Checkpoints {
     }
 
     public boolean hasPassedCheckPoints() {
-        return hasPassedEveryCheckPointInOrder;
+        return hasPassedEveryCheckPointInOrder && pointer == controlPoints.size();
     }
 }
