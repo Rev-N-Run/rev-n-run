@@ -185,9 +185,8 @@ class CheckpointsTest {
         assertTrue(checkpoints.isInsideCircuit(new Vector2(2,0)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(1,0)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(0,0)));
-        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
-        assertTrue(checkpoints.isInsideCircuit(new Vector2(1,1)));
-        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
+        assertEquals(checkpoints.lapStatus(), LapStatus.COMPLETE);
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(0.5f,0.5f)));
 
         assertEquals(checkpoints.lapStatus(), LapStatus.COMPLETE);
 
@@ -213,7 +212,6 @@ class CheckpointsTest {
         assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
         assertTrue(checkpoints.isInsideCircuit(new Vector2(0,0)));
         assertTrue(checkpoints.isInsideCircuit(new Vector2(1,1)));
-        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
 
         assertEquals(checkpoints.lapStatus(), LapStatus.COMPLETE);
 

@@ -269,6 +269,10 @@ public class Vector2 {
         // Segments do not intersect
     }
 
+    public boolean equals (Vector2 other) {
+        return this.x == other.getX() && this.y == other.getY();
+    }
+
     // TEST METHODS
 
 

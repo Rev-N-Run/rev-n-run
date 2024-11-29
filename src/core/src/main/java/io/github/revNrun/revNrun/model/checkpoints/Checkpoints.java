@@ -6,10 +6,10 @@ import java.util.*;
 
 public class Checkpoints {
     private final float width;
-    private final List<Vector2> controlPoints;
-    private final List<Vector2> progress;
-    private boolean hasPassedEveryCheckPointInOrder;
-    private int pointer;
+    private final List<Vector2> checkPoints;
+    private List<Vector2> remainingLapCheckPoints;
+    private List<Vector2> progress;
+    private final float minPercentOfRequiredCheckPoints;
 
     public Checkpoints(List<Vector2> controlPoints, float width) {
         if (controlPoints == null || controlPoints.isEmpty() || width <= 0) {
@@ -17,48 +17,79 @@ public class Checkpoints {
                 "or width must not be zero or negative");
         }
 
+        // Crea una copia de la lista original
+        this.checkPoints = new ArrayList<>(controlPoints);
+
+        // Elimina el último punto si es idéntico al primero
+        if (!checkPoints.isEmpty() && checkPoints.get(0).equals(checkPoints.getLast())) {
+            this.checkPoints.remove(checkPoints.size() - 1);
+        }
+
         this.width = width * 0.5f;
-        this.controlPoints = controlPoints;
+        this.remainingLapCheckPoints = checkPoints;
         this.progress = new ArrayList<>();
-        this.hasPassedEveryCheckPointInOrder = true;
-        this.pointer = 0;
+        this.minPercentOfRequiredCheckPoints = 0.9f;
     }
 
     public Vector2 getStartPoint() {
-        return controlPoints.get(0);
+        return checkPoints.get(0);
     }
 
     public boolean isInsideCircuit(Vector2 point) {
-        for (Vector2 p : controlPoints) {
-            if (p.distance(point) <= width) {
-                recordProgress(p);
-                return true;
+        Vector2 closestCheckPoint = null;
+        float minDistance = Float.MAX_VALUE;
+
+        for (Vector2 p : checkPoints) {
+            float distance = p.distance(point);
+            if (distance <= width && distance < minDistance) {
+                minDistance = distance;
+                closestCheckPoint = p;
             }
         }
+
+        if (closestCheckPoint != null) {
+            recordProgress(closestCheckPoint);
+            return true;
+        }
+
         return false;
     }
 
     private void recordProgress(Vector2 checkPoint) {
-        if (!progress.contains(checkPoint) && pointer < controlPoints.size()) {
-            if (checkPoint.distance(controlPoints.get(pointer)) <= width) {
-                progress.add(checkPoint);
-                pointer++;
-            } else {
-                hasPassedEveryCheckPointInOrder = false;
-            }
+        if (!progress.contains(checkPoint)) {
+            progress.add(checkPoint);
         }
     }
 
-    public boolean hasPassedCheckPoints() {
-        if (pointer == controlPoints.size()) {
-            return true;
+    private boolean isProgressOrdered() {
+        int indexA = 0;
+        int indexB = 0;
+
+        while (indexA < progress.size() && indexB < checkPoints.size()) {
+            if (progress.get(indexA).equals(checkPoints.get(indexB))) {
+                indexA++;
+            }
+            indexB++;
         }
-        return hasPassedEveryCheckPointInOrder;
+
+        return indexA == progress.size();
+    }
+
+    public LapStatus lapStatus() {
+        if (progress.getLast().equals(checkPoints.getLast())) {
+            if (progress.size() >= Math.floor(checkPoints.size() * minPercentOfRequiredCheckPoints)
+                && isProgressOrdered()) {
+                return LapStatus.COMPLETE;
+            }
+            return LapStatus.INCOMPLETE;
+        }
+        if (isProgressOrdered()) {
+            return LapStatus.GOOD;
+        }
+        return LapStatus.WRONG;
     }
 
     public void resetProgress() {
-        hasPassedEveryCheckPointInOrder = true;
-        progress.clear();
-        pointer = 0;
+        progress = new ArrayList<>();
     }
 }
