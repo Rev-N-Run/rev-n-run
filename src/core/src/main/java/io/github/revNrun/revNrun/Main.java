@@ -23,4 +23,9 @@ public class Main extends Game {
         screenController = new GameScreenController(this, batch, viewport, camera);
         setScreen(screenController);
     }
+
+    @Override
+    public void render() {
+        super.render();
+    }
 }
