@@ -19,8 +19,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class CarControllerTest {
     List<Effect> engineEffects;
@@ -134,7 +133,7 @@ class CarControllerTest {
         CarController carController = new CarController(car, input);
 
         // Check if car is moving forward
-        when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true, false);
+        when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true);
         carController.execute(1);
 
         assertTrue(car.getSpeed() > 0);
@@ -144,6 +143,7 @@ class CarControllerTest {
         float currentSpeed = car.getSpeed();
 
         // Check if car is braking
+        reset(mockInputHelper);
         when(mockInputHelper.isKeyPressed(Input.Keys.DOWN)).thenReturn(true);
         carController.execute(1);
 
