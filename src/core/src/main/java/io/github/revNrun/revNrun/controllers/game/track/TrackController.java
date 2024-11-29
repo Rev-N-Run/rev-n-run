@@ -54,6 +54,7 @@ public class TrackController {
     }
 
     public void draw() {
+        // TODO TracView is gonna have static methods
         trackView.drawTrack(vertices);
         trackView.drawLifeByCheckPoints(lifeByCheckPoints);
     }
