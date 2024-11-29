@@ -138,19 +138,36 @@ class CheckpointsTest {
     }
 
     @Test
-    void hasPassedCheckPoints_shouldReturnIncompleteWhenLapFinishedButNotAllCheckpointsPassedAll() {
+    void hasPassedCheckPoints_shouldReturnIncompleteWhenLapFinishedButNotMinPercentOfCheckpointsPassed() {
         List<Vector2> track = new ArrayList<>(Arrays.asList(
             new Vector2(1, 1),
             new Vector2(3, 3),
-            new Vector2(5, 5)
+            new Vector2(5, 5),
+            new Vector2(7, 7),
+            new Vector2(9, 9),
+            new Vector2(0, 9),
+            new Vector2(0, 5),
+            new Vector2(1, 1)
         ));
         Checkpoints checkpoints = new Checkpoints(track, 4);
 
         assertTrue(checkpoints.isInsideCircuit(new Vector2(1, 1)));
+        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
         assertTrue(checkpoints.isInsideCircuit(new Vector2(5, 5)));
+        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
         assertTrue(checkpoints.isInsideCircuit(new Vector2(6, 6)));
-
+        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(7, 7)));
+        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(9, 9)));
+        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
+        assertFalse(checkpoints.isInsideCircuit(new Vector2(12, 12)));
+        assertEquals(checkpoints.lapStatus(), LapStatus.WRONG);
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(0, 9)));
+        assertEquals(checkpoints.lapStatus(), LapStatus.WRONG);
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(0, 5)));
         assertEquals(checkpoints.lapStatus(), LapStatus.INCOMPLETE);
+
     }
 
     @Test
@@ -224,13 +241,10 @@ class CheckpointsTest {
         assertTrue(checkpoints.isInsideCircuit(new Vector2(2.9f,2.9f)));
         assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
         assertTrue(checkpoints.isInsideCircuit(new Vector2(5,2.9f)));
-        assertEquals(checkpoints.lapStatus(), LapStatus.WRONG);
+        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
         assertTrue(checkpoints.isInsideCircuit(new Vector2(5,0)));
-        assertEquals(checkpoints.lapStatus(), LapStatus.WRONG);
+        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
         assertTrue(checkpoints.isInsideCircuit(new Vector2(0,0)));
-        assertEquals(checkpoints.lapStatus(), LapStatus.WRONG);
-        assertTrue(checkpoints.isInsideCircuit(new Vector2(1,1)));
-
-        assertEquals(checkpoints.lapStatus(), LapStatus.INCOMPLETE);
+        assertEquals(checkpoints.lapStatus(), LapStatus.COMPLETE);
     }
 }
