@@ -41,6 +41,8 @@ class CarControllerTest {
     Front frontWithEffects;
     Back backWithEffects;
     Sides sidesWithEffects;
+    InputHelper mockInputHelper;
+    InputHandler input;
 
     @BeforeEach
     void setUp() {
@@ -76,6 +78,9 @@ class CarControllerTest {
 
         car = new Car(engineWithEffects, chassisWithEffects, tiresWithEffects, suspensionsWithEffects,
             brakesWithEffects, floorWithEffects, frontWithEffects, backWithEffects, sidesWithEffects, fuel);
+
+        mockInputHelper = mock(InputHelper.class);
+        input = new InputHandler(mockInputHelper);
     }
 
     private Tires[] getTiresWithEffects() {
@@ -128,8 +133,6 @@ class CarControllerTest {
 
     @Test
     void execute() {
-        InputHelper mockInputHelper = mock(InputHelper.class);
-        InputHandler input = new InputHandler(mockInputHelper);
         CarController carController = new CarController(car, input);
 
         // Check if car is moving forward
@@ -178,5 +181,19 @@ class CarControllerTest {
         assertTrue(car.getAngle() > 0);
         assertTrue(car.getPositionX() != 0);
         assertTrue(car.getPositionY() != 0);
+    }
+
+    @Test
+    void degradationAcceleration() {
+        CarController carController = new CarController(car, input);
+
+        // Check if car is moving forward
+        when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true);
+        carController.execute(1);
+
+        Tires[] tires = car.getTires();
+        for (Tires tire : tires) {
+            assertTrue(tire.getCurrentDurability() < tire.getMaxDurability());
+        }
     }
 }
