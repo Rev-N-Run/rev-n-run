@@ -150,5 +150,33 @@ class CarControllerTest {
         assertTrue(car.getSpeed() < currentSpeed);
         assertEquals(0, car.getAngle());
         assertTrue(car.getPositionX() != 0);
+
+        // Check if car is turning left
+        while (car.getSpeed() <= 0) {
+            car.accelerate(1);
+        }
+
+        reset(mockInputHelper);
+        when(mockInputHelper.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
+        carController.execute(1);
+
+        assertTrue(car.getAngle() < 0);
+        assertTrue(car.getPositionX() != 0);
+        assertTrue(car.getPositionY() != 0);
+
+        // Check if car is turning right
+        while (car.getSpeed() <= 0) {
+            car.accelerate(1);
+        }
+
+        reset(mockInputHelper);
+        when(mockInputHelper.isKeyPressed(Input.Keys.RIGHT)).thenReturn(true);
+        carController.execute(1);
+        carController.execute(1);
+        carController.execute(1);
+
+        assertTrue(car.getAngle() > 0);
+        assertTrue(car.getPositionX() != 0);
+        assertTrue(car.getPositionY() != 0);
     }
 }
