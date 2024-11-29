@@ -66,6 +66,40 @@ class CheckpointsTest {
     }
 
     @Test
+    void hasPassedCheckPointsGoingBackwards() {
+        List<Vector2> track = new ArrayList<>(Arrays.asList(
+            new Vector2(1,1),
+            new Vector2(3,3),
+            new Vector2(5,5)
+        ));
+
+        Checkpoints checkpoints = new Checkpoints(track, 2);
+
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(1,1)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(2,2)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(3,3)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(2,3)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(2,2)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(2,3)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(3,3)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(4,4)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(4,4)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(4,4)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(3,3)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(2,2)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(1,1)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(0,0)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(1,0)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(1,1)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(2,2)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(2,3)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(4,4)));
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(5,5)));
+
+        assertTrue(checkpoints.hasPassedCheckPoints());
+    }
+
+    @Test
     void isInsideCircuit_shouldHandleEdgeCases() {
         assertThrows(IllegalArgumentException.class, () -> new Checkpoints(new ArrayList<>(), 2));
         assertThrows(IllegalArgumentException.class, () -> new Checkpoints(null, 2));
