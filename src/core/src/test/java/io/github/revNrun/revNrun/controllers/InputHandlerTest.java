@@ -24,4 +24,48 @@ class InputHandlerTest {
         when(mockInputHelper.isKeyPressed(Input.Keys.SPACE)).thenReturn(true);
         assertTrue(inputHandler.isSpacePressed());
     }
+
+    @Test
+    void isUpPressed() {
+        when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true);
+        assertTrue(inputHandler.isUpPressed());
+    }
+
+    @Test
+    void isUpNotPressed() {
+        assertFalse(inputHandler.isUpPressed());
+    }
+
+    @Test
+    void isDownPressed() {
+        when(mockInputHelper.isKeyPressed(Input.Keys.DOWN)).thenReturn(true);
+        assertTrue(inputHandler.isDownPressed());
+    }
+
+    @Test
+    void isDownNotPressed() {
+        assertFalse(inputHandler.isDownPressed());
+    }
+
+    @Test
+    void isLeftPressed() {
+        when(mockInputHelper.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
+        assertTrue(inputHandler.isLeftPressed());
+    }
+
+    @Test
+    void isLeftNotPressed() {
+        assertFalse(inputHandler.isLeftPressed());
+    }
+
+    @Test
+    void isRightPressed() {
+        when(mockInputHelper.isKeyPressed(Input.Keys.RIGHT)).thenReturn(true);
+        assertTrue(inputHandler.isRightPressed());
+    }
+
+    @Test
+    void isRightNotPressed() {
+        assertFalse(inputHandler.isRightPressed());
+    }
 }
