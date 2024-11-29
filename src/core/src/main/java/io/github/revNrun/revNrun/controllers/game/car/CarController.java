@@ -20,6 +20,12 @@ public class CarController {
             car.brakeAndReverse(delta);
         }
 
+        if (input.isLeftPressed()) {
+            car.moveLeft(delta);
+        } else if (input.isRightPressed()) {
+            car.moveRight(delta);
+        }
+
         car.updatePosition(delta);
     }
 }
