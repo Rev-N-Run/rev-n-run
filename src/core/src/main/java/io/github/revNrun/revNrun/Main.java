@@ -1,15 +1,15 @@
 package io.github.revNrun.revNrun;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.revNrun.revNrun.controllers.screen.GameScreenController;
 import io.github.revNrun.revNrun.controllers.screen.ScreenController;
 
-public class Main extends com.badlogic.gdx.Game {
+public class Main extends Game {
     private ScreenController screenController;
     private SpriteBatch batch;
     private Viewport viewport;
