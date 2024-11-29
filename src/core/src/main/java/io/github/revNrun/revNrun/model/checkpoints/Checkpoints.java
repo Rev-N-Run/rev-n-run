@@ -25,7 +25,7 @@ public class Checkpoints {
     }
 
     public Vector2 getStartPoint() {
-        return controlPoints.getFirst();
+        return controlPoints.get(0);
     }
 
     public boolean isInsideCircuit(Vector2 point) {
@@ -39,14 +39,13 @@ public class Checkpoints {
     }
 
     private void recordProgress(Vector2 checkPoint) {
-        Set<Vector2> progressSet = new HashSet<>(progress);
-        if (!progressSet.contains(checkPoint)
-            && pointer < controlPoints.size()
-            && checkPoint.equals(controlPoints.get(pointer))) {
-            progress.add(checkPoint);
-            pointer++;
-        } else {
-            hasPassedEveryCheckPointInOrder = false;
+        if (!progress.contains(checkPoint) && pointer < controlPoints.size()) {
+            if (checkPoint.distance(controlPoints.get(pointer)) <= width) {
+                progress.add(checkPoint);
+                pointer++;
+            } else {
+                hasPassedEveryCheckPointInOrder = false;
+            }
         }
     }
 
