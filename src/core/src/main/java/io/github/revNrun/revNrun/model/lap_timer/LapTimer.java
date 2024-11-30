@@ -38,8 +38,12 @@ public class LapTimer {
         lastLapTime = System.nanoTime() - startTime;
     }
 
-    public boolean lastLapTimeFasterThan(String lapTime) {
-        return getLastLapTime().compareTo(lapTime) >= 0;
+    public boolean isFasterThan(String lapTime) {
+        return getLastLapTime().compareTo(lapTime) < 0;
+    }
+
+    public boolean isFasterThan(LapTimer lapTime) {
+        return getLastLapTime().compareTo(lapTime.getLastLapTime()) < 0;
     }
 
     private String formatTime(long nanoTime) {
