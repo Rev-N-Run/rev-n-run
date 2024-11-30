@@ -1,5 +1,6 @@
 package io.github.revNrun.revNrun.model.checkpoints;
 
+import io.github.revNrun.revNrun.model.track.TrackUtils;
 import io.github.revNrun.revNrun.model.vector.Vector2;
 
 import java.util.*;
@@ -10,27 +11,22 @@ import java.util.*;
  * track progress through checkpoints, determine lap status, and handle skipped checkpoints.
  */
 public class Checkpoints {
-    private final float width;
+    private float width;
     private final List<Vector2> checkPoints;
     private int skippedLapCheckPoints;
     private List<Vector2> progress;
     private final float minPercentOfRequiredCheckPoints;
 
-    // TODO use TrackUtils.WIDTH instead of width
-
     /**
      * Constructs a Checkpoints object with the given control points and width.
      *
      * @param controlPoints the list of control points defining the checkpoints.
-     * @param width the width of the checkpoint boundary area. This should be
-     *              the same as the track's width for better logic.
      * @throws IllegalArgumentException if {@code controlPoints} is null, empty,
      *                                  or if {@code width} is zero or negative.
      */
-    public Checkpoints(List<Vector2> controlPoints, float width) {
-        if (controlPoints == null || controlPoints.isEmpty() || width <= 0) {
-            throw new IllegalArgumentException("Control points must not be null or empty," +
-                "or width must not be zero or negative");
+    public Checkpoints(List<Vector2> controlPoints) {
+        if (controlPoints == null || controlPoints.isEmpty()) {
+            throw new IllegalArgumentException("Control points must not be null or empty.");
         }
 
         this.checkPoints = new ArrayList<>(controlPoints);
@@ -40,7 +36,7 @@ public class Checkpoints {
             this.checkPoints.remove(checkPoints.size() - 1);
         }
 
-        this.width = width * 0.5f;
+        this.width = TrackUtils.WIDTH * 0.5f;
         this.skippedLapCheckPoints = 0;
         this.progress = new ArrayList<>();
         this.minPercentOfRequiredCheckPoints = 0.9f;
@@ -175,5 +171,12 @@ public class Checkpoints {
      */
     public void resetProgress() {
         progress = new ArrayList<>();
+    }
+
+    // TEST METHODS
+
+    public Checkpoints(List<Vector2> controlPoints, float width){
+        this(controlPoints);
+        this.width = width * 0.5f;
     }
 }

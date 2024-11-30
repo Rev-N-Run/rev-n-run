@@ -20,8 +20,7 @@ public class TrackController {
 
     public TrackController() {
         track = new Track();
-        //TODO checkpoints has to not need the width
-        checkpoints = new Checkpoints(track.getControlPoints(), 50.0f);
+        checkpoints = new Checkpoints(track.getControlPoints());
         vertices = new ArrayList<>();
         createVertices();
     }
