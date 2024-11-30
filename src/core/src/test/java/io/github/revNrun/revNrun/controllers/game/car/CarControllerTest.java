@@ -247,4 +247,50 @@ class CarControllerTest {
             assertTrue(brake.getCurrentDurability() < brake.getMaxDurability());
         }
     }
+
+    @Test
+    void degradationLeftTurn() {
+        when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true);
+        for (int i = 0; i < 3; i++) {
+            controller.execute(1);
+        }
+
+        reset(mockInputHelper);
+        when(mockInputHelper.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
+        controller.execute(1);
+
+        Tires[] tires = car.getTires();
+
+        Tires tireFL = null;
+        Tires tireFR = null;
+        Tires tireRL = null;
+        Tires tireRR = null;
+
+        for (Tires tire : tires) {
+            switch (tire.getSide()) {
+                case LEFT:
+                    if (tire.getAxle() == CarAxis.FRONT) {
+                        tireFL = tire;
+                    } else {
+                        tireRL = tire;
+                    }
+                    break;
+                case RIGHT:
+                    if (tire.getAxle() == CarAxis.FRONT) {
+                        tireFR = tire;
+                    } else {
+                        tireRR = tire;
+                    }
+                    break;
+            }
+        }
+
+        assertEquals(tireFL.getCurrentDurability(), tireRL.getCurrentDurability());
+        assertEquals(tireFR.getCurrentDurability(), tireRR.getCurrentDurability());
+        assertNotEquals(tireFL.getCurrentDurability(), tireRR.getCurrentDurability());
+
+        for (Tires tire : tires) {
+            assertTrue(tire.getCurrentDurability() < tire.getMaxDurability());
+        }
+    }
 }
