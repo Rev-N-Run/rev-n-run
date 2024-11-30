@@ -13,7 +13,7 @@ public class TrackController {
     private final float WIDTH = 50.0f;
 
     private final Track track;
-    private Checkpoints checkpoints;
+    private final Checkpoints checkpoints;
     private TrackView trackView;            // TEST ONLY, TrackView methods gonna be static
     private List<Vector2> vertices;
     private boolean carInTrack;
@@ -26,6 +26,9 @@ public class TrackController {
         createVertices();
     }
 
+    /**
+     * @return Get the track start point.
+     */
     public Vector2 getStartPoint() {
         return checkpoints.getStartPoint();
     }
@@ -49,16 +52,26 @@ public class TrackController {
         return status;
     }
 
+    /**
+     * @return True if the car is inside the track, else false.
+     */
     public boolean isCarInTrack() {
         return carInTrack;
     }
 
+    /**
+     * Calls the view class to draw the track assets
+     */
     public void draw() {
         // TODO TracView is gonna have static methods
         trackView.drawTrack(vertices);
         trackView.drawLifeByCheckPoints(lifeByCheckPoints);
     }
 
+    /**
+     * Converts the two arrays that conform the borders to a single array that
+     * represents the vertices of a polygon.
+     */
     private void createVertices() {
         vertices.addAll(track.getLeftBorder());
         List<Vector2> rightBorder = new ArrayList<>(track.getRightBorder());
