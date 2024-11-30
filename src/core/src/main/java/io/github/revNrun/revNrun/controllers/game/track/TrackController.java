@@ -19,10 +19,9 @@ public class TrackController {
     private int lifeByCheckPoints;
 
     public TrackController() {
-        float width = 50.0f;    // This will be the track's width!
-
-        track = new Track();        //TODO track needs a given width to initialize
-        checkpoints = new Checkpoints(track.getControlPoints(), width);
+        track = new Track();
+        //TODO checkpoints has to not need the width
+        checkpoints = new Checkpoints(track.getControlPoints(), 50.0f);
         vertices = new ArrayList<>();
         createVertices();
     }
