@@ -93,16 +93,18 @@ public class Car {
     }
 
     public void naturalSlowDown(float delta) {
-        if (speed != 0) {
-            if (tireGrip == 0) {
-                speed -= 20 * delta;
-            }
+        if (speed == 0) {
+            return;
+        }
 
-            if (speed < 0) {
-                speed += delta;
-            } else {
-                speed -= delta;
-            }
+        if (tireGrip == 0) {
+            speed -= 20 * delta;
+        }
+
+        if (speed < 0) {
+            speed += delta;
+        } else {
+            speed -= delta;
         }
     }
 
