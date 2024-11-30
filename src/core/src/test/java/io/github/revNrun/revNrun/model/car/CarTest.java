@@ -82,14 +82,16 @@ public class CarTest {
         sidesEffects = new ArrayList<>(Collections.singletonList(grip2));
 
         engineWithEffects = new Engine("engine1", 200f, 100, 100, engineEffects, .1f);
-        chassisWithEffects = new Chassis("chasis1", 500f, 100, 100, chassisEffects, .1f);
+        chassisWithEffects = new Chassis("chasis1", 500f, 100, 100,
+            chassisEffects, .1f);
         tiresWithEffects = getTiresWithEffects();
         suspensionsWithEffects = getSuspensionsWithEffects();
         brakesWithEffects = getBrakesWithEffects();
         floorWithEffects = new Floor("floor", 20f, 100, 100, floorEffects, .1f);
         frontWithEffects = new Front("front", 20f, 100, 100, frontEffects, .1f);
         backWithEffects = new Back("back", 20f, 100, 100, backEffects, .1f);
-        sidesWithEffects = new Sides("sides", 20f, 100, 100, sidesEffects, .1f);
+        sidesWithEffects = new Sides("sides", 20f, 100, 100, sidesEffects,
+            .1f);
         fuel = 100;
 
         carWithEffects = new Car(engineWithEffects, chassisWithEffects, tiresWithEffects, suspensionsWithEffects,
@@ -97,10 +99,14 @@ public class CarTest {
     }
 
     private static Brakes[] getBrakes() {
-        Brakes brakeFL = new Brakes("brakeFL", 5f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
-        Brakes brakeFR = new Brakes("brakeFR", 5f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
-        Brakes brakeRL = new Brakes("brakeRL", 5f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
-        Brakes brakeRR = new Brakes("brakeRR", 5f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
+        Brakes brakeFL = new Brakes("brakeFL", 5f, 100, 100, new ArrayList<>(),
+            CarAxis.FRONT, CarSides.LEFT, .1f);
+        Brakes brakeFR = new Brakes("brakeFR", 5f, 100, 100, new ArrayList<>(),
+            CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Brakes brakeRL = new Brakes("brakeRL", 5f, 100, 100, new ArrayList<>(),
+            CarAxis.REAR, CarSides.LEFT, .1f);
+        Brakes brakeRR = new Brakes("brakeRR", 5f, 100, 100, new ArrayList<>(),
+            CarAxis.REAR, CarSides.RIGHT, .1f);
         return new Brakes[] {brakeFL, brakeFR, brakeRL, brakeRR};
     }
 
@@ -108,19 +114,27 @@ public class CarTest {
         Effect brake15 = new Effect(EffectType.BRAKE, 15);
         brakesEffects = new ArrayList<>(Collections.singletonList(brake15));
 
-        Brakes brakeFL = new Brakes("brakeFL", 5f, 100, 100, brakesEffects, CarAxis.FRONT, CarSides.LEFT, .1f);
-        Brakes brakeFR = new Brakes("brakeFR", 5f, 100, 100, brakesEffects, CarAxis.FRONT, CarSides.RIGHT, .1f);
-        Brakes brakeRL = new Brakes("brakeRL", 5f, 100, 100, brakesEffects, CarAxis.REAR, CarSides.LEFT, .1f);
-        Brakes brakeRR = new Brakes("brakeRR", 5f, 100, 100, brakesEffects, CarAxis.REAR, CarSides.RIGHT, .1f);
+        Brakes brakeFL = new Brakes("brakeFL", 5f, 100, 100, brakesEffects,
+            CarAxis.FRONT, CarSides.LEFT, .1f);
+        Brakes brakeFR = new Brakes("brakeFR", 5f, 100, 100, brakesEffects,
+            CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Brakes brakeRL = new Brakes("brakeRL", 5f, 100, 100, brakesEffects,
+            CarAxis.REAR, CarSides.LEFT, .1f);
+        Brakes brakeRR = new Brakes("brakeRR", 5f, 100, 100, brakesEffects,
+            CarAxis.REAR, CarSides.RIGHT, .1f);
 
         return new Brakes[] {brakeFL, brakeFR, brakeRL, brakeRR};
     }
 
     private static Tires[] getTires() {
-        Tires tireFL = new Tires("tireFL", 20f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.LEFT, .1f);
-        Tires tireFR = new Tires("tireFR", 20f, 100, 100, new ArrayList<>(), CarAxis.FRONT, CarSides.RIGHT, .1f);
-        Tires tireRL = new Tires("tireRL", 20f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.LEFT, .1f);
-        Tires tireRR = new Tires("tireRR", 20f, 100, 100, new ArrayList<>(), CarAxis.REAR, CarSides.RIGHT, .1f);
+        Tires tireFL = new Tires("tireFL", 20f, 100, 100, new ArrayList<>(),
+            CarAxis.FRONT, CarSides.LEFT, .1f);
+        Tires tireFR = new Tires("tireFR", 20f, 100, 100, new ArrayList<>(),
+            CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Tires tireRL = new Tires("tireRL", 20f, 100, 100, new ArrayList<>(),
+            CarAxis.REAR, CarSides.LEFT, .1f);
+        Tires tireRR = new Tires("tireRR", 20f, 100, 100, new ArrayList<>(),
+            CarAxis.REAR, CarSides.RIGHT, .1f);
         return new Tires[] {tireFL, tireFR, tireRL, tireRR};
     }
 
@@ -132,10 +146,14 @@ public class CarTest {
 
         tiresEffects = new ArrayList<>(Arrays.asList(grip10, brake3, maxSpeedMinus2, acceleration1));
 
-        Tires tireFL = new Tires("tireFL", 20f, 100, 100, tiresEffects, CarAxis.FRONT, CarSides.LEFT, .1f);
-        Tires tireFR = new Tires("tireFR", 20f, 100, 100, tiresEffects, CarAxis.FRONT, CarSides.RIGHT, .1f);
-        Tires tireRL = new Tires("tireRL", 20f, 100, 100, tiresEffects, CarAxis.REAR, CarSides.LEFT, .1f);
-        Tires tireRR = new Tires("tireRR", 20f, 100, 100, tiresEffects, CarAxis.REAR, CarSides.RIGHT, .1f);
+        Tires tireFL = new Tires("tireFL", 20f, 100, 100, tiresEffects,
+            CarAxis.FRONT, CarSides.LEFT, .1f);
+        Tires tireFR = new Tires("tireFR", 20f, 100, 100, tiresEffects,
+            CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Tires tireRL = new Tires("tireRL", 20f, 100, 100, tiresEffects,
+            CarAxis.REAR, CarSides.LEFT, .1f);
+        Tires tireRR = new Tires("tireRR", 20f, 100, 100, tiresEffects,
+            CarAxis.REAR, CarSides.RIGHT, .1f);
 
         return new Tires[] {tireFL, tireFR, tireRL, tireRR};
     }
@@ -230,7 +248,8 @@ public class CarTest {
     @Test
     public void testComponentsNotNullObjects() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(null, null, null, null, null, null, null, null, null, -1);
+            new Car(null, null, null, null, null, null, null, null,
+                null, -1);
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
@@ -444,7 +463,9 @@ public class CarTest {
     @Test
     public void testCarAttributes() {
         float expectedSpeed = 108;
-        float expectedGrip = 62;
+        float expectedTireGrip = 40;
+        float expectedComplementGrip = 22;
+        float expectedTotalGrip = expectedTireGrip + expectedComplementGrip;
         float expectedBrake = 86;
         float expectedAcceleration = 15;
         float expectedWeight = engineWithEffects.getWeight() + chassisWithEffects.getWeight() +
@@ -454,7 +475,9 @@ public class CarTest {
 
         assertEquals(expectedAcceleration, carWithEffects.getAcceleration());
         assertEquals(expectedSpeed, carWithEffects.getMaxSpeed());
-        assertEquals(expectedGrip, carWithEffects.getTireGrip());
+        assertEquals(expectedComplementGrip, carWithEffects.getComplementGrip());
+        assertEquals(expectedTireGrip, carWithEffects.getTireGrip());
+        assertEquals(expectedTotalGrip, carWithEffects.getTotalGrip());
         assertEquals(expectedBrake, carWithEffects.getBrakePower());
         assertEquals(expectedWeight, carWithEffects.getWeight());
     }
@@ -554,11 +577,12 @@ public class CarTest {
         float initialAngle = carWithEffects.getAngle();
         carWithEffects.accelerate(1);
         float grip = carWithEffects.getTireGrip();
+        float complementGrip = carWithEffects.getComplementGrip();
 
         carWithEffects.moveRight(1);
 
         assertTrue(carWithEffects.getAngle() > initialAngle);
-        assertEquals(initialAngle + (grip * 0.01f), carWithEffects.getAngle(), 0.001f);
+        assertEquals(initialAngle + ((grip + complementGrip) * 0.01f), carWithEffects.getAngle(), 0.001f);
     }
 
     @Test
@@ -614,5 +638,44 @@ public class CarTest {
         assertEquals(initialAngle + (rightTurnAngle - initialAngle),
             initialAngle - (leftTurnAngle - initialAngle),
             0.001f);
+    }
+
+    private Tires[] getTiresWithLowDurability() {
+        Tires tireFL = new Tires("tireFL", 20f, 100, 1, new ArrayList<>(),
+            CarAxis.FRONT, CarSides.LEFT, .1f);
+        Tires tireFR = new Tires("tireFR", 20f, 100, 1, new ArrayList<>(),
+            CarAxis.FRONT, CarSides.RIGHT, .1f);
+        Tires tireRL = new Tires("tireRL", 20f, 100, 1, new ArrayList<>(),
+            CarAxis.REAR, CarSides.LEFT, .1f);
+        Tires tireRR = new Tires("tireRR", 20f, 100, 1, new ArrayList<>(),
+            CarAxis.REAR, CarSides.RIGHT, .1f);
+        return new Tires[] {tireFL, tireFR, tireRL, tireRR};
+    }
+
+    @Test
+    public void testNoTireGrip() {
+        carWithEffects = new Car(engineWithEffects, chassisWithEffects, tires, suspensionsWithEffects,
+            brakesWithEffects, floorWithEffects, frontWithEffects, backWithEffects, sidesWithEffects, fuel);
+        carWithEffects.accelerate(1);
+
+        assertEquals(0, carWithEffects.getSpeed());
+        assertEquals(0, carWithEffects.getPositionX());
+        assertEquals(0, carWithEffects.getPositionY());
+
+        Tires[] tires = getTiresWithLowDurability();
+
+        carWithEffects = new Car(engineWithEffects, chassisWithEffects, tires, suspensionsWithEffects,
+            brakesWithEffects, floorWithEffects, frontWithEffects, backWithEffects, sidesWithEffects, fuel);
+
+        for (int i = 0; i < 10000; i++) {
+            carWithEffects.accelerate(1f);
+            carWithEffects.naturalSlowDown(1f);
+            Map<CarSides, Float> sides = new HashMap<>();
+            sides.put(CarSides.LEFT, .5f);
+            sides.put(CarSides.RIGHT, .5f);
+            carWithEffects.degradeTires(1f, sides);
+        }
+
+        assertEquals(0, carWithEffects.getSpeed());
     }
 }
