@@ -17,8 +17,8 @@ public class Track {
         trackPoints = baseTrack.getPoints();
 
         controlPoints = baseTrack.getBasePoints();
-        leftBorder = BorderGenerator.generateLeftBorder(trackPoints, 30.0f);
-        rightBorder = BorderGenerator.generateRightBorder(trackPoints, 30.0f);
+        leftBorder = BorderGenerator.generateLeftBorder(trackPoints, TrackUtils.WIDTH * 0.5f);
+        rightBorder = BorderGenerator.generateRightBorder(trackPoints, TrackUtils.WIDTH * 0.5f);
     }
 
     public List<Vector2> getControlPoints() {
