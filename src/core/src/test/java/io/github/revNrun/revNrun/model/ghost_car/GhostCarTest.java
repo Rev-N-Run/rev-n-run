@@ -60,4 +60,36 @@ class GhostCarTest {
         assertEquals(1, ghostCar.getAngle());
         assertEquals(1, ghostCar.getTimestamp());
     }
+
+
+    @Test
+    void testConstructorCopy() {
+        ghostCar.recordState(new Vector2(1, 1), 1, 1);
+        ghostCar.recordState(new Vector2(2, 2), 2, 2);
+
+        GhostCar copy = new GhostCar(ghostCar);
+
+        assertEquals(copy.getPositionX(), ghostCar.getPositionX());
+        assertEquals(copy.getPositionY(), ghostCar.getPositionY());
+        assertEquals(copy.getAngle(), ghostCar.getAngle());
+        assertEquals(copy.getTimestamp(), ghostCar.getTimestamp());
+
+        ghostCar.nextFrame();
+        copy.nextFrame();
+
+        assertEquals(copy.getPositionX(), ghostCar.getPositionX());
+        assertEquals(copy.getPositionY(), ghostCar.getPositionY());
+        assertEquals(copy.getAngle(), ghostCar.getAngle());
+        assertEquals(copy.getTimestamp(), ghostCar.getTimestamp());
+
+        copy.recordState(new Vector2(3, 3), 3, 3);
+
+        ghostCar.nextFrame();
+        copy.nextFrame();
+
+        assertNotEquals(copy.getPositionX(), ghostCar.getPositionX());
+        assertNotEquals(copy.getPositionY(), ghostCar.getPositionY());
+        assertNotEquals(copy.getAngle(), ghostCar.getAngle());
+        assertNotEquals(copy.getTimestamp(), ghostCar.getTimestamp());
+    }
 }
