@@ -1,10 +1,11 @@
 package io.github.revNrun.revNrun.controllers.game.car;
 
 import io.github.revNrun.revNrun.controllers.input.InputHandler;
-import io.github.revNrun.revNrun.controllers.input.LibGDXInputHelper;
 import io.github.revNrun.revNrun.model.car.Car;
 import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
 import io.github.revNrun.revNrun.model.ghost_car.GhostCar;
+import io.github.revNrun.revNrun.model.lap_timer.LapTimer;
+import io.github.revNrun.revNrun.model.vector.Vector2;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,7 @@ public class CarController {
     Map<CarSides, Float> sides;
     GhostCar bestGhost;
     GhostCar ghost;
+    LapTimer currentLap;
 
 
     public CarController(Car car, InputHandler input) {
@@ -62,11 +64,25 @@ public class CarController {
         }
 
         car.updatePosition(delta);
+    }
+
+    public void recordGhost() {
         ghost.recordState(car.getPosition(), car.getAngle(), 0);
+    }
+
+    public void compareAndSetLaps() {
+        LapTimer bestLap = bestGhost.getLapTimer();
+        if (currentLap.isFasterThan(bestLap)) {
+            bestGhost = new GhostCar(ghost);
+        }
     }
 
     public Car getCar() {
         return car;
+    }
+
+    public Vector2 getCarPosition() {
+        return car.getPosition();
     }
 
     public GhostCar getCurrentGhost() {
@@ -83,5 +99,17 @@ public class CarController {
 
     public void setBestGhost(GhostCar bestGhost) {
         this.bestGhost = bestGhost;
+    }
+
+    public boolean isLapRunning() {
+        return currentLap.isRunning();
+    }
+
+    public void startLap() {
+        currentLap.start();
+    }
+
+    public void stopLap() {
+        currentLap.stop();
     }
 }
