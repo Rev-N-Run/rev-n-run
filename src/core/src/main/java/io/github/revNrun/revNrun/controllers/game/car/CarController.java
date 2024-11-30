@@ -33,6 +33,7 @@ public class CarController {
             sides.replace(CarSides.RIGHT, 0.5f);
             car.degradeTires(delta, sides);
             car.degradeSuspension(delta, sides);
+            car.degradeEngine(delta);
             System.out.println("up");
         } else if (input.isDownPressed()) {
             car.brakeAndReverse(delta);
