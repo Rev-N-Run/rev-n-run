@@ -21,7 +21,8 @@ class TrackSmoothingTest {
 
         int interpolatedDistance = 2;
 
-        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, false));
+        assertThrows(IllegalArgumentException.class,
+            () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, false));
     }
 
     @Test
@@ -30,7 +31,8 @@ class TrackSmoothingTest {
         int interpolatedDistance = 10;
 
         // Should return an argument error
-        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, true));
+        assertThrows(IllegalArgumentException.class,
+            () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, true));
     }
 
     @Test
@@ -38,7 +40,8 @@ class TrackSmoothingTest {
         List<Vector2> controlPoints = new ArrayList<>();
         int interpolatedDistance = 10;
 
-        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, false));
+        assertThrows(IllegalArgumentException.class,
+            () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, false));
     }
 
     // This test focuses in validating that there are not interpolated points of the first and last pair of points
@@ -71,14 +74,14 @@ class TrackSmoothingTest {
         List<Vector2> smoothedPoints2 = TrackSmoothing.computeCatmullRom(controlPoints2, interpolatedDistance, false);
         List<Vector2> smoothedPoints3 = TrackSmoothing.computeCatmullRom(controlPoints3, interpolatedDistance, false);
 
-        for(Vector2 point1 : smoothedPoints1){
-            for(Vector2 point2 : smoothedPoints2){
+        for(Vector2 point1 : smoothedPoints1) {
+            for(Vector2 point2 : smoothedPoints2) {
                 assertNotEquals(point1, point2);
             }
         }
 
-        for(Vector2 point1 : smoothedPoints1){
-            for(Vector2 point3 : smoothedPoints3){
+        for(Vector2 point1 : smoothedPoints1) {
+            for(Vector2 point3 : smoothedPoints3) {
                 assertNotEquals(point1, point3);
             }
         }
@@ -94,7 +97,8 @@ class TrackSmoothingTest {
         ));
         int interpolatedDistance = -10;
 
-        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, true));
+        assertThrows(IllegalArgumentException.class,
+            () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, true));
     }
 
     @Test
@@ -107,7 +111,8 @@ class TrackSmoothingTest {
         ));
         int interpolatedDistance = 0;
 
-        assertThrows(IllegalArgumentException.class, () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, false));
+        assertThrows(IllegalArgumentException.class,
+            () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, false));
     }
 
     @Test
@@ -179,7 +184,8 @@ class TrackSmoothingTest {
         for (Vector2 point : smoothedPoints) {
             float distance = prevPoint.distance(point);
             assertTrue(distance <= interpolatedDistance * 1.5f,
-                "Distance between points (" + distance + ") is much larger than interpolatedDistance (" + interpolatedDistance + ")");
+                "Distance between points (" + distance +
+                    ") is much larger than interpolatedDistance (" + interpolatedDistance + ")");
             prevPoint = point;
         }
     }
@@ -217,8 +223,10 @@ class TrackSmoothingTest {
         int interpolatedDistance = 3;
 
         // Test with and without control points
-        List<Vector2> withControlPoints = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, true);
-        List<Vector2> withoutControlPoints = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, false);
+        List<Vector2> withControlPoints = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance,
+            true);
+        List<Vector2> withoutControlPoints = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance,
+            false);
 
         // Difference should be the number of internal control points (n-2 for n points)
         assertEquals(withoutControlPoints.size() + 2, withControlPoints.size());

@@ -25,7 +25,7 @@ import io.github.revNrun.revNrun.model.vector.Vector2;
 import java.util.List;
 
 public class Main extends ApplicationAdapter {
-    //public Main(){ System.out.println("This is the game's Main class"); }
+    //public Main() { System.out.println("This is the game's Main class"); }
 
     private OrthographicCamera camera;
     private ShapeRenderer shapeRenderer;

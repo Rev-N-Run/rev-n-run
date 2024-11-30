@@ -34,7 +34,7 @@ public class Track {
     }
 
     // TEST METHODS
-    public List<Vector2> getTrackPointsTest(){
+    public List<Vector2> getTrackPointsTest() {
         return trackPoints;
     }
 }

@@ -128,15 +128,19 @@ public class Vector2 {
      */
     public float angleBetween(Vector2 other) {
         // Preconditions
-        if (other == null) throw new IllegalArgumentException("Vector cannot be null.");
-        else if (Float.isNaN(other.getX()) || Float.isNaN(other.getY()))
+        if (other == null) {
+            throw new IllegalArgumentException("Vector cannot be null.");
+        } else if (Float.isNaN(other.getX()) || Float.isNaN(other.getY())) {
             throw new IllegalArgumentException("Vector cannot contain a NaN value.");
-        else if (Float.isInfinite(other.getX()) || Float.isInfinite(other.getY()))
+        } else if (Float.isInfinite(other.getX()) || Float.isInfinite(other.getY())) {
             throw new IllegalArgumentException("Vector cannot contain an Infinite value.");
-        if (Float.isNaN(this.getX()) || Float.isNaN(this.getY()))
+        }
+
+        if (Float.isNaN(this.getX()) || Float.isNaN(this.getY())) {
             throw new IllegalArgumentException("Vector cannot contain a NaN value.");
-        else if (Float.isInfinite(this.getX()) || Float.isInfinite(this.getY()))
+        } else if (Float.isInfinite(this.getX()) || Float.isInfinite(this.getY())) {
             throw new IllegalArgumentException("Vector cannot contain an Infinite value.");
+        }
 
         float dx = other.x - this.x;
         float dy = other.y - this.y;

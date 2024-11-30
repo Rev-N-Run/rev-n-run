@@ -22,7 +22,8 @@ class TrackSmoothing {
      * @param addControlPoints     Boolean to determine if input control pointed should be returned too.
      * @return A Vector2 List with only the new interpolated points.
      */
-    static List<Vector2> computeCatmullRom(List<Vector2> controlPoints, int interpolatedDistance, boolean addControlPoints) {
+    static List<Vector2> computeCatmullRom(List<Vector2> controlPoints, int interpolatedDistance,
+                                           boolean addControlPoints) {
 
         // Handle exceptions
         if (controlPoints.size() < 4)
@@ -47,13 +48,15 @@ class TrackSmoothing {
             p2 = controlPoints.get(i + 1);
             p3 = controlPoints.get(i + 2);
 
-            // Add the control point of the start of the curve of every segment (the end of the curve of the past segment)
+            // Add the control point of the start of the curve of every segment
+            // (the end of the curve of the past segment)
             if (addControlPoints) smoothedPoints.add(p1);
 
             // Calculate the distance between the control points
             distance = p1.distance(p2);
 
-            // If the distance is less or equal than interpolatedDistance, no need of interpolation, we can skip the rest of the iteration
+            // If the distance is less or equal than interpolatedDistance, no need of interpolation,
+            // we can skip the rest of the iteration
             if (distance <= interpolatedDistance) continue;
 
             // Calculate the number of necessary segments
@@ -90,13 +93,18 @@ class TrackSmoothing {
      * @return Interpolated point between p1 and p2
      */
     private static Vector2 computeCatmullRomPoint(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3, float t) {
-        float smoothingFactor = 0.5f; // Values between 0 and 1 are accepted, 0 returns a more precise point, 1 a smoother point, but both go away from control points. 0.5 is the one we want bcs the final track must include the control points
+        // Values between 0 and 1 are accepted, 0 returns a more precise point,
+        // 1 a smoother point, but both go away from control points.
+        // 0.5 is the one we want bcs the final track must include the control points
+        float smoothingFactor = 0.5f;
 
         float tt = t * t;
         float ttt = tt * t;
 
-        float x = smoothingFactor * ((2 * p1.getX()) + (-p0.getX() + p2.getX()) * t + (2 * p0.getX() - 5 * p1.getX() + 4 * p2.getX() - p3.getX()) * tt + (-p0.getX() + 3 * p1.getX() - 3 * p2.getX() + p3.getX()) * ttt);
-        float y = smoothingFactor * ((2 * p1.getY()) + (-p0.getY() + p2.getY()) * t + (2 * p0.getY() - 5 * p1.getY() + 4 * p2.getY() - p3.getY()) * tt + (-p0.getY() + 3 * p1.getY() - 3 * p2.getY() + p3.getY()) * ttt);
+        float x = smoothingFactor * ((2 * p1.getX()) + (-p0.getX() + p2.getX()) * t + (2 * p0.getX() - 5 * p1.getX() +
+            4 * p2.getX() - p3.getX()) * tt + (-p0.getX() + 3 * p1.getX() - 3 * p2.getX() + p3.getX()) * ttt);
+        float y = smoothingFactor * ((2 * p1.getY()) + (-p0.getY() + p2.getY()) * t + (2 * p0.getY() - 5 * p1.getY() +
+            4 * p2.getY() - p3.getY()) * tt + (-p0.getY() + 3 * p1.getY() - 3 * p2.getY() + p3.getY()) * ttt);
 
         return new Vector2(x, y);
     }
