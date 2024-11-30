@@ -90,4 +90,18 @@ class LapTimerTest {
 
         assertTrue(lapTimer1.isFasterThan(lapTimer2));
     }
+
+    @Test
+    void testCopyConstructor() {
+        LapTimer timer = new LapTimer();
+        timer.start();
+        LapTimer copy = new LapTimer(timer);
+
+        assertEquals(timer.isRunning(), copy.isRunning());
+
+        timer.stop();
+
+        assertNotEquals(timer.isRunning(), copy.isRunning());
+        assertNotEquals(timer.getLastLapTime(), copy.getLastLapTime());
+    }
 }
