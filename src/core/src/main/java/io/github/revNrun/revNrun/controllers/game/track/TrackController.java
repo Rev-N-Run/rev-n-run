@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrackController {
-    private final float WIDTH = 50.0f;
 
     private final Track track;
     private final Checkpoints checkpoints;
@@ -20,8 +19,10 @@ public class TrackController {
     private int lifeByCheckPoints;
 
     public TrackController() {
-        track = new Track();        //TODO track needs a given WIDTH to initialize
-        checkpoints = new Checkpoints(track.getControlPoints(), WIDTH);
+        float width = 50.0f;    // This will be the track's width!
+
+        track = new Track();        //TODO track needs a given width to initialize
+        checkpoints = new Checkpoints(track.getControlPoints(), width);
         vertices = new ArrayList<>();
         createVertices();
     }
@@ -36,6 +37,7 @@ public class TrackController {
     /**
      * This method updates the car data in relation with the track, i.e. if the track is out of the track,
      * the skipped checkpoints and if it has completed a lap.
+     *
      * @param carPos The actual car position.
      * @return enum: COMPLETE if the car just completed a lap, INCOMPLETE if the car completed a lap illegally,
      * GOOD if the car hasn't complete the lap, but it's still alive, WRONG if it hasn't complete the lap and it's
@@ -46,7 +48,7 @@ public class TrackController {
         lifeByCheckPoints = checkpoints.remainingLife();
 
         LapStatus status = checkpoints.lapStatus();
-        if(status == LapStatus.COMPLETE){
+        if (status == LapStatus.COMPLETE) {
             checkpoints.resetProgress();
         }
         return status;
@@ -75,7 +77,7 @@ public class TrackController {
     private void createVertices() {
         vertices.addAll(track.getLeftBorder());
         List<Vector2> rightBorder = new ArrayList<>(track.getRightBorder());
-        for(int i = rightBorder.size() - 1; i >= 0; i--) {
+        for (int i = rightBorder.size() - 1; i >= 0; i--) {
             vertices.add(rightBorder.get(i));
         }
     }
@@ -86,7 +88,7 @@ public class TrackController {
         this.vertices = vertices;
     }
 
-    public void setLifeByCheckPoints(int lifeByCheckPoints){
+    public void setLifeByCheckPoints(int lifeByCheckPoints) {
         this.lifeByCheckPoints = lifeByCheckPoints;
     }
 
