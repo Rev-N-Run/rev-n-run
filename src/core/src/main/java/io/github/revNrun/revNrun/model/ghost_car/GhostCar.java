@@ -7,12 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GhostCar {
-    private List<GhostState> states;
+    private List<GhostState> states = new ArrayList<>();
     private int currentStateIndex = 0;
     private LapTimer lapTimer;
 
     public GhostCar() {
-        this.states = new ArrayList<>();
         lapTimer = new LapTimer();
     }
 
