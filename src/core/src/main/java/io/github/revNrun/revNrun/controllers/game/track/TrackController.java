@@ -21,6 +21,7 @@ public class TrackController {
     public TrackController() {
         track = new Track();
         checkpoints = new Checkpoints(track.getControlPoints());
+        trackView = new TrackView();
         vertices = new ArrayList<>();
         createVertices();
     }
@@ -63,7 +64,6 @@ public class TrackController {
      * Calls the view class to draw the track assets
      */
     public void draw() {
-        // TODO TracView is gonna have static methods
         trackView.drawTrack(vertices);
         trackView.drawLifeByCheckPoints(lifeByCheckPoints);
     }

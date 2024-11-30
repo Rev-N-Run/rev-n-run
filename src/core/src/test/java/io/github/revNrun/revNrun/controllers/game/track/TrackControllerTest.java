@@ -21,6 +21,7 @@ class TrackControllerTest {
     void setUp() {
         trackView = mock(TrackView.class);  // Mock the TrackView class with mockito
         trackController = new TrackController();  // Instantiate the controller
+        trackController.setTrackView(trackView);
     }
 
     @Test
@@ -36,7 +37,6 @@ class TrackControllerTest {
             new Vector2(8, 4)
         ));
         trackController.setVertices(mockVertices);
-        trackController.setTrackView(trackView);
 
         trackController.draw();
 
@@ -47,7 +47,6 @@ class TrackControllerTest {
     void testDrawLifeByCheckPoints() {
         int mockLifeByCheckPoints = 10;
         trackController.setLifeByCheckPoints(mockLifeByCheckPoints);
-        trackController.setTrackView(trackView);
 
         trackController.draw();
 
