@@ -5,6 +5,16 @@ public class LapTimer {
     private long lastLapTime;
     private boolean isRunning = false;
 
+    public LapTimer() {
+
+    }
+
+    public LapTimer(LapTimer that) {
+        this.startTime = that.startTime;
+        this.lastLapTime = that.lastLapTime;
+        this.isRunning = that.isRunning;
+    }
+
     public void start() {
         if (!isRunning) {
             startTime = System.nanoTime();
