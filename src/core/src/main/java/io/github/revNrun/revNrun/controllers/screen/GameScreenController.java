@@ -46,7 +46,7 @@ public class GameScreenController extends ScreenController {
             if (!carController.isLapRunning()) {
                 carController.startLap();
             }
-            carController.execute(delta);
+            carController.handleInput(delta);
             LapStatus status = trackController.updateCarInTrack(carController.getCarPosition());
             switch (status) {
                 case GOOD:

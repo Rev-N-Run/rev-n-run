@@ -13,10 +13,10 @@ import java.util.Map;
 public class CarController {
     private InputHandler input;
     private Car car;
-    Map<CarSides, Float> sides;
-    GhostCar bestGhost;
-    GhostCar ghost;
-    LapTimer currentLap;
+    private Map<CarSides, Float> sides;
+    private GhostCar bestGhost;
+    private GhostCar ghost;
+    private LapTimer currentLap;
 
 
     public CarController(Car car, InputHandler input) {
@@ -26,9 +26,10 @@ public class CarController {
         sides.put(CarSides.LEFT, 0f);
         sides.put(CarSides.RIGHT, 0f);
         ghost = new GhostCar();
+        currentLap = new LapTimer();
     }
 
-    public void execute(float delta) {
+    public void handleInput(float delta) {
         if (input.isUpPressed()) {
             car.accelerate(delta);
             sides.replace(CarSides.LEFT, 0.5f);
