@@ -8,6 +8,8 @@ import io.github.revNrun.revNrun.model.car.components.*;
 import io.github.revNrun.revNrun.model.car.components.enums.CarAxis;
 import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
 import io.github.revNrun.revNrun.model.car.components.enums.EffectType;
+import io.github.revNrun.revNrun.model.ghost_car.GhostCar;
+import io.github.revNrun.revNrun.model.vector.Vector2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -390,5 +392,32 @@ class CarControllerTest {
         assertTrue(car.getAngle() > 0);
         assertTrue(car.getPositionX() < 0);
         assertTrue(car.getPositionY() < 0);
+    }
+
+    @Test
+    void recordGhost() {
+        int iterations = 5;
+        List<Vector2> vectors = new ArrayList<>();
+        List<Float> angles = new ArrayList<>();
+        when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true);
+        for (int i = 0; i < iterations; i++) {
+            if (i == 3) {
+                reset(mockInputHelper);
+            }
+            controller.execute(1);
+            Vector2 pos = controller.getCarPosition();
+            vectors.add(new Vector2(pos.getX(), pos.getY()));
+            angles.add(controller.getCar().getAngle());
+            controller.recordGhost();
+        }
+
+        GhostCar ghost = controller.getCurrentGhost();
+
+        for (int i = 0; i < iterations; i++) {
+            assertEquals(vectors.get(i).getX(), ghost.getPositionX());
+            assertEquals(vectors.get(i).getY(), ghost.getPositionY());
+            assertEquals(angles.get(i), ghost.getAngle());
+            ghost.nextFrame();
+        }
     }
 }
