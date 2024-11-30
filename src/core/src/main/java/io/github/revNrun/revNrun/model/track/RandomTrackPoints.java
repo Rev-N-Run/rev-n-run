@@ -29,14 +29,28 @@ import java.util.Random;
 class RandomTrackPoints {
     // The following values determine the randomness of the track
     private static final int MIN_NUM_INITIAL_POINTS = 20;   // Minimum number of initial points
-    private static final int MAX_NUM_INITIAL_POINTS = 100;   // Maximum number of initial points, can't be the same as MIN_NUM_INITIAL_POINTS
+
+    private static final int MAX_NUM_INITIAL_POINTS = 100;  // Maximum number of initial points,
+                                                            // can't be the same as MIN_NUM_INITIAL_POINTS
+
     private static final float MIN_RADIUS = 100;            // Minimum radius for the track
+
     private static final float MAX_RADIUS = 250;            // Maximum radius, can't be the same as MIN_RADIUS
+
     private static final float NOISE_SCALE = 360f;          // Noise scale: values can go from 0 to 1
-    private static final int MIN_NUM_OCTAVES = 1;           // Minimum number of octaves to calculate the distortion of the base points, minimum 1
-    private static final int MAX_NUM_OCTAVES = 2;           // Maximum number of octaves, can't be the same as MIN_NUM_OCTAVES
-    private static final int MIN_NOISE_ITERATIONS = 1;      // Minimum number of times the base points are distorted from the previous distortion
-    private static final int MAX_NOISE_ITERATIONS = 4;      // Maximum number of times the base points are distorted from the previous distortion, can't be the same as MIN_NOISE_ITERATIONS
+
+    private static final int MIN_NUM_OCTAVES = 1;           // Minimum number of octaves to calculate
+                                                            // the distortion of the base points, minimum 1
+
+    private static final int MAX_NUM_OCTAVES = 2;           // Maximum number of octaves,
+                                                            // can't be the same as MIN_NUM_OCTAVES
+
+    private static final int MIN_NOISE_ITERATIONS = 1;      // Minimum number of times the base points are distorted
+                                                            // from the previous distortion
+
+    private static final int MAX_NOISE_ITERATIONS = 4;      // Maximum number of times the base points are distorted
+                                                            // from the previous distortion,
+                                                            // can't be the same as MIN_NOISE_ITERATIONS
 
     // The following values are the final ones, calculated randomly in generateRandomness()
     private int numInitialPoints;
@@ -66,7 +80,8 @@ class RandomTrackPoints {
         // Generate the initial points (basics)
         this.generateInitialPoints();
 
-        // Generate the base points from the initial base points, further iterations generate base points from previous base points
+        // Generate the base points from the initial base points,
+        // further iterations generate base points from previous base points
         for (int i = 0; i <= noiseIterations - 1; i++) {
             if (i > 0) basePoints = generateBasePoints(basePoints);
             else basePoints = generateBasePoints(initialPoints);
@@ -74,7 +89,8 @@ class RandomTrackPoints {
 
         // Add the first initialPoint as the last point too
         initialPoints.add(initialPoints.get(0));
-        // Add the first basePoint as the last point too, we cannot recalculate it or the end would probably become a different point than the start one
+        // Add the first basePoint as the last point too,
+        // we cannot recalculate it or the end would probably become a different point than the start one
         basePoints.add(basePoints.get(0));
 
         // Removes unwanted base points (too near points, intersections...)
@@ -98,11 +114,13 @@ class RandomTrackPoints {
 
     /**
      * generateRandomness randomly calculates the final values of numInitialPoints, radius, octaves and noiseIterations,
-     * all them based on the declared constants. octaves and noiseIterations are calculated with the same random value as
-     * numInitialPoints, so they are proportional to it. numInitialPoints is calculated with the mean of the random value used
+     * all them based on the declared constants.
+     * octaves and noiseIterations are calculated with the same random value as
+     * numInitialPoints, so they are proportional to it.
+     * numInitialPoints is calculated with the mean of the random value used
      * to calculate the radius and another new random value. The purpose of this new random value calculation is to get
-     * a semi relation between radius and numInitialPoints, so big radius can get a medium or big quantity of points, but
-     * not too few, and a small radius can get a small or medium quantity of points, but never too much.
+     * a semi relation between radius and numInitialPoints, so big radius can get a medium or big quantity of points,
+     * but not too few, and a small radius can get a small or medium quantity of points, but never too much.
      */
     private void generateCustomValues() {
         float random = RANDOM.nextFloat();
@@ -111,7 +129,8 @@ class RandomTrackPoints {
 
         random = (random + RANDOM.nextFloat()) / 2;
 
-        numInitialPoints = Math.round(random * (MAX_NUM_INITIAL_POINTS - MIN_NUM_INITIAL_POINTS) + MIN_NUM_INITIAL_POINTS);
+        numInitialPoints = Math.round(random * (MAX_NUM_INITIAL_POINTS - MIN_NUM_INITIAL_POINTS)
+            + MIN_NUM_INITIAL_POINTS);
         octaves = Math.round(random * (MAX_NUM_OCTAVES - MIN_NUM_OCTAVES) + MIN_NUM_OCTAVES);
         noiseIterations = Math.round(MAX_NOISE_ITERATIONS - (random * (MAX_NOISE_ITERATIONS - MIN_NOISE_ITERATIONS)));
 
@@ -120,7 +139,8 @@ class RandomTrackPoints {
 
     /**
      * Generates the initial points. This method is called from by the constructor and fills the initialPoints array.
-     * Right now, initial points are just a circle determined by the random radius and the random number of initial points.
+     * Right now, initial points are just a circle determined by the random radius
+     * and the random number of initial points.
      */
     private void generateInitialPoints() {
         float angle, xBase, yBase;
@@ -235,7 +255,8 @@ class RandomTrackPoints {
         List<Vector2> controlPoints = new ArrayList<>();
         controlPoints.add(basePoints.get(basePoints.size() - 2)); // size()-1 is the duplicate of the start point
         controlPoints.addAll(basePoints);
-        assert controlPoints.getLast() == basePoints.get(0) : "Start point has not been added as the last point of the track";
+        assert controlPoints.getLast() ==
+            basePoints.get(0) : "Start point has not been added as the last point of the track";
         controlPoints.add(basePoints.get(1));
 
         points.addAll(TrackSmoothing.computeCatmullRom(controlPoints, 1, true));

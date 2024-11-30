@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 class BorderGenerator {
-    static List<Vector2> generateLeftBorder(List<Vector2> points, float width){
+    static List<Vector2> generateLeftBorder(List<Vector2> points, float width) {
         return generateBorder(points, width, true);
     }
 
-    static List<Vector2> generateRightBorder(List<Vector2> points, float width){
+    static List<Vector2> generateRightBorder(List<Vector2> points, float width) {
         return generateBorder(points, width, false);
     }
 

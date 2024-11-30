@@ -124,6 +124,7 @@ class BorderGeneratorTest {
         // Assert
         assertNotNull(rightBorder);
         assertEquals(3, rightBorder.size());
-        assertTrue(rightBorder.get(0).getX() > points.get(0).getX(), "Right border should shift right for narrow width.");
+        assertTrue(rightBorder.get(0).getX() > points.get(0).getX(),
+            "Right border should shift right for narrow width.");
     }
 }

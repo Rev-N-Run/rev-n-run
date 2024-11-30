@@ -51,7 +51,7 @@ class Vector2Test {
     }
 
     @Test
-    public void testDistance(){
+    public void testDistance() {
         Vector2 a = new Vector2(0, 0);
         Vector2 b = new Vector2(3, 4);
         Vector2 c = new Vector2(-8, -5);

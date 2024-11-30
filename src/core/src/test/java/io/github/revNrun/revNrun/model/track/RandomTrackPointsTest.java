@@ -43,11 +43,16 @@ class RandomTrackPointsTest {
         float minRadius = RandomTrackPoints.getMinRadius();
         float maxRadius = RandomTrackPoints.getMaxRadius();
 
-        assertTrue(aList.size() >= minPoints && aList.size() <= maxPoints && a.getRadius() >= minRadius && a.getRadius() <= maxRadius);
-        assertTrue(bList.size() >= minPoints && bList.size() <= maxPoints && b.getRadius() >= minRadius && b.getRadius() <= maxRadius);
-        assertTrue(cList.size() >= minPoints && cList.size() <= maxPoints && c.getRadius() >= minRadius && c.getRadius() <= maxRadius);
-        assertTrue(dList.size() >= minPoints && dList.size() <= maxPoints && d.getRadius() >= minRadius && d.getRadius() <= maxRadius);
-        assertTrue(eList.size() >= minPoints && eList.size() <= maxPoints && e.getRadius() >= minRadius && e.getRadius() <= maxRadius);
+        assertTrue(aList.size() >= minPoints && aList.size() <= maxPoints && a.getRadius() >= minRadius &&
+                    a.getRadius() <= maxRadius);
+        assertTrue(bList.size() >= minPoints && bList.size() <= maxPoints &&
+                    b.getRadius() >= minRadius && b.getRadius() <= maxRadius);
+        assertTrue(cList.size() >= minPoints && cList.size() <= maxPoints &&
+                    c.getRadius() >= minRadius && c.getRadius() <= maxRadius);
+        assertTrue(dList.size() >= minPoints && dList.size() <= maxPoints &&
+                    d.getRadius() >= minRadius && d.getRadius() <= maxRadius);
+        assertTrue(eList.size() >= minPoints && eList.size() <= maxPoints &&
+                    e.getRadius() >= minRadius && e.getRadius() <= maxRadius);
     }
 
     @Test
@@ -127,13 +132,15 @@ class RandomTrackPointsTest {
 
     @Test
     public void testInitialPointsAreAtSameDistanceAndNoDuplicates() {
-        // Duplicates are also tested in here because if two consecutive points are the same one, their distance wouldn't equal to distance
+        // Duplicates are also tested in here because if two consecutive points are the same one,
+        // their distance wouldn't equal to distance
         float distance = initialPoints.get(0).distance(initialPoints.get(1));
         for(int i = 0; i < initialPoints.size() - 1; i++) {
             assertEquals(distance, initialPoints.get(i).distance(initialPoints.get(i+1)), 0.01);
         }
 
-        // Therefore, initial points can't only not be a copy of a consecutive points, but of any point (except of the first and last points)
+        // Therefore, initial points can't only not be a copy of a consecutive points,
+        // but of any point (except of the first and last points)
         int j;
         for(int i = 0; i < initialPoints.size() - 2; i++) {
             for(j = i + 1; j < initialPoints.size() - 1; j++) {
@@ -164,7 +171,8 @@ class RandomTrackPointsTest {
         // is also considered as intersecting)
         for(int i = 0; i < basePoints.size() - 2; i++) {
             for (int j = i + 2; j < basePoints.size() - 2; j++) {
-                assertFalse(Vector2.doIntersect(basePoints.get(i), basePoints.get(i + 1), basePoints.get(j), basePoints.get(j + 1), track.getControlPointMinDistance()));
+                assertFalse(Vector2.doIntersect(basePoints.get(i), basePoints.get(i + 1), basePoints.get(j),
+                            basePoints.get(j + 1), track.getControlPointMinDistance()));
             }
         }
     }
