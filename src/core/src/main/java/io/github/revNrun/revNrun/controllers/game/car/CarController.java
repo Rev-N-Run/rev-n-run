@@ -11,39 +11,40 @@ import java.util.Map;
 public class CarController {
     private InputHandler input;
     private Car car;
+    Map<CarSides, Float> sides;
+
 
     public CarController(Car car, InputHandler input) {
         this.car = car;
         this.input = input;
+        this.sides = new HashMap<>();
+        sides.put(CarSides.LEFT, 0f);
+        sides.put(CarSides.RIGHT, 0f);
     }
 
     public void execute(float delta) {
         if (input.isUpPressed()) {
             car.accelerate(delta);
-            Map<CarSides, Float> sides = new HashMap<>();
-            sides.put(CarSides.LEFT, 0.5f);
-            sides.put(CarSides.RIGHT, 0.5f);
+            sides.replace(CarSides.LEFT, 0.5f);
+            sides.replace(CarSides.RIGHT, 0.5f);
             car.degradeTires(delta, sides);
         } else if (input.isDownPressed()) {
             car.brakeAndReverse(delta);
-            Map<CarSides, Float> sides = new HashMap<>();
-            sides.put(CarSides.LEFT, 0.5f);
-            sides.put(CarSides.RIGHT, 0.5f);
+            sides.replace(CarSides.LEFT, 0.5f);
+            sides.replace(CarSides.RIGHT, 0.5f);
             car.degradeTires(delta, sides);
             car.degradeBrakes(delta);
         }
 
         if (input.isLeftPressed()) {
             car.moveLeft(delta);
-            Map<CarSides, Float> sides = new HashMap<>();
-            sides.put(CarSides.LEFT, 0.7f);
-            sides.put(CarSides.RIGHT, 0.3f);
+            sides.replace(CarSides.LEFT, 0.7f);
+            sides.replace(CarSides.RIGHT, 0.3f);
             car.degradeTires(delta, sides);
         } else if (input.isRightPressed()) {
             car.moveRight(delta);
-            Map<CarSides, Float> sides = new HashMap<>();
-            sides.put(CarSides.LEFT, 0.3f);
-            sides.put(CarSides.RIGHT, 0.7f);
+            sides.replace(CarSides.LEFT, 0.3f);
+            sides.replace(CarSides.RIGHT, 0.7f);
             car.degradeTires(delta, sides);
         }
 
