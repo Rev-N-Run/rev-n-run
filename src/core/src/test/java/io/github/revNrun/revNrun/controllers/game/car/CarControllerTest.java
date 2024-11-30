@@ -215,6 +215,34 @@ class CarControllerTest {
 
         Brakes[] brakes = car.getBrakes();
 
+        Brakes brakeFL = null;
+        Brakes brakeFR = null;
+        Brakes brakeRL = null;
+        Brakes brakeRR = null;
+
+        for (Brakes brake : brakes) {
+            switch (brake.getAxle()) {
+                case FRONT:
+                    if (brake.getSide() == CarSides.LEFT) {
+                        brakeFL = brake;
+                    } else {
+                        brakeFR = brake;
+                    }
+                    break;
+                case REAR:
+                    if (brake.getSide() == CarSides.RIGHT) {
+                        brakeRR = brake;
+                    } else {
+                        brakeRL = brake;
+                    }
+                    break;
+            }
+        }
+
+        assertEquals(brakeFL.getCurrentDurability(), brakeFR.getCurrentDurability());
+        assertEquals(brakeRL.getCurrentDurability(), brakeRR.getCurrentDurability());
+        assertNotEquals(brakeFL.getCurrentDurability(), brakeRR.getCurrentDurability());
+
         for (Brakes brake : brakes) {
             assertTrue(brake.getCurrentDurability() < brake.getMaxDurability());
         }
