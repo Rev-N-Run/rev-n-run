@@ -11,6 +11,14 @@ public class GhostCar {
     private int currentStateIndex = 0;
     private LapTimer lapTime;
 
+    public GhostCar() {
+
+    }
+
+    public GhostCar(GhostCar that) {
+        this.states = that.states;
+    }
+
     public void recordState(Vector2 position, float angle, float timestamp) {
         states.add(new GhostState(position, angle, timestamp));
     }
