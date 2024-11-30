@@ -8,9 +8,15 @@ public class GhostState {
     private final float timestamp;
 
     public GhostState(Vector2 position, float angle, float timestamp) {
-        this.position = position;
+        this.position = new Vector2(position);
         this.angle = angle;
         this.timestamp = timestamp;
+    }
+
+    public GhostState(GhostState that) {
+        this.position = that.position;
+        this.angle = that.angle;
+        this.timestamp = that.timestamp;
     }
 
     public Vector2 getPosition() {
