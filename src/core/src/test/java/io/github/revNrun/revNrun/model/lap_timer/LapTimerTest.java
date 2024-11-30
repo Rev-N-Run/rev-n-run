@@ -92,7 +92,7 @@ class LapTimerTest {
     }
 
     @Test
-    void testCopyConstructor() {
+    void testCopyConstructor() throws InterruptedException {
         LapTimer timer = new LapTimer();
         timer.start();
         LapTimer copy = new LapTimer(timer);
@@ -103,5 +103,14 @@ class LapTimerTest {
 
         assertNotEquals(timer.isRunning(), copy.isRunning());
         assertNotEquals(timer.getLastLapTime(), copy.getLastLapTime());
+
+        timer = new LapTimer();
+        timer.start();
+        Thread.sleep(100);
+        timer.stop();
+        copy = new LapTimer(timer);
+
+        assertEquals(timer.isRunning(), copy.isRunning());
+        assertEquals(timer.getLastLapTime(), copy.getLastLapTime());
     }
 }
