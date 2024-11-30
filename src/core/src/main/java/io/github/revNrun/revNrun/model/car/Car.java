@@ -87,7 +87,7 @@ public class Car {
     }
 
     public void moveRight(float delta) {
-        if (tireGrip == 0) {
+        if (tireGrip == 0 || speed == 0) {
             return;
         }
 
@@ -102,7 +102,7 @@ public class Car {
     }
 
     public void moveLeft(float delta) {
-        if (tireGrip == 0) {
+        if (tireGrip == 0 || speed == 0) {
             return;
         }
 
