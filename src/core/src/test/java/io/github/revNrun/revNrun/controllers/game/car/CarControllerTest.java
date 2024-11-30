@@ -339,4 +339,22 @@ class CarControllerTest {
             assertTrue(tire.getCurrentDurability() < tire.getMaxDurability());
         }
     }
+
+    @Test
+    void carDoesNotTurnIfNoSpeed() {
+        when(mockInputHelper.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
+        controller.execute(1);
+
+        assertEquals(0, car.getAngle());
+        assertEquals(0, car.getPositionX());
+        assertEquals(0, car.getPositionY());
+
+        reset(mockInputHelper);
+        when(mockInputHelper.isKeyPressed(Input.Keys.RIGHT)).thenReturn(true);
+        controller.execute(1);
+
+        assertEquals(0, car.getAngle());
+        assertEquals(0, car.getPositionX());
+        assertEquals(0, car.getPositionY());
+    }
 }
