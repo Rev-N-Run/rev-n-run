@@ -32,12 +32,14 @@ public class CarController {
             sides.replace(CarSides.LEFT, 0.5f);
             sides.replace(CarSides.RIGHT, 0.5f);
             car.degradeTires(delta, sides);
+            car.degradeSuspension(delta, sides);
             System.out.println("up");
         } else if (input.isDownPressed()) {
             car.brakeAndReverse(delta);
             sides.replace(CarSides.LEFT, 0.5f);
             sides.replace(CarSides.RIGHT, 0.5f);
             car.degradeTires(delta, sides);
+            car.degradeSuspension(delta, sides);
             car.degradeBrakes(delta);
             System.out.println("down");
         }
@@ -47,12 +49,14 @@ public class CarController {
             sides.replace(CarSides.LEFT, 0.7f);
             sides.replace(CarSides.RIGHT, 0.3f);
             car.degradeTires(delta, sides);
+            car.degradeSuspension(delta, sides);
             System.out.println("left");
         } else if (input.isRightPressed()) {
             car.moveRight(delta);
             sides.replace(CarSides.LEFT, 0.3f);
             sides.replace(CarSides.RIGHT, 0.7f);
             car.degradeTires(delta, sides);
+            car.degradeSuspension(delta, sides);
             System.out.println("right");
         }
 
