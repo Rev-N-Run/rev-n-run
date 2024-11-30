@@ -33,7 +33,7 @@ public class Car {
     private float brakePower = 0;
     private float acceleration;
     private float tireGrip = 0;
-    private float optionalGrip = 0;
+    private float complementGrip = 0;
     private float maxReverseSpeed;
     private float reverseAcceleration;
     private float angle = 0;
@@ -77,13 +77,27 @@ public class Car {
     }
 
     public void accelerate(float delta) {
+        if (tireGrip == 0) {
+            return;
+        }
         float newSpeed = speed + acceleration * delta;
         speed = Math.min(newSpeed, maxSpeed);
     }
 
     public void brakeAndReverse(float delta) {
+        if (tireGrip == 0) {
+            return;
+        }
         float newSpeed = speed - reverseAcceleration * delta;
         speed = Math.max(newSpeed, maxReverseSpeed);
+    }
+
+    public void naturalSlowDown(float delta) {
+        if (tireGrip == 0) {
+            speed -= 20 * delta;
+        }
+
+        speed -= delta;
     }
 
     public void moveRight(float delta) {
@@ -92,7 +106,7 @@ public class Car {
         }
 
         float maxTurnSpeed = maxSpeed - 20;
-        float turnRate = (tireGrip + optionalGrip) * 0.01f * delta;
+        float turnRate = (tireGrip + complementGrip) * 0.01f * delta;
 
         if (speed > maxTurnSpeed) {
             speed = Math.max(maxTurnSpeed, speed - (speed - maxTurnSpeed) * delta);
@@ -107,7 +121,7 @@ public class Car {
         }
 
         float maxTurnSpeed = maxSpeed - 20;
-        float turnRate = (tireGrip + optionalGrip) * 0.01f * delta;
+        float turnRate = (tireGrip + complementGrip) * 0.01f * delta;
 
         if (speed > maxTurnSpeed) {
             speed = Math.max(maxTurnSpeed, speed - (speed - maxTurnSpeed) * delta);
@@ -165,7 +179,7 @@ public class Car {
         effects.addAll(sides.getEffects());
 
         List<Effect> tiresEffects = getWheelMountedComponentEffects(tires);
-        List<Effect> effectsToAdd = new ArrayList<>(tiresEffects);
+        List<Effect> effectsToAdd = new ArrayList<>();
         for (Effect effect : tiresEffects) {
             if (effect.getEffect() == EffectType.GRIP) {
                 tireGrip += effect.getValue();
@@ -179,7 +193,7 @@ public class Car {
         for (Effect effect : effects) {
             switch (effect.getEffect()) {
                 case GRIP:
-                    optionalGrip += effect.getValue();
+                    complementGrip += effect.getValue();
                     break;
                 case MAX_SPEED:
                     maxSpeed += effect.getValue();
@@ -448,5 +462,17 @@ public class Car {
         for (WheelMountedComponent component : components) {
             component.degradeByImpact(percentage);
         }
+    }
+
+    public float getComplementGrip() {
+        return complementGrip;
+    }
+
+    public float getTotalGrip() {
+        if (tireGrip == 0) {
+            return 0;
+        }
+
+        return tireGrip + complementGrip;
     }
 }
