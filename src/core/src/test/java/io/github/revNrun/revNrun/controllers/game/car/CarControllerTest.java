@@ -193,6 +193,13 @@ class CarControllerTest {
             assertTrue(tire.getCurrentDurability() < tire.getMaxDurability());
             assertEquals(symmetricalDurability, tire.getCurrentDurability());
         }
+
+        Suspension[] suspensions = car.getSuspension();
+        float symmetricalDurability1 = suspensions[0].getCurrentDurability();
+        for (Suspension suspension : suspensions) {
+            assertTrue(suspension.getCurrentDurability() < suspension.getMaxDurability());
+            assertEquals(symmetricalDurability1, suspension.getCurrentDurability());
+        }
     }
 
     @Test
@@ -211,6 +218,13 @@ class CarControllerTest {
         for (Tires tire : tires) {
             assertTrue(tire.getCurrentDurability() < tire.getMaxDurability());
             assertEquals(symmetricalDurability, tire.getCurrentDurability());
+        }
+
+        Suspension[] suspensions = car.getSuspension();
+        float symmetricalDurability1 = suspensions[0].getCurrentDurability();
+        for (Suspension suspension : suspensions) {
+            assertTrue(suspension.getCurrentDurability() < suspension.getMaxDurability());
+            assertEquals(symmetricalDurability1, suspension.getCurrentDurability());
         }
 
         Brakes[] brakes = car.getBrakes();
@@ -248,6 +262,18 @@ class CarControllerTest {
         }
     }
 
+    private <T extends WheelMountedComponent> T getWheelMountedComponent(T[] components, CarAxis axle,
+                                                           CarSides side) {
+        for (T component : components) {
+            if (component.getAxle() == axle && component.getSide() == side) {
+                return component;
+            }
+        }
+
+        return null;
+    }
+
+
     @Test
     void degradationLeftTurn() {
         when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true);
@@ -261,29 +287,10 @@ class CarControllerTest {
 
         Tires[] tires = car.getTires();
 
-        Tires tireFL = null;
-        Tires tireFR = null;
-        Tires tireRL = null;
-        Tires tireRR = null;
-
-        for (Tires tire : tires) {
-            switch (tire.getSide()) {
-                case LEFT:
-                    if (tire.getAxle() == CarAxis.FRONT) {
-                        tireFL = tire;
-                    } else {
-                        tireRL = tire;
-                    }
-                    break;
-                case RIGHT:
-                    if (tire.getAxle() == CarAxis.FRONT) {
-                        tireFR = tire;
-                    } else {
-                        tireRR = tire;
-                    }
-                    break;
-            }
-        }
+        Tires tireFL = getWheelMountedComponent(tires, CarAxis.FRONT, CarSides.LEFT);
+        Tires tireFR = getWheelMountedComponent(tires, CarAxis.FRONT, CarSides.RIGHT);
+        Tires tireRL = getWheelMountedComponent(tires, CarAxis.REAR, CarSides.LEFT);
+        Tires tireRR = getWheelMountedComponent(tires, CarAxis.REAR, CarSides.RIGHT);
 
         assertEquals(tireFL.getCurrentDurability(), tireRL.getCurrentDurability());
         assertEquals(tireFR.getCurrentDurability(), tireRR.getCurrentDurability());
@@ -291,6 +298,21 @@ class CarControllerTest {
 
         for (Tires tire : tires) {
             assertTrue(tire.getCurrentDurability() < tire.getMaxDurability());
+        }
+
+        Suspension[] suspensions = car.getSuspension();
+
+        Suspension suspensionFL = getWheelMountedComponent(suspensions, CarAxis.FRONT, CarSides.LEFT);
+        Suspension suspensionFR = getWheelMountedComponent(suspensions, CarAxis.FRONT, CarSides.RIGHT);
+        Suspension suspensionRL = getWheelMountedComponent(suspensions, CarAxis.REAR, CarSides.LEFT);
+        Suspension suspensionRR = getWheelMountedComponent(suspensions, CarAxis.REAR, CarSides.RIGHT);
+
+        assertEquals(suspensionFL.getCurrentDurability(), suspensionRL.getCurrentDurability());
+        assertEquals(suspensionFR.getCurrentDurability(), suspensionRR.getCurrentDurability());
+        assertNotEquals(suspensionFL.getCurrentDurability(), suspensionRR.getCurrentDurability());
+
+        for (Suspension suspension : suspensions) {
+            assertTrue(suspension.getCurrentDurability() < suspension.getMaxDurability());
         }
     }
 
@@ -307,29 +329,10 @@ class CarControllerTest {
 
         Tires[] tires = car.getTires();
 
-        Tires tireFL = null;
-        Tires tireFR = null;
-        Tires tireRL = null;
-        Tires tireRR = null;
-
-        for (Tires tire : tires) {
-            switch (tire.getSide()) {
-                case LEFT:
-                    if (tire.getAxle() == CarAxis.FRONT) {
-                        tireFL = tire;
-                    } else {
-                        tireRL = tire;
-                    }
-                    break;
-                case RIGHT:
-                    if (tire.getAxle() == CarAxis.FRONT) {
-                        tireFR = tire;
-                    } else {
-                        tireRR = tire;
-                    }
-                    break;
-            }
-        }
+        Tires tireFL = getWheelMountedComponent(tires, CarAxis.FRONT, CarSides.LEFT);
+        Tires tireFR = getWheelMountedComponent(tires, CarAxis.FRONT, CarSides.RIGHT);
+        Tires tireRL = getWheelMountedComponent(tires, CarAxis.REAR, CarSides.LEFT);
+        Tires tireRR = getWheelMountedComponent(tires, CarAxis.REAR, CarSides.RIGHT);
 
         assertEquals(tireFL.getCurrentDurability(), tireRL.getCurrentDurability());
         assertEquals(tireFR.getCurrentDurability(), tireRR.getCurrentDurability());
@@ -337,6 +340,21 @@ class CarControllerTest {
 
         for (Tires tire : tires) {
             assertTrue(tire.getCurrentDurability() < tire.getMaxDurability());
+        }
+
+        Suspension[] suspensions = car.getSuspension();
+
+        Suspension suspensionFL = getWheelMountedComponent(suspensions, CarAxis.FRONT, CarSides.LEFT);
+        Suspension suspensionFR = getWheelMountedComponent(suspensions, CarAxis.FRONT, CarSides.RIGHT);
+        Suspension suspensionRL = getWheelMountedComponent(suspensions, CarAxis.REAR, CarSides.LEFT);
+        Suspension suspensionRR = getWheelMountedComponent(suspensions, CarAxis.REAR, CarSides.RIGHT);
+
+        assertEquals(suspensionFL.getCurrentDurability(), suspensionRL.getCurrentDurability());
+        assertEquals(suspensionFR.getCurrentDurability(), suspensionRR.getCurrentDurability());
+        assertNotEquals(suspensionFL.getCurrentDurability(), suspensionRR.getCurrentDurability());
+
+        for (Suspension suspension : suspensions) {
+            assertTrue(suspension.getCurrentDurability() < suspension.getMaxDurability());
         }
     }
 
