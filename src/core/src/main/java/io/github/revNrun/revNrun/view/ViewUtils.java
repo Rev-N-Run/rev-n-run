@@ -11,4 +11,7 @@ public class ViewUtils {
         }
         return camera;
     }
+
+    public static float WORLD_WIDTH = 1000.0f;
+    public static float WORLD_HEIGHT = 1000.0f;
 }
