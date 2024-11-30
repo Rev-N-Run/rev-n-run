@@ -33,6 +33,10 @@ public class GhostCar {
         }
     }
 
+    public void goToFirstFrame() {
+        currentStateIndex = 0;
+    }
+
     public void reset() {
         currentStateIndex = 0;
         states.clear();
