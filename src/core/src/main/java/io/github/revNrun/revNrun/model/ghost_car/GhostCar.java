@@ -1,5 +1,6 @@
 package io.github.revNrun.revNrun.model.ghost_car;
 
+import io.github.revNrun.revNrun.model.lap_timer.LapTimer;
 import io.github.revNrun.revNrun.model.vector.Vector2;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 public class GhostCar {
     private List<GhostState> states = new ArrayList<>();
     private int currentStateIndex = 0;
+    private LapTimer lapTime;
 
     public void recordState(Vector2 position, float angle, float timestamp) {
         states.add(new GhostState(position, angle, timestamp));
@@ -24,6 +26,14 @@ public class GhostCar {
     public void reset() {
         currentStateIndex = 0;
         states.clear();
+    }
+
+    public void setLap(LapTimer lap) {
+        lapTime = lap;
+    }
+
+    public LapTimer getLapTime() {
+        return lapTime;
     }
 
     public float getPositionX() {
