@@ -51,7 +51,7 @@ public class Vector2 {
      *
      * <p>Preconditions:</p>
      * <ul>
-     *   <li>{@code v} must not be {@code null}.</li>
+     *   <li> {@code v} must not be {@code null}.</li>
      * </ul>
      *
      * @param v the other vector. Must not be {@code null}.

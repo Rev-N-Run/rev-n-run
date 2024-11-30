@@ -23,7 +23,7 @@ class TrackSmoothing {
      * @return A Vector2 List with only the new interpolated points.
      */
     static List<Vector2> computeCatmullRom(List<Vector2> controlPoints, int interpolatedDistance,
-                                           boolean addControlPoints) {
+                                            boolean addControlPoints) {
 
         // Handle exceptions
         if (controlPoints.size() < 4)
