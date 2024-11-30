@@ -4,6 +4,11 @@ import io.github.revNrun.revNrun.model.vector.Vector2;
 
 import java.util.*;
 
+/**
+ * The class manages checkpoints for the game circuit.
+ * It provides functionality to check if a point is inside the circuit,
+ * track progress through checkpoints, determine lap status, and handle skipped checkpoints.
+ */
 public class Checkpoints {
     private final float width;
     private final List<Vector2> checkPoints;
@@ -11,6 +16,17 @@ public class Checkpoints {
     private List<Vector2> progress;
     private final float minPercentOfRequiredCheckPoints;
 
+    // TODO use TrackUtils.WIDTH instead of width
+
+    /**
+     * Constructs a Checkpoints object with the given control points and width.
+     *
+     * @param controlPoints the list of control points defining the checkpoints.
+     * @param width the width of the checkpoint boundary area. This should be
+     *              the same as the track's width for better logic.
+     * @throws IllegalArgumentException if {@code controlPoints} is null, empty,
+     *                                  or if {@code width} is zero or negative.
+     */
     public Checkpoints(List<Vector2> controlPoints, float width) {
         if (controlPoints == null || controlPoints.isEmpty() || width <= 0) {
             throw new IllegalArgumentException("Control points must not be null or empty," +
@@ -30,10 +46,21 @@ public class Checkpoints {
         this.minPercentOfRequiredCheckPoints = 0.9f;
     }
 
+    /**
+     * Returns the starting point of the checkpoints.
+     *
+     * @return the starting Vector2 of the checkpoints.
+     */
     public Vector2 getStartPoint() {
         return checkPoints.get(0);
     }
 
+    /**
+     * Determines if a given point is inside the circuit based on the checkpoint boundaries.
+     *
+     * @param point the point to check.
+     * @return true if the point is inside the circuit, false otherwise.
+     */
     public boolean isInsideCircuit(Vector2 point) {
         Vector2 closestCheckPoint = null;
         float minDistance = Float.MAX_VALUE;
@@ -54,6 +81,11 @@ public class Checkpoints {
         return false;
     }
 
+    /**
+     * Records the progress through a checkpoint.
+     *
+     * @param checkPoint the checkpoint to record progress for.
+     */
     private void recordProgress(Vector2 checkPoint) {
         if (!progress.contains(checkPoint)) {
             progress.add(checkPoint);
@@ -62,6 +94,11 @@ public class Checkpoints {
         skippedLapCheckPoints += countSkippedCheckPoints();
     }
 
+    /**
+     * Counts the number of checkpoints skipped since the last recorded progress.
+     *
+     * @return the number of skipped checkpoints.
+     */
     private int countSkippedCheckPoints() {
         if (progress.size() < 2) {
             return 0;
@@ -84,6 +121,11 @@ public class Checkpoints {
         }
     }
 
+    /**
+     * Checks if the progress through checkpoints is in the correct order.
+     *
+     * @return true if the progress is ordered, false otherwise.
+     */
     private boolean isProgressOrdered() {
         int indexA = 0;
         int indexB = 0;
@@ -98,6 +140,11 @@ public class Checkpoints {
         return indexA == progress.size();
     }
 
+    /**
+     * Determines the lap status based on progress and skipped checkpoints.
+     *
+     * @return the LapStatus indicating the current lap's status.
+     */
     public LapStatus lapStatus() {
         if (remainingLife() > 0 && isProgressOrdered()) {
             if (progress.getLast().equals(checkPoints.getLast())) {
@@ -111,6 +158,11 @@ public class Checkpoints {
         return LapStatus.WRONG;
     }
 
+    /**
+     * Calculates the remaining life percentage based on the number of skipped checkpoints.
+     *
+     * @return the remaining life percentage (0-100).
+     */
     public int remainingLife() {
         int maxSkippedCheckPoints = checkPoints.size() -
             (int) Math.floor((minPercentOfRequiredCheckPoints * checkPoints.size()));
@@ -118,6 +170,9 @@ public class Checkpoints {
             maxSkippedCheckPoints * 100;
     }
 
+    /**
+     * Resets the progress through checkpoints.
+     */
     public void resetProgress() {
         progress = new ArrayList<>();
     }
