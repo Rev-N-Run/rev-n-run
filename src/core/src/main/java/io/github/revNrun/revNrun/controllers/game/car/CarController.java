@@ -41,6 +41,10 @@ public class CarController {
             car.degradeTires(delta, sides);
         } else if (input.isRightPressed()) {
             car.moveRight(delta);
+            Map<CarSides, Float> sides = new HashMap<>();
+            sides.put(CarSides.LEFT, 0.3f);
+            sides.put(CarSides.RIGHT, 0.7f);
+            car.degradeTires(delta, sides);
         }
 
         car.updatePosition(delta);
