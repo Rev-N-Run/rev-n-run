@@ -357,4 +357,36 @@ class CarControllerTest {
         assertEquals(0, car.getPositionX());
         assertEquals(0, car.getPositionY());
     }
+
+    @Test
+    void carTurnsInReverse1() {
+        when(mockInputHelper.isKeyPressed(Input.Keys.DOWN)).thenReturn(true);
+        for (int i = 0; i < 3; i++) {
+            controller.execute(1);
+        }
+
+        reset(mockInputHelper);
+        when(mockInputHelper.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
+        controller.execute(1);
+
+        assertTrue(car.getAngle() < 0);
+        assertTrue(car.getPositionX() < 0);
+        assertTrue(car.getPositionY() > 0);
+    }
+
+    @Test
+    void carTurnsInReverse2() {
+        when(mockInputHelper.isKeyPressed(Input.Keys.DOWN)).thenReturn(true);
+        for (int i = 0; i < 3; i++) {
+            controller.execute(1);
+        }
+
+        reset(mockInputHelper);
+        when(mockInputHelper.isKeyPressed(Input.Keys.RIGHT)).thenReturn(true);
+        controller.execute(1);
+
+        assertTrue(car.getAngle() > 0);
+        assertTrue(car.getPositionX() < 0);
+        assertTrue(car.getPositionY() < 0);
+    }
 }
