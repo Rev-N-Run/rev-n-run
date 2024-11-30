@@ -47,4 +47,17 @@ class GhostCarTest {
         assertEquals(0, ghostCar.getAngle());
         assertEquals(0, ghostCar.getTimestamp());
     }
+
+    @Test
+    void testGoToFirstFrame() {
+        ghostCar.recordState(new Vector2(1, 1), 1, 1);
+        ghostCar.recordState(new Vector2(2, 2), 2, 2);
+        ghostCar.nextFrame();
+        ghostCar.goToFirstFrame();
+
+        assertEquals(1, ghostCar.getPositionX());
+        assertEquals(1, ghostCar.getPositionY());
+        assertEquals(1, ghostCar.getAngle());
+        assertEquals(1, ghostCar.getTimestamp());
+    }
 }
