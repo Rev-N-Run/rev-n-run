@@ -28,7 +28,10 @@ public class LapTimer {
 
     public String getCurrentLapTime() {
         if (!isRunning) {
-            return "00:00.000";
+            if (lastLapTime == 0) {
+                return "00:00.000";
+            }
+            return formatTime(lastLapTime);
         }
         long currentLapTime = System.nanoTime() - startTime;
         return formatTime(currentLapTime);
