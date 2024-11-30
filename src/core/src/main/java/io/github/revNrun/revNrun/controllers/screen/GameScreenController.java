@@ -10,6 +10,7 @@ import io.github.revNrun.revNrun.controllers.game.track.TrackController;
 import io.github.revNrun.revNrun.controllers.input.InputHandler;
 import io.github.revNrun.revNrun.controllers.input.LibGDXInputHelper;
 import io.github.revNrun.revNrun.model.CreateCar;
+import io.github.revNrun.revNrun.model.checkpoints.LapStatus;
 import io.github.revNrun.revNrun.view.GameView;
 import io.github.revNrun.revNrun.view.ViewUtils;
 
@@ -17,6 +18,7 @@ public class GameScreenController extends ScreenController {
     private final CarController carController;
     private final TrackController trackController;
     private final OrthographicCamera camera;
+    private GameStatus gameStatus;
 
     public GameScreenController(Main game, SpriteBatch batch, Viewport viewport, OrthographicCamera camera) {
         super(game);
@@ -24,6 +26,7 @@ public class GameScreenController extends ScreenController {
         view = new GameView(viewport, camera, batch);
         carController = new CarController(CreateCar.createCar(), new InputHandler(new LibGDXInputHelper()));
         trackController = new TrackController();
+        gameStatus = GameStatus.STOP;
     }
 
     @Override
@@ -38,6 +41,20 @@ public class GameScreenController extends ScreenController {
         camera.update();
 
         trackController.draw();
-        carController.execute(delta);
+
+        if (gameStatus == GameStatus.ONGOING) {
+            if (!carController.isLapRunning()) {
+                carController.startLap();
+            }
+            carController.execute(delta);
+            LapStatus status = trackController.updateCarInTrack(carController.getCarPosition());
+            switch (status) {
+                case GOOD:
+                    carController.recordGhost();
+                    break;
+                case COMPLETE:
+                    carController.stopLap();
+            }
+        }
     }
 }
