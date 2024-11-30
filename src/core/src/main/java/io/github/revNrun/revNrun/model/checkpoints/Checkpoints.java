@@ -175,7 +175,7 @@ public class Checkpoints {
 
     // TEST METHODS
 
-    public Checkpoints(List<Vector2> controlPoints, float width){
+    public Checkpoints(List<Vector2> controlPoints, float width) {
         this(controlPoints);
         this.width = width * 0.5f;
     }
