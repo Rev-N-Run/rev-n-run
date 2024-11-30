@@ -3,7 +3,6 @@ package io.github.revNrun.revNrun.controllers.game.car;
 import com.badlogic.gdx.Input;
 import io.github.revNrun.revNrun.controllers.input.InputHandler;
 import io.github.revNrun.revNrun.controllers.input.InputHelper;
-import io.github.revNrun.revNrun.controllers.input.LibGDXInputHelper;
 import io.github.revNrun.revNrun.model.car.Car;
 import io.github.revNrun.revNrun.model.car.components.*;
 import io.github.revNrun.revNrun.model.car.components.enums.CarAxis;
@@ -17,8 +16,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class CarControllerTest {
@@ -43,6 +41,7 @@ class CarControllerTest {
     Sides sidesWithEffects;
     InputHelper mockInputHelper;
     InputHandler input;
+    CarController controller;
 
     @BeforeEach
     void setUp() {
@@ -81,6 +80,7 @@ class CarControllerTest {
 
         mockInputHelper = mock(InputHelper.class);
         input = new InputHandler(mockInputHelper);
+        controller = new CarController(car, input);
     }
 
     private Tires[] getTiresWithEffects() {
@@ -133,11 +133,9 @@ class CarControllerTest {
 
     @Test
     void execute() {
-        CarController carController = new CarController(car, input);
-
         // Check if car is moving forward
         when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true);
-        carController.execute(1);
+        controller.execute(1);
 
         assertTrue(car.getSpeed() > 0);
         assertEquals(0, car.getAngle());
@@ -148,7 +146,7 @@ class CarControllerTest {
         // Check if car is braking
         reset(mockInputHelper);
         when(mockInputHelper.isKeyPressed(Input.Keys.DOWN)).thenReturn(true);
-        carController.execute(1);
+        controller.execute(1);
 
         assertTrue(car.getSpeed() < currentSpeed);
         assertEquals(0, car.getAngle());
@@ -161,7 +159,7 @@ class CarControllerTest {
 
         reset(mockInputHelper);
         when(mockInputHelper.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
-        carController.execute(1);
+        controller.execute(1);
 
         assertTrue(car.getAngle() < 0);
         assertTrue(car.getPositionX() != 0);
@@ -174,9 +172,9 @@ class CarControllerTest {
 
         reset(mockInputHelper);
         when(mockInputHelper.isKeyPressed(Input.Keys.RIGHT)).thenReturn(true);
-        carController.execute(1);
-        carController.execute(1);
-        carController.execute(1);
+        controller.execute(1);
+        controller.execute(1);
+        controller.execute(1);
 
         assertTrue(car.getAngle() > 0);
         assertTrue(car.getPositionX() != 0);
@@ -185,17 +183,40 @@ class CarControllerTest {
 
     @Test
     void degradationAcceleration() {
-        CarController carController = new CarController(car, input);
-
         // Check if car is moving forward
         when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true);
-        carController.execute(1);
+        controller.execute(1);
 
         Tires[] tires = car.getTires();
         float symmetricalDurability = tires[0].getCurrentDurability();
         for (Tires tire : tires) {
             assertTrue(tire.getCurrentDurability() < tire.getMaxDurability());
             assertEquals(symmetricalDurability, tire.getCurrentDurability());
+        }
+    }
+
+    @Test
+    void degradationBrake() {
+        when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true);
+        for (int i = 0; i < 3; i++) {
+            controller.execute(1);
+        }
+
+        reset(mockInputHelper);
+        when(mockInputHelper.isKeyPressed(Input.Keys.DOWN)).thenReturn(true);
+        controller.execute(1);
+
+        Tires[] tires = car.getTires();
+        float symmetricalDurability = tires[0].getCurrentDurability();
+        for (Tires tire : tires) {
+            assertTrue(tire.getCurrentDurability() < tire.getMaxDurability());
+            assertEquals(symmetricalDurability, tire.getCurrentDurability());
+        }
+
+        Brakes[] brakes = car.getBrakes();
+
+        for (Brakes brake : brakes) {
+            assertTrue(brake.getCurrentDurability() < brake.getMaxDurability());
         }
     }
 }
