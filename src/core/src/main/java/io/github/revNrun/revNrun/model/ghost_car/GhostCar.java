@@ -7,18 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GhostCar {
-    private List<GhostState> states = new ArrayList<>();
+    private List<GhostState> states;
     private int currentStateIndex = 0;
-    private LapTimer lapTime;
+    private LapTimer lapTimer;
 
     public GhostCar() {
-
+        this.states = new ArrayList<>();
+        lapTimer = new LapTimer();
     }
 
     public GhostCar(GhostCar that) {
-        this.states = that.states;
+        for (GhostState state : that.states) {
+            this.states.add(new GhostState(state));
+        }
         this.currentStateIndex = that.currentStateIndex;
-        this.lapTime = that.lapTime;
+        this.lapTimer = new LapTimer(that.lapTimer);
     }
 
     public void recordState(Vector2 position, float angle, float timestamp) {
@@ -43,11 +46,11 @@ public class GhostCar {
     }
 
     public void setLap(LapTimer lap) {
-        lapTime = lap;
+        lapTimer = lap;
     }
 
-    public LapTimer getLapTime() {
-        return lapTime;
+    public LapTimer getLapTimer() {
+        return lapTimer;
     }
 
     public float getPositionX() {
