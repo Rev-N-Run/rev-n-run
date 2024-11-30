@@ -1,6 +1,5 @@
 package io.github.revNrun.revNrun.controllers.screen;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -15,9 +14,9 @@ import io.github.revNrun.revNrun.view.GameView;
 import io.github.revNrun.revNrun.view.ViewUtils;
 
 public class GameScreenController extends ScreenController {
-    private CarController carController;
-    private TrackController trackController;
-    private OrthographicCamera camera;
+    private final CarController carController;
+    private final TrackController trackController;
+    private final OrthographicCamera camera;
 
     public GameScreenController(Main game, SpriteBatch batch, Viewport viewport, OrthographicCamera camera) {
         super(game);

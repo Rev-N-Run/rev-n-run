@@ -1,7 +1,6 @@
 package io.github.revNrun.revNrun;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
