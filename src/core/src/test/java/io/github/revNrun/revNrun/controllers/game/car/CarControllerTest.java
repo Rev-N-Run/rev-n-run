@@ -249,7 +249,7 @@ class CarControllerTest {
     }
 
     private <T extends WheelMountedComponent> T getWheelMountedComponent(T[] components, CarAxis axle,
-                                                           CarSides side) {
+                                                                            CarSides side) {
         for (T component : components) {
             if (component.getAxle() == axle && component.getSide() == side) {
                 return component;
