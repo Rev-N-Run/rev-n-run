@@ -26,6 +26,11 @@ public class CarController {
             car.degradeTires(delta, sides);
         } else if (input.isDownPressed()) {
             car.brakeAndReverse(delta);
+            Map<CarSides, Float> sides = new HashMap<>();
+            sides.put(CarSides.LEFT, 0.5f);
+            sides.put(CarSides.RIGHT, 0.5f);
+            car.degradeTires(delta, sides);
+            car.degradeBrakes(delta);
         }
 
         if (input.isLeftPressed()) {
