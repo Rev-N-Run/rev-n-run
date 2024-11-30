@@ -14,7 +14,7 @@ public class Main extends Game {
     private ScreenController screenController;
     private SpriteBatch batch;
     private Viewport viewport;
-    private Camera camera;
+    private OrthographicCamera camera;
 
     @Override
     public void create() {

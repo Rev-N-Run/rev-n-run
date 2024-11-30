@@ -1,26 +1,44 @@
 package io.github.revNrun.revNrun.controllers.screen;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.revNrun.revNrun.Main;
 import io.github.revNrun.revNrun.controllers.game.car.CarController;
+import io.github.revNrun.revNrun.controllers.game.track.TrackController;
 import io.github.revNrun.revNrun.controllers.input.InputHandler;
 import io.github.revNrun.revNrun.controllers.input.LibGDXInputHelper;
 import io.github.revNrun.revNrun.model.CreateCar;
 import io.github.revNrun.revNrun.view.GameView;
+import io.github.revNrun.revNrun.view.ViewUtils;
 
 public class GameScreenController extends ScreenController {
-    private CarController controller;
+    private CarController carController;
+    private TrackController trackController;
+    private OrthographicCamera camera;
 
-    public GameScreenController(Main game, SpriteBatch batch, Viewport viewport, Camera camera) {
+    public GameScreenController(Main game, SpriteBatch batch, Viewport viewport, OrthographicCamera camera) {
         super(game);
+        this.camera = camera;
         view = new GameView(viewport, camera, batch);
-        controller = new CarController(CreateCar.createCar(), new InputHandler(new LibGDXInputHelper()));
+        carController = new CarController(CreateCar.createCar(), new InputHandler(new LibGDXInputHelper()));
+        trackController = new TrackController();
     }
 
     @Override
     public void render(float delta) {
-        controller.execute(delta);
+
+        // Clear screen
+        ScreenUtils.clear(0, 0, 0, 1);
+
+        // TODO set camera position according the car coordinates and appropriate dimensions (zoom)
+        camera.setToOrtho(false, ViewUtils.WORLD_WIDTH, ViewUtils.WORLD_HEIGHT);
+        camera.position.set(ViewUtils.WORLD_WIDTH / 2, ViewUtils.WORLD_HEIGHT / 2, 0);
+        camera.update();
+
+        trackController.draw();
+        carController.execute(delta);
     }
 }
