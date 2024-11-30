@@ -14,7 +14,7 @@ public class GhostState {
     }
 
     public GhostState(GhostState that) {
-        this.position = that.position;
+        this.position = new Vector2(that.position);
         this.angle = that.angle;
         this.timestamp = that.timestamp;
     }
