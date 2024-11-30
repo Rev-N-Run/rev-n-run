@@ -97,7 +97,11 @@ public class Car {
             speed -= 20 * delta;
         }
 
-        speed -= delta;
+        if (speed < 0) {
+            speed += delta;
+        } else {
+            speed -= delta;
+        }
     }
 
     public void moveRight(float delta) {
