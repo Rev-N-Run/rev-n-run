@@ -200,6 +200,9 @@ class CarControllerTest {
             assertTrue(suspension.getCurrentDurability() < suspension.getMaxDurability());
             assertEquals(symmetricalDurability1, suspension.getCurrentDurability());
         }
+
+        Engine engine = car.getEngine();
+        assertTrue(engine.getCurrentDurability() < engine.getMaxDurability());
     }
 
     @Test
