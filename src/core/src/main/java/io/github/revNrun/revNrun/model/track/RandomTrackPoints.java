@@ -115,7 +115,7 @@ class RandomTrackPoints {
         octaves = Math.round(random * (MAX_NUM_OCTAVES - MIN_NUM_OCTAVES) + MIN_NUM_OCTAVES);
         noiseIterations = Math.round(MAX_NOISE_ITERATIONS - (random * (MAX_NOISE_ITERATIONS - MIN_NOISE_ITERATIONS)));
 
-        controlPointMinDistance = Math.round(radius / 100 * 20);
+        controlPointMinDistance = (int) Math.ceil(2 * TrackUtils.WIDTH);
     }
 
     /**
