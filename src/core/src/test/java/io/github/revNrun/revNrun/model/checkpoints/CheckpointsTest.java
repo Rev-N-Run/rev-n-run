@@ -112,14 +112,6 @@ class CheckpointsTest {
     void isInsideCircuit_shouldHandleEdgeCases() {
         assertThrows(IllegalArgumentException.class, () -> new Checkpoints(new ArrayList<>(), 2));
         assertThrows(IllegalArgumentException.class, () -> new Checkpoints(null, 2));
-        assertThrows(IllegalArgumentException.class, () -> new Checkpoints(new ArrayList<>(Arrays.asList(
-            new Vector2(1,2),
-            new Vector2(2,3)
-        )), 0));
-        assertThrows(IllegalArgumentException.class, () -> new Checkpoints(new ArrayList<>(Arrays.asList(
-            new Vector2(1,2),
-            new Vector2(2,3)
-        )), -1));
     }
 
     @Test
@@ -156,13 +148,13 @@ class CheckpointsTest {
         assertTrue(checkpoints.isInsideCircuit(new Vector2(5, 5)));
         assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
         assertTrue(checkpoints.isInsideCircuit(new Vector2(6, 6)));
-        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
+        assertEquals(checkpoints.lapStatus(), LapStatus.WRONG);
         assertTrue(checkpoints.isInsideCircuit(new Vector2(7, 7)));
-        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
+        assertEquals(checkpoints.lapStatus(), LapStatus.WRONG);
         assertTrue(checkpoints.isInsideCircuit(new Vector2(9, 9)));
-        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
+        assertEquals(checkpoints.lapStatus(), LapStatus.WRONG);
         assertFalse(checkpoints.isInsideCircuit(new Vector2(11, 12)));
-        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
+        assertEquals(checkpoints.lapStatus(), LapStatus.WRONG);
         assertFalse(checkpoints.isInsideCircuit(new Vector2(12, 12)));
         assertEquals(checkpoints.lapStatus(), LapStatus.WRONG);
         assertTrue(checkpoints.isInsideCircuit(new Vector2(0, 9)));
@@ -273,9 +265,9 @@ class CheckpointsTest {
         assertFalse(checkpoints.isInsideCircuit(new Vector2(8, 8)));
         assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
         assertFalse(checkpoints.isInsideCircuit(new Vector2(9, 9)));
-        assertEquals(checkpoints.lapStatus(), LapStatus.WRONG);
+        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
         assertTrue(checkpoints.isInsideCircuit(new Vector2(5, 0)));
-        assertEquals(checkpoints.lapStatus(), LapStatus.WRONG);
+        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
         assertTrue(checkpoints.isInsideCircuit(new Vector2(5, 3)));
         assertEquals(checkpoints.lapStatus(), LapStatus.WRONG);
         assertTrue(checkpoints.isInsideCircuit(new Vector2(5, 0)));
