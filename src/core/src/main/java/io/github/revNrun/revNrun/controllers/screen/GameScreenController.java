@@ -73,7 +73,7 @@ public class GameScreenController extends ScreenController {
         cameraController.calculateCameraPosition(carController.getCarPosition(), carController.getCarWidth(),
             carController.getCarHeight());
         cameraController.update();
-        //trackController.draw();
+        trackController.draw();
         carController.draw();
     }
 }

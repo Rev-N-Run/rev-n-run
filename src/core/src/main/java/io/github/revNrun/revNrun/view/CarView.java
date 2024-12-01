@@ -41,7 +41,7 @@ public class CarView extends View {
         carSprite.setY(position.getY());
 
         spriteBatch.begin();
-        spriteBatch.draw(trackTexture, 0, 0, ViewUtils.WORLD_WIDTH, ViewUtils.WORLD_HEIGHT);
+        //spriteBatch.draw(trackTexture, 0, 0, ViewUtils.WORLD_WIDTH, ViewUtils.WORLD_HEIGHT);
         carSprite.draw(spriteBatch);
         spriteBatch.end();
     }
