@@ -54,6 +54,8 @@ public class GameScreenController extends ScreenController {
             }
             carController.handleInput(delta);
             LapStatus status = trackController.updateCarInTrack(carController.getCarPosition());
+            System.out.println(status);
+            System.out.println(trackController.isCarInTrack());
             switch (status) {
                 case GOOD:
                     carController.recordGhost();
