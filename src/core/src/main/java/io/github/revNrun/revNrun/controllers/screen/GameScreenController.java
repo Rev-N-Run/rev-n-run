@@ -25,8 +25,12 @@ public class GameScreenController extends ScreenController {
         this.camera = camera;
         view = new GameView();
         carController = new CarController(CreateCar.createCar(), new InputHandler(new LibGDXInputHelper()));
-        trackController = new TrackController();
-        carController.setCarPosition(trackController.getStartPoint());
+        TrackController testTrackController = new TrackController();
+        carController.setCarPosition(testTrackController.getStartPoint());
+        while (testTrackController.updateCarInTrack(carController.getCarPosition()) == LapStatus.FATAL) {
+            testTrackController = new TrackController();
+        }
+        trackController = testTrackController;
         gameStatus = GameStatus.ONGOING;
     }
 
