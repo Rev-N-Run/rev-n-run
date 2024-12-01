@@ -40,4 +40,12 @@ public class CarView extends View {
         carSprite.draw(spriteBatch);
         spriteBatch.end();
     }
+
+    public float getCarWidth() {
+        return carSprite.getWidth();
+    }
+
+    public float getCarHeight() {
+        return carSprite.getHeight();
+    }
 }

@@ -1,5 +1,6 @@
 package io.github.revNrun.revNrun.controllers.game.car;
 
+import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.revNrun.revNrun.controllers.input.InputHandler;
 import io.github.revNrun.revNrun.model.car.Car;
 import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
@@ -7,6 +8,7 @@ import io.github.revNrun.revNrun.model.ghost_car.GhostCar;
 import io.github.revNrun.revNrun.model.lap_timer.LapTimer;
 import io.github.revNrun.revNrun.model.vector.Vector2;
 import io.github.revNrun.revNrun.view.CarView;
+import io.github.revNrun.revNrun.view.ViewUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +21,7 @@ public class CarController {
     private GhostCar ghost;
     private LapTimer currentLap;
     private CarView carView;
+    private Viewport viewport = ViewUtils.getViewport();
 
     public CarController(Car car, InputHandler input) {
         this.car = car;
@@ -68,6 +71,23 @@ public class CarController {
             car.naturalSlowDown(delta);
         }
 
+        updatePosition(delta);
+    }
+
+    private void updatePosition(float delta) {
+        Vector2 pos = new Vector2(car.getPosition());
+        if (car.getPositionX() < 0) {
+            pos.setX(0);
+        } else if (car.getPositionX() > ViewUtils.WORLD_WIDTH - carView.getCarWidth()) {
+            pos.setX(ViewUtils.WORLD_WIDTH - carView.getCarWidth());
+        }
+
+        if (car.getPositionY() < 0 ) {
+            pos.setY(0);
+        } else if (car.getPositionY() > ViewUtils.WORLD_HEIGHT - carView.getCarHeight()) {
+            pos.setY(ViewUtils.WORLD_HEIGHT - carView.getCarHeight());
+        }
+        car.setPosition(pos);
         car.updatePosition(delta);
     }
 
