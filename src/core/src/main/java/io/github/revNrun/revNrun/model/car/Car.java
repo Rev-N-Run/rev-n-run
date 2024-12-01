@@ -117,13 +117,13 @@ public class Car {
         }
 
         if (tireGrip == 0) {
-            speed -= 20 * delta;
+            speed -= maxSpeed * delta;
         }
 
         if (speed < 0) {
-            speed += delta;
+            speed += 10 * delta;
         } else {
-            speed -= delta;
+            speed -= 10 * delta;
         }
     }
 

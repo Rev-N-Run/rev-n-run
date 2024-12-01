@@ -64,6 +64,10 @@ public class CarController {
             car.degradeSuspension(delta, sides);
         }
 
+        if (!input.isUpPressed() && !input.isDownPressed()) {
+            car.naturalSlowDown(delta);
+        }
+
         car.updatePosition(delta);
     }
 
