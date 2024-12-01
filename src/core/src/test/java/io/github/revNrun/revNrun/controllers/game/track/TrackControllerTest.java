@@ -26,21 +26,24 @@ class TrackControllerTest {
 
     @Test
     void testDrawTrack() {
-        List<Vector2> mockVertices = new ArrayList<>(Arrays.asList(
-            new Vector2(0, 7),
-            new Vector2(1, 6),
-            new Vector2(0, 5),
-            new Vector2(0, 4),
-            new Vector2(5, 3),
-            new Vector2(6, 2),
-            new Vector2(7, 0),
-            new Vector2(8, 4)
+        List<Vector2> mockRightBorder = new ArrayList<>(Arrays.asList(
+            new Vector2(0, 0),
+            new Vector2(1, 1),
+            new Vector2(2, 2),
+            new Vector2(3, 3)
         ));
-        trackController.setVertices(mockVertices);
+        List<Vector2> mockLeftBorder = new ArrayList<>(Arrays.asList(
+            new Vector2(0, 1),
+            new Vector2(1, 2),
+            new Vector2(2, 3),
+            new Vector2(3, 4)
+        ));
+        trackController.setRightBorder(mockRightBorder);
+        trackController.setLeftBorder(mockLeftBorder);
 
         trackController.draw();
 
-        verify(trackView).drawTrack(mockVertices);
+        verify(trackView).drawTrack(mockLeftBorder, mockRightBorder);
     }
 
     @Test
