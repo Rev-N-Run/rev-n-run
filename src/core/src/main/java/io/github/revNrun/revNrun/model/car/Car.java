@@ -16,7 +16,7 @@ public class Car {
 
     private Vector2 position;
     private float speed = 0;
-    private float maxSpeed = 100;
+    private float maxSpeed = 300;
     private int maxFuel = 100;
     private float fuel = 100;
     private float weight;
@@ -31,9 +31,9 @@ public class Car {
     private Sides sides;
     private float brakeBalance = .5f;
     private float brakePower = 0;
-    private float acceleration;
+    private float acceleration = 50;
     private float tireGrip = 0;
-    private float complementGrip = 0;
+    private float complementGrip = 10;
     private float maxReverseSpeed;
     private float reverseAcceleration;
     private float angle = 0;
@@ -89,8 +89,22 @@ public class Car {
         if (tireGrip == 0) {
             return;
         }
-        float newSpeed = (speed - reverseAcceleration) * brakePower * delta;
-        speed -= Math.max(newSpeed, maxReverseSpeed);
+
+        float epsilon = 0.01f;
+
+        if (speed > 0f) {
+            speed = Math.max(0, speed - brakePower * reverseAcceleration * delta);
+
+            if (speed < epsilon) {
+                speed = 0;
+            }
+        } else {
+            speed = Math.max(maxReverseSpeed, speed - reverseAcceleration * delta);
+
+            if (Math.abs(speed) < epsilon) {
+                speed = 0;
+            }
+        }
     }
 
     public void naturalSlowDown(float delta) {
@@ -114,15 +128,14 @@ public class Car {
             return;
         }
 
-        // Reduce la capacidad de giro según la velocidad
-        float turnRate = (tireGrip + complementGrip) * ( Math.abs(speed) / maxSpeed) * delta;
+        float maxTurnSpeed = maxSpeed - 20;
+        float turnRate = (tireGrip + complementGrip) * (Math.abs(speed) / maxSpeed) * delta;
 
-        // El giro depende de si el coche avanza o retrocede
-        if (speed > 0) {
-            angle += turnRate; // Gira hacia la izquierda cuando avanza
-        } else {
-            angle -= turnRate; // Gira hacia la derecha cuando retrocede
+        if (speed > maxTurnSpeed) {
+            speed = Math.max(maxTurnSpeed, speed - (speed - maxTurnSpeed) * delta);
         }
+
+        angle += turnRate;
     }
 
     public void moveRight(float delta) {
