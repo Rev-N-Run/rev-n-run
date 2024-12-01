@@ -135,10 +135,15 @@ public class Car {
         float totalGrip = tireGrip + complementGrip;
         float maxTurnSpeed = maxSpeed - 20;
 
+        float minSpeedThreshold = maxSpeed * 0.01f;
+
+        if (Math.abs(speed) < minSpeedThreshold) {
+            return 0;
+        }
+
         float normalizedSpeed = Math.abs(speed) / maxSpeed;
 
-        float speedFactor = (float) (0.2f + 0.8f * Math.pow(1 - normalizedSpeed, 1.5) * (normalizedSpeed * 4)
-        );
+        float speedFactor = (float) (0.2f + 0.8f * Math.pow(1 - normalizedSpeed, 1.5) * (normalizedSpeed * 4));
 
         speedFactor = Math.max(0.1f, Math.min(1.0f, speedFactor));
 
