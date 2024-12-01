@@ -23,10 +23,10 @@ public class GameScreenController extends ScreenController {
     public GameScreenController(Main game, SpriteBatch batch, Viewport viewport, OrthographicCamera camera) {
         super(game);
         this.camera = camera;
-        view = new GameView(viewport, camera, batch);
+        view = new GameView();
         carController = new CarController(CreateCar.createCar(), new InputHandler(new LibGDXInputHelper()));
         trackController = new TrackController();
-        gameStatus = GameStatus.STOP;
+        gameStatus = GameStatus.ONGOING;
     }
 
     @Override
@@ -47,17 +47,19 @@ public class GameScreenController extends ScreenController {
                 carController.startLap();
             }
             carController.handleInput(delta);
-            LapStatus status = trackController.updateCarInTrack(carController.getCarPosition());
-            switch (status) {
-                case GOOD:
+            //LapStatus status = trackController.updateCarInTrack(carController.getCarPosition());
+            //switch (status) {
+                //case GOOD:
                     carController.recordGhost();
-                    break;
-                case COMPLETE:
+                    //break;
+                //case COMPLETE:
                     carController.stopLap();
                     carController.compareAndSetLaps();
                     carController.restartGhost();
-                    break;
-            }
+                    //break;
+            //}
         }
+
+        carController.draw();
     }
 }

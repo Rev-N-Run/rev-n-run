@@ -6,6 +6,7 @@ import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
 import io.github.revNrun.revNrun.model.ghost_car.GhostCar;
 import io.github.revNrun.revNrun.model.lap_timer.LapTimer;
 import io.github.revNrun.revNrun.model.vector.Vector2;
+import io.github.revNrun.revNrun.view.CarView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class CarController {
     private GhostCar bestGhost;
     private GhostCar ghost;
     private LapTimer currentLap;
-
+    private CarView carView;
 
     public CarController(Car car, InputHandler input) {
         this.car = car;
@@ -26,7 +27,10 @@ public class CarController {
         sides.put(CarSides.LEFT, 0f);
         sides.put(CarSides.RIGHT, 0f);
         ghost = new GhostCar();
+        bestGhost = new GhostCar();
         currentLap = new LapTimer();
+        carView = new CarView();
+        carView.create(car.getPosition(), car.getAngle());
     }
 
     public void handleInput(float delta) {
@@ -37,7 +41,7 @@ public class CarController {
             car.degradeTires(delta, sides);
             car.degradeSuspension(delta, sides);
             car.degradeEngine(delta);
-            System.out.println("up");
+            System.out.println(car.getTires()[0].getCurrentDurability());
         } else if (input.isDownPressed()) {
             car.brakeAndReverse(delta);
             sides.replace(CarSides.LEFT, 0.5f);
@@ -76,6 +80,10 @@ public class CarController {
         if (currentLap.isFasterThan(bestLap)) {
             bestGhost = new GhostCar(ghost);
         }
+    }
+
+    public void draw() {
+        carView.draw(car.getPosition(), car.getAngle());
     }
 
     public Car getCar() {

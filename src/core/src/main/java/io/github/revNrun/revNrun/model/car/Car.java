@@ -65,8 +65,9 @@ public class Car {
         }
 
         // Calculate velocity components
-        float velocityX = (float) (speed * Math.cos(angle));
-        float velocityY = (float) (speed * Math.sin(angle));
+        float radians = (float) Math.toRadians(angle);
+        float velocityX = (float) (speed * Math.cos(radians));
+        float velocityY = (float) (speed * Math.sin(radians));
 
         // Update position
         float positionX = velocityX * delta;
@@ -88,8 +89,8 @@ public class Car {
         if (tireGrip == 0) {
             return;
         }
-        float newSpeed = speed - reverseAcceleration * delta;
-        speed = Math.max(newSpeed, maxReverseSpeed);
+        float newSpeed = (speed - reverseAcceleration) * brakePower * delta;
+        speed -= Math.max(newSpeed, maxReverseSpeed);
     }
 
     public void naturalSlowDown(float delta) {
@@ -108,28 +109,29 @@ public class Car {
         }
     }
 
+    public void moveLeft(float delta) {
+        if (tireGrip == 0 || speed == 0) {
+            return;
+        }
+
+        // Reduce la capacidad de giro según la velocidad
+        float turnRate = (tireGrip + complementGrip) * ( Math.abs(speed) / maxSpeed) * delta;
+
+        // El giro depende de si el coche avanza o retrocede
+        if (speed > 0) {
+            angle += turnRate; // Gira hacia la izquierda cuando avanza
+        } else {
+            angle -= turnRate; // Gira hacia la derecha cuando retrocede
+        }
+    }
+
     public void moveRight(float delta) {
         if (tireGrip == 0 || speed == 0) {
             return;
         }
 
         float maxTurnSpeed = maxSpeed - 20;
-        float turnRate = (tireGrip + complementGrip) * 0.01f * delta;
-
-        if (speed > maxTurnSpeed) {
-            speed = Math.max(maxTurnSpeed, speed - (speed - maxTurnSpeed) * delta);
-        }
-
-        angle += turnRate;
-    }
-
-    public void moveLeft(float delta) {
-        if (tireGrip == 0 || speed == 0) {
-            return;
-        }
-
-        float maxTurnSpeed = maxSpeed - 20;
-        float turnRate = (tireGrip + complementGrip) * 0.01f * delta;
+        float turnRate = (tireGrip + complementGrip) * (Math.abs(speed) / maxSpeed) * delta;
 
         if (speed > maxTurnSpeed) {
             speed = Math.max(maxTurnSpeed, speed - (speed - maxTurnSpeed) * delta);

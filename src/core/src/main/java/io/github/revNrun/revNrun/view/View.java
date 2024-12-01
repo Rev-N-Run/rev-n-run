@@ -9,13 +9,11 @@ public abstract class View {
     protected Camera camera;
     protected SpriteBatch spriteBatch;
 
-    public View(Viewport viewport, Camera camera, SpriteBatch spriteBatch) {
-        this.viewport = viewport;
-        this.camera = camera;
-        this.spriteBatch = spriteBatch;
+    public View() {
+        this.viewport = ViewUtils.getViewport();
+        this.camera = ViewUtils.getCamera();
+        this.spriteBatch = ViewUtils.getSpriteBatch();
     }
-
-    public abstract void render();
 
     public void resize(int width, int height) {
         viewport.update(width, height, true);
