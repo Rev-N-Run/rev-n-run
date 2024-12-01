@@ -36,6 +36,17 @@ public class CarController {
         carView.create(car.getPosition(), car.getAngle());
     }
 
+    public String getCurrentLap() {
+        return currentLap.getCurrentLapTime();
+    }
+
+    public String getBestGhostLap() {
+        if (bestGhost == null) {
+            return "00:00.000";
+        }
+        return bestGhost.getLapTimer().getLastLapTime();
+    }
+
     public void handleInput(float delta) {
         if (input.isUpPressed()) {
             car.accelerate(delta);
@@ -139,6 +150,9 @@ public class CarController {
     }
 
     public void restartGhost() {
+        if (bestGhost == null) {
+            return;
+        }
         bestGhost.restart();
     }
 

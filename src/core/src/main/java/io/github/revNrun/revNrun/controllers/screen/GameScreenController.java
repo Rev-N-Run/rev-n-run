@@ -12,11 +12,13 @@ import io.github.revNrun.revNrun.controllers.input.LibGDXInputHelper;
 import io.github.revNrun.revNrun.model.CreateCar;
 import io.github.revNrun.revNrun.model.checkpoints.LapStatus;
 import io.github.revNrun.revNrun.view.GameView;
+import io.github.revNrun.revNrun.view.TimerView;
 
 public class GameScreenController extends ScreenController {
     private final CarController carController;
     private final TrackController trackController;
     private final CameraController cameraController;
+    private final TimerView timerView;
     //private final OrthographicCamera camera;
     private GameStatus gameStatus;
     private LapStatus status;
@@ -32,6 +34,7 @@ public class GameScreenController extends ScreenController {
         carController.setCarPosition(trackController.getStartPoint());
         cameraController = new CameraController();
         gameStatus = GameStatus.ONGOING;
+        timerView = new TimerView();
     }
 
     @Override
@@ -54,6 +57,8 @@ public class GameScreenController extends ScreenController {
 
         if (isInStart && !hasStartedLap && isInTrack) {
             carController.startLap();
+            carController.resetGhost();
+            carController.restartGhost();
             hasStartedLap = true;
             hasLeftStart = false;
             return;
@@ -78,12 +83,12 @@ public class GameScreenController extends ScreenController {
             if (isInStart && hasLeftStart) {
                 carController.stopLap();
                 carController.compareAndSetLaps();
-                carController.resetGhost();
-                carController.restartGhost();
                 hasStartedLap = false;
                 hasLeftStart = false;
             }
         }
+
+
 
         wasInTrack = isInTrack;
     }
@@ -96,7 +101,8 @@ public class GameScreenController extends ScreenController {
         );
         cameraController.update();
         trackController.draw();
-        carController.drawCar();
         carController.drawGhost();
+        carController.drawCar();
+        timerView.drawCurrentTime(carController.getCurrentLap(), carController.getBestGhostLap());
     }
 }
