@@ -8,12 +8,14 @@ public class Track {
     private final List<Vector2> controlPoints;
     private List<Vector2> leftBorder;
     private List<Vector2> rightBorder;
+    private float radius;
 
     public Track() {
         RandomTrackPoints baseTrack = new RandomTrackPoints();
         // The next line is only for test purposes, should be removed and replaced for:
         // List<Vector2> trackPoints = baseTrack.getPoints();
         controlPoints = baseTrack.getPoints();
+        radius = calculateRadius();
         generateBorders();
     }
 
@@ -37,6 +39,29 @@ public class Track {
 
     public List<Vector2> getRightBorder() {
         return rightBorder;
+    }
+
+    private float calculateRadius() {
+        if (controlPoints == null || controlPoints.size() < 2) {
+            throw new IllegalArgumentException("At least two points are required.");
+        }
+
+        float maxDistance = 0;
+
+        for (int i = 0; i < controlPoints.size(); i++) {
+            for (int j = i + 1; j < controlPoints.size(); j++) {
+                float distance = controlPoints.get(i).distance(controlPoints.get(j));
+                if (distance > maxDistance) {
+                    maxDistance = distance;
+                }
+            }
+        }
+
+        return maxDistance;
+    }
+
+    public float getTrackRadius() {
+        return radius;
     }
 
     // TEST METHODS

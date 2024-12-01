@@ -12,7 +12,6 @@ import java.util.List;
 
 public class TrackController {
 
-    private final Track track;
     private final Checkpoints checkpoints;
     private TrackView trackView;
     private List<Vector2> leftBorder;
@@ -21,9 +20,12 @@ public class TrackController {
     private int lifeByCheckPoints;
 
     public TrackController() {
-        Track originalTrack = new Track();
+        // Get the original generated track
+        Track originalTrack = SingletonTrack.getTrack();
+        // Transform the track to world coordinates
         List<Vector2> controlPoints = transformControlPoints(originalTrack.getControlPoints());
-        track = new Track(controlPoints);
+        // Get a usable track with the world coordinates
+        Track track = new Track(controlPoints);
         checkpoints = new Checkpoints(track.getControlPoints());
         trackView = new TrackView();
         leftBorder = track.getLeftBorder();

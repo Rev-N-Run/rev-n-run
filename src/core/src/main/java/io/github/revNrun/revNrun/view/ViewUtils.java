@@ -12,14 +12,14 @@ public class ViewUtils {
     public static OrthographicCamera getCamera() {
         if (camera == null) {
             camera = new OrthographicCamera();
-            camera.setToOrtho(false, 200, 200);
+            camera.setToOrtho(false, 150, 150);
         }
         return camera;
     }
 
     public static FitViewport getViewport() {
         if (viewport == null) {
-            viewport = new FitViewport(200, 200, camera);
+            viewport = new FitViewport(150, 150, camera);
         }
         return viewport;
     }
@@ -31,6 +31,11 @@ public class ViewUtils {
         return spriteBatch;
     }
 
-    public static float WORLD_WIDTH = 1000.0f;
-    public static float WORLD_HEIGHT = 1000.0f;
+    public static float WORLD_WIDTH = 1000.0f;  // Default
+    public static float WORLD_HEIGHT = 1000.0f; // Default
+
+    public static void setWorldDimensions(float trackRadius) {
+        WORLD_WIDTH = trackRadius * 1.2f;
+        WORLD_HEIGHT = trackRadius * 1.2f;
+    }
 }
