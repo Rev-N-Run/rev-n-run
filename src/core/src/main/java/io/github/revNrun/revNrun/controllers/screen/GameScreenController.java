@@ -62,6 +62,10 @@ public class GameScreenController extends ScreenController {
                     carController.compareAndSetLaps();
                     carController.restartGhost();
                     break;
+                case INCOMPLETE:
+                    carController.stopLap();
+                    carController.restartGhost();
+                    break;
             }
         }
 
