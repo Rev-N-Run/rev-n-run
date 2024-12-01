@@ -8,17 +8,15 @@ public class Track {
     private final List<Vector2> controlPoints;
     private final List<Vector2> leftBorder;
     private final List<Vector2> rightBorder;
-    private final List<Vector2> trackPoints;    // This line is only for test purposes, should be removed.
 
     public Track() {
         RandomTrackPoints baseTrack = new RandomTrackPoints();
         // The next line is only for test purposes, should be removed and replaced for:
         // List<Vector2> trackPoints = baseTrack.getPoints();
-        trackPoints = baseTrack.getPoints();
+        controlPoints = baseTrack.getPoints();
 
-        controlPoints = baseTrack.getBasePoints();
-        leftBorder = BorderGenerator.generateLeftBorder(trackPoints, TrackUtils.WIDTH * 0.5f);
-        rightBorder = BorderGenerator.generateRightBorder(trackPoints, TrackUtils.WIDTH * 0.5f);
+        leftBorder = BorderGenerator.generateLeftBorder(controlPoints, TrackUtils.WIDTH * 0.5f);
+        rightBorder = BorderGenerator.generateRightBorder(controlPoints, TrackUtils.WIDTH * 0.5f);
     }
 
     public List<Vector2> getControlPoints() {
@@ -35,6 +33,6 @@ public class Track {
 
     // TEST METHODS
     public List<Vector2> getTrackPointsTest() {
-        return trackPoints;
+        return controlPoints;
     }
 }
