@@ -14,7 +14,8 @@ public class TrackController {
     private final Track track;
     private final Checkpoints checkpoints;
     private TrackView trackView;
-    private List<Vector2> vertices;
+    private List<Vector2> leftBorder;
+    private List<Vector2> rightBorder;
     private boolean carInTrack;
     private int lifeByCheckPoints;
 
@@ -22,10 +23,10 @@ public class TrackController {
         track = new Track();
         checkpoints = new Checkpoints(track.getControlPoints());
         trackView = new TrackView();
-        vertices = new ArrayList<>();
+        leftBorder = track.getLeftBorder();
+        rightBorder = track.getRightBorder();
         carInTrack = true;
         lifeByCheckPoints = 100;
-        createVertices();
     }
 
     /**
@@ -73,26 +74,18 @@ public class TrackController {
      * Calls the view class to draw the track assets
      */
     public void draw() {
-        trackView.drawTrack(track.getLeftBorder(), track.getRightBorder());
+        trackView.drawTrack(leftBorder, rightBorder);
         trackView.drawLifeByCheckPoints(lifeByCheckPoints);
-    }
-
-    /**
-     * Converts the two arrays that conform the borders to a single array that
-     * represents the vertices of a polygon.
-     */
-    private void createVertices() {
-        vertices.addAll(track.getLeftBorder());
-        List<Vector2> rightBorder = new ArrayList<>(track.getRightBorder());
-        for (int i = rightBorder.size() - 1; i >= 0; i--) {
-            vertices.add(rightBorder.get(i));
-        }
     }
 
     // TEST METHODS
 
-    public void setVertices(List<Vector2> vertices) {
-        this.vertices = vertices;
+    public void setLeftBorder(List<Vector2> leftBorder) {
+        this.leftBorder = leftBorder;
+    }
+
+    public void setRightBorder(List<Vector2> rightBorder) {
+        this.rightBorder = rightBorder;
     }
 
     public void setLifeByCheckPoints(int lifeByCheckPoints) {
