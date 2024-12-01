@@ -36,7 +36,7 @@ public class Checkpoints {
             this.checkPoints.remove(checkPoints.size() - 1);
         }
 
-        this.width = TrackUtils.WIDTH * 0.5f;
+        this.width = TrackUtils.WIDTH * 0.3f;
         this.skippedLapCheckPoints = 0;
         this.progress = new ArrayList<>();
         this.minPercentOfRequiredCheckPoints = 0.9f;

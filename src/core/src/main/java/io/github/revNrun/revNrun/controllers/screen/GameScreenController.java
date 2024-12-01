@@ -12,8 +12,8 @@ import io.github.revNrun.revNrun.controllers.input.InputHandler;
 import io.github.revNrun.revNrun.controllers.input.LibGDXInputHelper;
 import io.github.revNrun.revNrun.model.CreateCar;
 import io.github.revNrun.revNrun.model.checkpoints.LapStatus;
+import io.github.revNrun.revNrun.model.vector.Vector2;
 import io.github.revNrun.revNrun.view.GameView;
-import io.github.revNrun.revNrun.view.ViewUtils;
 
 public class GameScreenController extends ScreenController {
     private final CarController carController;
@@ -21,59 +21,70 @@ public class GameScreenController extends ScreenController {
     private final CameraController cameraController;
     //private final OrthographicCamera camera;
     private GameStatus gameStatus;
+    private LapStatus status;
+    private boolean wasInTrack = true;
+    private boolean hasStartedLap = false;
 
     public GameScreenController(Main game, SpriteBatch batch, Viewport viewport, OrthographicCamera camera) {
         super(game);
-        //this.camera = camera;
         view = new GameView();
         carController = new CarController(CreateCar.createCar(), new InputHandler(new LibGDXInputHelper()));
-        TrackController testTrackController = new TrackController();
-        carController.setCarPosition(testTrackController.getStartPoint());
-        while (testTrackController.updateCarInTrack(carController.getCarPosition()) == LapStatus.FATAL) {
-            testTrackController = new TrackController();
-        }
-        trackController = testTrackController;
+        trackController = new TrackController();
+        carController.setCarPosition(trackController.getStartPoint());
         cameraController = new CameraController();
         gameStatus = GameStatus.ONGOING;
     }
 
     @Override
     public void render(float delta) {
+        if (gameStatus != GameStatus.ONGOING) {
+            return;
+        }
 
-        // Clear screen
-        ScreenUtils.clear(0, 0, 0, 1);
+        carController.handleInput(delta);
 
-        // TODO set camera position according the car coordinates and appropriate dimensions (zoom)
-        //camera.setToOrtho(false, ViewUtils.WORLD_WIDTH, ViewUtils.WORLD_HEIGHT);
-        //camera.position.set(ViewUtils.WORLD_WIDTH / 2, ViewUtils.WORLD_HEIGHT / 2, 0);
-        //camera.update();
+        updateGameState();
 
-        if (gameStatus == GameStatus.ONGOING) {
-            if (!carController.isLapRunning()) {
-                carController.startLap();
-            }
-            carController.handleInput(delta);
-            LapStatus status = trackController.updateCarInTrack(carController.getCarPosition());
-            System.out.println(status);
-            System.out.println(trackController.isCarInTrack());
-            switch (status) {
-                case GOOD:
-                    carController.recordGhost();
-                    break;
-                case COMPLETE:
-                    carController.stopLap();
-                    carController.compareAndSetLaps();
-                    carController.restartGhost();
-                    break;
-                case INCOMPLETE:
-                    carController.stopLap();
-                    carController.restartGhost();
-                    break;
+        updateCameraAndRender();
+    }
+
+    private void updateGameState() {
+        boolean isInTrack = trackController.isCarInTrack();
+        boolean isInStart = trackController.isCarInStart(carController.getCarPosition());
+
+        if (isInStart && !hasStartedLap && isInTrack) {
+            carController.startLap();
+            hasStartedLap = true;
+            return;
+        }
+
+        if (!isInTrack && wasInTrack) {
+            carController.stopLap();
+            carController.restartGhost();
+            wasInTrack = false;
+            return;
+        }
+
+        if (isInTrack && carController.isLapRunning()) {
+            carController.recordGhost();
+
+            if (isInStart && hasStartedLap) {
+                carController.stopLap();
+                carController.compareAndSetLaps();
+                carController.restartGhost();
+                hasStartedLap = false;
             }
         }
 
-        cameraController.calculateCameraPosition(carController.getCarPosition(), carController.getCarWidth(),
-            carController.getCarHeight());
+        wasInTrack = isInTrack;
+    }
+
+    private void updateCameraAndRender() {
+        cameraController.calculateCameraPosition(
+            carController.getCarPosition(),
+            carController.getCarWidth(),
+            carController.getCarHeight()
+        );
         cameraController.update();
         trackController.draw();
         carController.draw();

@@ -277,6 +277,12 @@ public class Vector2 {
         return this.x == other.getX() && this.y == other.getY();
     }
 
+    public boolean equalsRange(Vector2 that) {
+        float range = 30;
+        return (this.x + range >= that.x && that.x >= this.x - range) &&
+            (this.y + range >= that.y && that.y >= this.y);
+    }
+
     // TEST METHODS
 
 

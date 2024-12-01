@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.revNrun.revNrun.model.vector.Vector2;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class TrackView extends View {
     }
 
     public void drawTrack(List<Vector2> leftBorder, List<Vector2> rightBorder) {
-
+        ScreenUtils.clear(0, 0, 0, 1);
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         // Begin rendering the track

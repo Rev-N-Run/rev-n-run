@@ -41,6 +41,10 @@ public class TrackController {
         return checkpoints.getStartPoint();
     }
 
+    public boolean isCarInStart(Vector2 position) {
+        return getStartPoint().equalsRange(position);
+    }
+
     /**
      * This method updates the car data in relation with the track, i.e. if the track is out of the track,
      * the skipped checkpoints and if it has completed a lap.
