@@ -33,7 +33,7 @@ public class Car {
     private float brakePower = 0;
     private float acceleration = 50;
     private float tireGrip = 0;
-    private float complementGrip = 10;
+    private float complementGrip = 0;
     private float maxReverseSpeed;
     private float reverseAcceleration;
     private float angle = 0;
@@ -97,7 +97,7 @@ public class Car {
         float epsilon = 0.01f;
 
         if (speed > 0f) {
-            speed = Math.max(0, speed - brakePower * reverseAcceleration * delta);
+            speed = Math.max(0, speed - brakePower * 0.1f * reverseAcceleration * delta);
 
             if (speed < epsilon) {
                 speed = 0;
@@ -127,42 +127,44 @@ public class Car {
         }
     }
 
-    public void moveLeft(float delta) {
+    private float calculateAngleFactor(float delta) {
         if (tireGrip == 0 || speed == 0) {
-            return;
+            return 0;
         }
 
+        float totalGrip = tireGrip + complementGrip;
         float maxTurnSpeed = maxSpeed - 20;
-        float turnRate = (tireGrip + complementGrip) * (Math.abs(speed) / maxSpeed) * delta;
+
+        float normalizedSpeed = Math.abs(speed) / maxSpeed;
+
+        float speedFactor = (float) (0.2f + 0.8f * Math.pow(1 - normalizedSpeed, 1.5) * (normalizedSpeed * 4)
+        );
+
+        speedFactor = Math.max(0.1f, Math.min(1.0f, speedFactor));
+
+        float baseTurnRate = totalGrip * delta;
+        float speedAdjustedTurnRate = baseTurnRate * speedFactor;
 
         if (speed > maxTurnSpeed) {
             speed = Math.max(maxTurnSpeed, speed - (speed - maxTurnSpeed) * delta);
         }
 
-        angle += turnRate;
+        return speedAdjustedTurnRate;
+    }
+
+    public void moveLeft(float delta) {
+        angle += calculateAngleFactor(delta);
     }
 
     public void moveRight(float delta) {
-        if (tireGrip == 0 || speed == 0) {
-            return;
-        }
-
-        float maxTurnSpeed = maxSpeed - 20;
-        float turnRate = (tireGrip + complementGrip) * (Math.abs(speed) / maxSpeed) * delta;
-
-        if (speed > maxTurnSpeed) {
-            speed = Math.max(maxTurnSpeed, speed - (speed - maxTurnSpeed) * delta);
-        }
-
-        angle -= turnRate;
+        angle -= calculateAngleFactor(delta);
     }
 
-    private void degradeTireGrip() {
-        tireGrip = 0;
+    private void degradeTireGrip(float delta) {
         List<Effect> effects = getWheelMountedComponentEffects(tires);
         for (Effect effect : effects) {
             if (effect.getEffect() == EffectType.GRIP) {
-                tireGrip += effect.getValue();
+                this.tireGrip = Math.max(0, tireGrip - tires[0].getWearFactor() * delta);
             }
         }
     }
@@ -248,7 +250,7 @@ public class Car {
 
     public void degradeTires(float delta, Map<CarSides, Float> sides) {
         degradeBySide(delta, tires, sides);
-        degradeTireGrip();
+        degradeTireGrip(delta);
     }
 
     public void degradeSuspension(float delta, Map<CarSides, Float> sides) {
@@ -282,7 +284,7 @@ public class Car {
 
     public void degradeTiresByImpact(float percentage) {
         degradeByImpactWheelMounted(percentage, tires);
-        degradeTireGrip();
+        degradeTireGrip(percentage);
     }
 
     public void degradeSuspensionByImpact(float percentage) {
