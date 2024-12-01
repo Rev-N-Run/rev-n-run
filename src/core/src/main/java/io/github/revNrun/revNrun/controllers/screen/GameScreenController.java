@@ -40,19 +40,26 @@ public class GameScreenController extends ScreenController {
 
     @Override
     public void render(float delta) {
-        if (gameStatus == GameStatus.STOP) {
-            updateCameraAndRender();
-            if (countdownController.count(delta)) {
-                gameStatus = GameStatus.ONGOING;
-            }
-            return;
-        }
-
-        carController.handleInput(delta);
-
-        updateGameState();
-
         updateCameraAndRender();
+        switch (gameStatus) {
+            case STOP:
+                gameStatus = countdownController.count(delta);
+                break;
+            case START:
+                if (!hasStartedLap) {
+                    carController.startLap();
+                    carController.resetGhost();
+                    carController.restartGhost();
+                    hasStartedLap = true;
+                }
+                carController.handleInput(delta);
+                gameStatus = countdownController.count(delta);
+                break;
+            case ONGOING:
+                carController.handleInput(delta);
+                updateGameState();
+                break;
+        }
     }
 
     private void updateGameState() {

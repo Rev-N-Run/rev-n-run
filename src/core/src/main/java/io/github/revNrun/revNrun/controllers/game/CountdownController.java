@@ -1,5 +1,7 @@
 package io.github.revNrun.revNrun.controllers.game;
 
+import com.badlogic.gdx.Game;
+import io.github.revNrun.revNrun.controllers.screen.GameStatus;
 import io.github.revNrun.revNrun.view.CountdownView;
 import com.badlogic.gdx.math.Interpolation;
 
@@ -10,12 +12,13 @@ public class CountdownController {
     private float fadeTime = 0.3f; // Tiempo de fade más rápido
     private float zoomTime = 0.7f; // Tiempo de zoom
     private boolean countdownFinished = false;
+    private GameStatus status = GameStatus.STOP;
 
     public CountdownController() {
         countdownView = new CountdownView();
     }
 
-    public boolean count(float delta) {
+    public GameStatus count(float delta) {
         totalTime += delta;
 
         if (!countdownFinished) {
@@ -35,17 +38,18 @@ public class CountdownController {
                 float runScale = Interpolation.swingOut.apply(0.5f, 1.5f, runProgress);
                 countdownView.setScale(runScale);
                 countdownView.setRunAlpha(1f);
+                status = GameStatus.START;
             } else if (totalTime < 5.0f) {
                 float alpha = 1 - (totalTime - 4.0f) / fadeTime;
                 countdownView.setRunAlpha(Math.max(0, alpha));
             } else {
                 countdownFinished = true;
-                return countdownFinished;
+                return GameStatus.ONGOING;
             }
         }
 
         countdownView.draw(currentNumber);
-        return countdownFinished;
+        return status;
     }
 
     private void handleNumberTransition(int number, float cycleTime) {
