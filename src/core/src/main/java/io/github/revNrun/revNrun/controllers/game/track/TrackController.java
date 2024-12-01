@@ -5,6 +5,7 @@ import io.github.revNrun.revNrun.model.checkpoints.LapStatus;
 import io.github.revNrun.revNrun.model.track.Track;
 import io.github.revNrun.revNrun.model.vector.Vector2;
 import io.github.revNrun.revNrun.view.TrackView;
+import io.github.revNrun.revNrun.view.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,9 @@ public class TrackController {
     private int lifeByCheckPoints;
 
     public TrackController() {
-        track = new Track();
+        Track originalTrack = new Track();
+        List<Vector2> controlPoints = transformControlPoints(originalTrack.getControlPoints());
+        track = new Track(controlPoints);
         checkpoints = new Checkpoints(track.getControlPoints());
         trackView = new TrackView();
         leftBorder = track.getLeftBorder();
@@ -76,6 +79,19 @@ public class TrackController {
     public void draw() {
         trackView.drawTrack(leftBorder, rightBorder);
         trackView.drawLifeByCheckPoints(lifeByCheckPoints);
+    }
+
+    private Vector2 translateCoordToWorld(Vector2 coord) {
+        return new Vector2(coord.getX() + ViewUtils.WORLD_WIDTH / 2,
+            coord.getY() + ViewUtils.WORLD_HEIGHT / 2);
+    }
+
+    private List<Vector2> transformControlPoints(List<Vector2> controlPoints) {
+        List<Vector2> newControlPoints = new ArrayList<>();
+        for (Vector2 controlPoint : controlPoints) {
+            newControlPoints.add(translateCoordToWorld(controlPoint));
+        }
+        return newControlPoints;
     }
 
     // TEST METHODS
