@@ -1,7 +1,5 @@
 package io.github.revNrun.revNrun.model.car.components;
 
-import io.github.revNrun.revNrun.model.car.components.Effect;
-import io.github.revNrun.revNrun.model.car.components.WheelMountedComponent;
 import io.github.revNrun.revNrun.model.car.components.enums.CarAxis;
 import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
 import org.junit.jupiter.api.BeforeEach;

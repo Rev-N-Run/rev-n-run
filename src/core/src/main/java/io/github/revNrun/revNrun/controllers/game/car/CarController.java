@@ -7,7 +7,7 @@ import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
 import io.github.revNrun.revNrun.model.ghost_car.GhostCar;
 import io.github.revNrun.revNrun.model.lap_timer.LapTimer;
 import io.github.revNrun.revNrun.model.vector.Vector2;
-import io.github.revNrun.revNrun.view.CarView;
+import io.github.revNrun.revNrun.view.car.CarView;
 import io.github.revNrun.revNrun.view.ViewUtils;
 
 import java.util.HashMap;

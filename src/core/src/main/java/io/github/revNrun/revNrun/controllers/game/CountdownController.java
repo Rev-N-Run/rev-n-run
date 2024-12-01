@@ -9,8 +9,8 @@ public class CountdownController {
     private final CountdownView countdownView;
     private float totalTime = 0;
     private int currentNumber = 3;
-    private float fadeTime = 0.3f; // Tiempo de fade más rápido
-    private float zoomTime = 0.7f; // Tiempo de zoom
+    private float fadeTime = 0.3f;
+    private float zoomTime = 0.7f;
     private boolean countdownFinished = false;
     private GameStatus status = GameStatus.STOP;
 

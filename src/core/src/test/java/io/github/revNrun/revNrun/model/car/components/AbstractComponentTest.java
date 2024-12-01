@@ -1,8 +1,5 @@
 package io.github.revNrun.revNrun.model.car.components;
 
-import io.github.revNrun.revNrun.model.car.components.AbstractComponent;
-import io.github.revNrun.revNrun.model.car.components.Component;
-import io.github.revNrun.revNrun.model.car.components.Effect;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

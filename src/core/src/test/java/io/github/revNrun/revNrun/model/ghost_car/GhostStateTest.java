@@ -11,7 +11,7 @@ class GhostStateTest {
         GhostState ghost = new GhostState(new Vector2(1, 2), 0, 0);
         GhostState copy = new GhostState(ghost);
 
-        assertTrue(ghost.getPosition() != copy.getPosition());
+        assertNotSame(ghost.getPosition(), copy.getPosition());
         assertEquals(ghost.getX(), copy.getX());
         assertEquals(ghost.getY(), copy.getY());
         assertEquals(ghost.getAngle(), copy.getAngle());

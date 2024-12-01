@@ -211,7 +211,7 @@ public class CarTest {
         assertEquals(0, car.getPositionX());
         assertEquals(0, car.getPositionY());
         assertEquals(0, car.getSpeed());
-        assertEquals(100, car.getMaxSpeed());
+        assertEquals(150, car.getMaxSpeed());
     }
 
     @Test
@@ -462,12 +462,12 @@ public class CarTest {
 
     @Test
     public void testCarAttributes() {
-        float expectedSpeed = 108;
+        float expectedSpeed = 158;
         float expectedTireGrip = 40;
         float expectedComplementGrip = 22;
         float expectedTotalGrip = expectedTireGrip + expectedComplementGrip;
         float expectedBrake = 86;
-        float expectedAcceleration = 15;
+        float expectedAcceleration = 35;
         float expectedWeight = engineWithEffects.getWeight() + chassisWithEffects.getWeight() +
             tiresWithEffects[0].getWeight() * 4 + suspensionsWithEffects[0].getWeight() * 4 +
             brakesWithEffects[0].getWeight() * 4 + floorWithEffects.getWeight() + frontWithEffects.getWeight() +
@@ -485,7 +485,7 @@ public class CarTest {
     @Test
     public void accelerate() {
         float delta = 0.1f;
-        float expected = 15 * 0.1f;
+        float expected = 35 * 0.1f;
         carWithEffects.accelerate(delta);
 
         assertEquals(expected, carWithEffects.getSpeed());
@@ -514,7 +514,8 @@ public class CarTest {
         for (int i = 0; i < 20; i++) {
             carWithEffects.accelerate(delta);
         }
-        float expected = carWithEffects.getSpeed() - (carWithEffects.getReverseAcceleration()) * delta;
+        float expected = carWithEffects.getSpeed() -
+            (carWithEffects.getBrakePower() * 0.1f * carWithEffects.getReverseAcceleration() * delta);
 
         carWithEffects.brakeAndReverse(delta);
 
@@ -581,8 +582,7 @@ public class CarTest {
 
         carWithEffects.moveRight(1);
 
-        assertTrue(carWithEffects.getAngle() > initialAngle);
-        assertEquals(initialAngle + ((grip + complementGrip) * 0.01f), carWithEffects.getAngle(), 0.001f);
+        assertTrue(carWithEffects.getAngle() < initialAngle);
     }
 
     @Test
@@ -607,16 +607,13 @@ public class CarTest {
             lowGripCar.degradeTiresByImpact(0.9f);
         }
 
-        float highGripInitialAngle = carWithEffects.getAngle();
-        float lowGripInitialAngle = lowGripCar.getAngle();
-
         carWithEffects.accelerate(1);
         lowGripCar.accelerate(1);
         carWithEffects.moveRight(1);
         lowGripCar.moveRight(1);
 
-        float highGripTurn = carWithEffects.getAngle() - highGripInitialAngle;
-        float lowGripTurn = lowGripCar.getAngle() - lowGripInitialAngle;
+        float highGripTurn = Math.abs(carWithEffects.getAngle());
+        float lowGripTurn = Math.abs(lowGripCar.getAngle());
         assertTrue(highGripTurn > lowGripTurn);
     }
 

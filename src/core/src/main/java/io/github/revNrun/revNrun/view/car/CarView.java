@@ -1,26 +1,22 @@
-package io.github.revNrun.revNrun.view;
+package io.github.revNrun.revNrun.view.car;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.revNrun.revNrun.model.vector.Vector2;
+import io.github.revNrun.revNrun.view.View;
+import io.github.revNrun.revNrun.view.ViewUtils;
 
-// TESTING RN
-public class CarView extends View {
+public class CarView extends View implements ICarView {
     private Texture carTexture;
     private Texture ghostTexture;
     private Sprite carSprite;
-    private Texture trackTexture;
     private Sprite ghostSprite;
 
 
     public CarView() {
         carTexture = new Texture(Gdx.files.internal("car.png"));
         carSprite = new Sprite(carTexture);
-        trackTexture = new Texture(Gdx.files.internal("track.png"));
         ghostTexture = new Texture(Gdx.files.internal("ghost.png"));
         ghostSprite = new Sprite(ghostTexture);
     }

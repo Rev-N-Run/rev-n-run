@@ -1,8 +1,5 @@
 package io.github.revNrun.revNrun.controllers.screen;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.revNrun.revNrun.Main;
 import io.github.revNrun.revNrun.controllers.camera.CameraController;
 import io.github.revNrun.revNrun.controllers.game.CountdownController;
@@ -11,7 +8,6 @@ import io.github.revNrun.revNrun.controllers.game.track.TrackController;
 import io.github.revNrun.revNrun.controllers.input.InputHandler;
 import io.github.revNrun.revNrun.controllers.input.LibGDXInputHelper;
 import io.github.revNrun.revNrun.model.CreateCar;
-import io.github.revNrun.revNrun.model.checkpoints.LapStatus;
 import io.github.revNrun.revNrun.view.GameView;
 import io.github.revNrun.revNrun.view.TimerView;
 

@@ -112,7 +112,7 @@ public class Car {
     }
 
     public void naturalSlowDown(float delta) {
-        if (speed == 0) {
+        if ((int) speed == 0) {
             return;
         }
 
