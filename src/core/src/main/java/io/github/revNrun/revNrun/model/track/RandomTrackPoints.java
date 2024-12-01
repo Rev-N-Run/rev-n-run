@@ -28,15 +28,15 @@ import java.util.Random;
  */
 class RandomTrackPoints {
     // The following values determine the randomness of the track
-    private static final int MIN_NUM_INITIAL_POINTS = 20;   // Minimum number of initial points
 
-    private static final int MAX_NUM_INITIAL_POINTS = 100;  // Maximum number of initial points,
+    private static final float MIN_RADIUS = TrackUtils.WIDTH * 4;            // Minimum radius for the track
+
+    private static final float MAX_RADIUS = TrackUtils.WIDTH * 8;            // Maximum radius, can't be the same as MIN_RADIUS
+
+    private static final int MIN_NUM_INITIAL_POINTS = (int) MIN_RADIUS / 4;   // Minimum number of initial points
+
+    private static final int MAX_NUM_INITIAL_POINTS = (int) MAX_RADIUS / 2;  // Maximum number of initial points,
                                                             // can't be the same as MIN_NUM_INITIAL_POINTS
-
-    private static final float MIN_RADIUS = 100;            // Minimum radius for the track
-
-    private static final float MAX_RADIUS = 250;            // Maximum radius, can't be the same as MIN_RADIUS
-
     private static final float NOISE_SCALE = 360f;          // Noise scale: values can go from 0 to 1
 
     private static final int MIN_NUM_OCTAVES = 1;           // Minimum number of octaves to calculate
@@ -262,10 +262,12 @@ class RandomTrackPoints {
         points.addAll(TrackSmoothing.computeCatmullRom(controlPoints, 1, true));
     }
 
-    // TEST GETTERS
     public float getRadius() {
         return radius;
     }
+
+
+    // TEST GETTERS
 
     public static int getMaxNumInitialPoints() {
         return MAX_NUM_INITIAL_POINTS;
