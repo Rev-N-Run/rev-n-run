@@ -16,7 +16,7 @@ public class Car {
 
     private Vector2 position;
     private float speed = 0;
-    private float maxSpeed = 300;
+    private float maxSpeed = 150;
     private int maxFuel = 100;
     private float fuel = 100;
     private float weight;
@@ -31,7 +31,7 @@ public class Car {
     private Sides sides;
     private float brakeBalance = .5f;
     private float brakePower = 0;
-    private float acceleration = 50;
+    private float acceleration = 20;
     private float tireGrip = 0;
     private float complementGrip = 0;
     private float maxReverseSpeed;
@@ -147,7 +147,7 @@ public class Car {
 
         speedFactor = Math.max(0.1f, Math.min(1.0f, speedFactor));
 
-        float baseTurnRate = totalGrip * delta;
+        float baseTurnRate = totalGrip * delta * 2f;
         float speedAdjustedTurnRate = baseTurnRate * speedFactor;
 
         if (speed > maxTurnSpeed) {

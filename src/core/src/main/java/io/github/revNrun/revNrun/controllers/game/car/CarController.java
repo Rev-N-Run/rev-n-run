@@ -145,4 +145,12 @@ public class CarController {
     public void setCarPosition(Vector2 position) {
         car.setPosition(position);
     }
+
+    public float getCarWidth() {
+        return carView.getCarWidth();
+    }
+
+    public float getCarHeight() {
+        return carView.getCarHeight();
+    }
 }

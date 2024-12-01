@@ -13,13 +13,14 @@ public class ViewUtils {
     public static OrthographicCamera getCamera() {
         if (camera == null) {
             camera = new OrthographicCamera();
+            camera.setToOrtho(false, ViewUtils.WORLD_WIDTH, ViewUtils.WORLD_HEIGHT);
         }
         return camera;
     }
 
     public static FitViewport getViewport() {
         if (viewport == null) {
-            viewport = new FitViewport(30, 40, camera);
+            viewport = new FitViewport(200, 100, camera);
         }
         return viewport;
     }

@@ -11,8 +11,8 @@ import io.github.revNrun.revNrun.model.vector.Vector2;
 // TESTING RN
 public class CarView extends View {
     private Texture carTexture;
-    Sprite carSprite;
-    Texture trackTexture;
+    private Sprite carSprite;
+    private Texture trackTexture;
 
 
     public CarView() {
@@ -22,7 +22,7 @@ public class CarView extends View {
     }
 
     public void create(Vector2 position, float angle) {
-        float width = 100;
+        float width = 10;
         float aspectRatio = ViewUtils.WORLD_WIDTH / ViewUtils.WORLD_HEIGHT;
         float height = width * aspectRatio;
         carSprite.setSize(width, height);
@@ -41,6 +41,7 @@ public class CarView extends View {
         carSprite.setY(position.getY());
 
         spriteBatch.begin();
+        spriteBatch.draw(trackTexture, 0, 0, ViewUtils.WORLD_WIDTH, ViewUtils.WORLD_HEIGHT);
         carSprite.draw(spriteBatch);
         spriteBatch.end();
     }
