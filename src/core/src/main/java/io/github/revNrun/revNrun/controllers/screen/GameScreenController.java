@@ -47,17 +47,17 @@ public class GameScreenController extends ScreenController {
                 carController.startLap();
             }
             carController.handleInput(delta);
-            //LapStatus status = trackController.updateCarInTrack(carController.getCarPosition());
-            //switch (status) {
-                //case GOOD:
+            LapStatus status = trackController.updateCarInTrack(carController.getCarPosition());
+            switch (status) {
+                case GOOD:
                     carController.recordGhost();
-                    //break;
-                //case COMPLETE:
+                    break;
+                case COMPLETE:
                     carController.stopLap();
                     carController.compareAndSetLaps();
                     carController.restartGhost();
-                    //break;
-            //}
+                    break;
+            }
         }
 
         carController.draw();
