@@ -73,7 +73,7 @@ public class TrackController {
      * Calls the view class to draw the track assets
      */
     public void draw() {
-        trackView.drawTrack(vertices);
+        trackView.drawTrack(track.getLeftBorder(), track.getRightBorder());
         trackView.drawLifeByCheckPoints(lifeByCheckPoints);
     }
 
