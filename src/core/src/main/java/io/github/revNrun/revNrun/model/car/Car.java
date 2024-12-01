@@ -154,7 +154,7 @@ public class Car {
             speed = Math.max(maxTurnSpeed, speed - (speed - maxTurnSpeed) * delta);
         }
 
-        return speedAdjustedTurnRate;
+        return (speed < 0) ? -speedAdjustedTurnRate : speedAdjustedTurnRate;
     }
 
     public void moveLeft(float delta) {
