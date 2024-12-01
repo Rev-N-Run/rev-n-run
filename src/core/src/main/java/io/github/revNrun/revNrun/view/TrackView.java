@@ -11,7 +11,7 @@ import io.github.revNrun.revNrun.model.vector.Vector2;
 
 import java.util.List;
 
-public class TrackView {
+public class TrackView extends View {
     private final ShapeRenderer shapeRenderer;
 
     public TrackView() {
@@ -19,9 +19,7 @@ public class TrackView {
     }
 
     public void drawTrack(List<Vector2> leftBorder, List<Vector2> rightBorder) {
-        // Update the camera
-        OrthographicCamera camera = ViewUtils.getCamera();
-        camera.update();
+
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         // Begin rendering the track
@@ -35,13 +33,13 @@ public class TrackView {
             Vector2 tl = leftBorder.get((i + 1) % leftBorder.size());
             Vector2 tr = rightBorder.get((i + 1) % rightBorder.size());
             shapeRenderer.triangle(
-                camera.position.x + bl.getX(), camera.position.y + bl.getY(),
-                camera.position.x + br.getX(), camera.position.y + br.getY(),
-                camera.position.x + tr.getX(), camera.position.y + tr.getY());
+                bl.getX(), bl.getY(),
+                br.getX(), br.getY(),
+                tr.getX(), tr.getY());
             shapeRenderer.triangle(
-                camera.position.x + bl.getX(), camera.position.y + bl.getY(),
-                camera.position.x + tr.getX(), camera.position.y + tr.getY(),
-                camera.position.x + tl.getX(), camera.position.y + tl.getY());
+                bl.getX(), bl.getY(),
+                tr.getX(), tr.getY(),
+                tl.getX(), tl.getY());
         }
 
         shapeRenderer.end();

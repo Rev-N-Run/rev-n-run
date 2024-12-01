@@ -22,7 +22,7 @@ public class CarView extends View {
     }
 
     public void create(Vector2 position, float angle) {
-        float width = 100;
+        float width = 10;
         float aspectRatio = ViewUtils.WORLD_WIDTH / ViewUtils.WORLD_HEIGHT;
         float height = width * aspectRatio;
         carSprite.setSize(width, height);
