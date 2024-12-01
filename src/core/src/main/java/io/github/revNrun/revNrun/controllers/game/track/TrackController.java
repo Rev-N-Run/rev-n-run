@@ -13,7 +13,7 @@ public class TrackController {
 
     private final Track track;
     private final Checkpoints checkpoints;
-    private TrackView trackView;            // TEST ONLY, TrackView methods gonna be static
+    private TrackView trackView;
     private List<Vector2> vertices;
     private boolean carInTrack;
     private int lifeByCheckPoints;
@@ -23,6 +23,8 @@ public class TrackController {
         checkpoints = new Checkpoints(track.getControlPoints());
         trackView = new TrackView();
         vertices = new ArrayList<>();
+        carInTrack = true;
+        lifeByCheckPoints = 100;
         createVertices();
     }
 
@@ -58,6 +60,13 @@ public class TrackController {
      */
     public boolean isCarInTrack() {
         return carInTrack;
+    }
+
+    /**
+     * @return The remaining checkpoints available to skip (on a scale from 0 to 100)
+     */
+    public int getLifeByCheckPoints() {
+        return lifeByCheckPoints;
     }
 
     /**
