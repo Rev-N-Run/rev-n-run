@@ -30,7 +30,7 @@ public class CarController {
         sides.put(CarSides.LEFT, 0f);
         sides.put(CarSides.RIGHT, 0f);
         ghost = new GhostCar();
-        bestGhost = new GhostCar();
+        bestGhost = null;
         currentLap = new LapTimer();
         carView = new CarView();
         carView.create(car.getPosition(), car.getAngle());
@@ -96,14 +96,26 @@ public class CarController {
     }
 
     public void compareAndSetLaps() {
+        if (bestGhost == null) {
+            bestGhost = new GhostCar(ghost);
+            return;
+        }
         LapTimer bestLap = bestGhost.getLapTimer();
         if (currentLap.isFasterThan(bestLap)) {
             bestGhost = new GhostCar(ghost);
         }
     }
 
-    public void draw() {
+    public void drawCar() {
         carView.draw(car.getPosition(), car.getAngle());
+    }
+
+    public void drawGhost() {
+        if (bestGhost == null) {
+            return;
+        }
+        carView.drawGhost(new Vector2(bestGhost.getPositionX(), bestGhost.getPositionY()), bestGhost.getAngle());
+        bestGhost.nextFrame();
     }
 
     public Car getCar() {
@@ -122,8 +134,12 @@ public class CarController {
         return bestGhost;
     }
 
-    public void restartGhost() {
+    public void resetGhost() {
         ghost.reset();
+    }
+
+    public void restartGhost() {
+        bestGhost.restart();
     }
 
     public void setBestGhost(GhostCar bestGhost) {
@@ -140,6 +156,7 @@ public class CarController {
 
     public void stopLap() {
         currentLap.stop();
+        ghost.setTimer(new LapTimer(currentLap));
     }
 
     public void setCarPosition(Vector2 position) {

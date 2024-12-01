@@ -2,7 +2,6 @@ package io.github.revNrun.revNrun.controllers.screen;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.revNrun.revNrun.Main;
 import io.github.revNrun.revNrun.controllers.camera.CameraController;
@@ -12,7 +11,6 @@ import io.github.revNrun.revNrun.controllers.input.InputHandler;
 import io.github.revNrun.revNrun.controllers.input.LibGDXInputHelper;
 import io.github.revNrun.revNrun.model.CreateCar;
 import io.github.revNrun.revNrun.model.checkpoints.LapStatus;
-import io.github.revNrun.revNrun.model.vector.Vector2;
 import io.github.revNrun.revNrun.view.GameView;
 
 public class GameScreenController extends ScreenController {
@@ -24,6 +22,7 @@ public class GameScreenController extends ScreenController {
     private LapStatus status;
     private boolean wasInTrack = true;
     private boolean hasStartedLap = false;
+    private boolean hasLeftStart = false;
 
     public GameScreenController(Main game, SpriteBatch batch, Viewport viewport, OrthographicCamera camera) {
         super(game);
@@ -56,12 +55,19 @@ public class GameScreenController extends ScreenController {
         if (isInStart && !hasStartedLap && isInTrack) {
             carController.startLap();
             hasStartedLap = true;
+            hasLeftStart = false;
             return;
+        }
+
+        if (!isInStart && hasStartedLap && !hasLeftStart) {
+            hasLeftStart = true;
         }
 
         if (!isInTrack && wasInTrack) {
             carController.stopLap();
-            carController.restartGhost();
+            carController.resetGhost();
+            hasStartedLap = false;
+            hasLeftStart = false;
             wasInTrack = false;
             return;
         }
@@ -69,11 +75,13 @@ public class GameScreenController extends ScreenController {
         if (isInTrack && carController.isLapRunning()) {
             carController.recordGhost();
 
-            if (isInStart && hasStartedLap) {
+            if (isInStart && hasLeftStart) {
                 carController.stopLap();
                 carController.compareAndSetLaps();
+                carController.resetGhost();
                 carController.restartGhost();
                 hasStartedLap = false;
+                hasLeftStart = false;
             }
         }
 
@@ -88,6 +96,7 @@ public class GameScreenController extends ScreenController {
         );
         cameraController.update();
         trackController.draw();
-        carController.draw();
+        carController.drawCar();
+        carController.drawGhost();
     }
 }

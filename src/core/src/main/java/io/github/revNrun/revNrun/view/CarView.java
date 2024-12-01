@@ -11,14 +11,18 @@ import io.github.revNrun.revNrun.model.vector.Vector2;
 // TESTING RN
 public class CarView extends View {
     private Texture carTexture;
+    private Texture ghostTexture;
     private Sprite carSprite;
     private Texture trackTexture;
+    private Sprite ghostSprite;
 
 
     public CarView() {
         carTexture = new Texture(Gdx.files.internal("car.png"));
         carSprite = new Sprite(carTexture);
         trackTexture = new Texture(Gdx.files.internal("track.png"));
+        ghostTexture = new Texture(Gdx.files.internal("ghost.png"));
+        ghostSprite = new Sprite(ghostTexture);
     }
 
     public void create(Vector2 position, float angle) {
@@ -27,13 +31,15 @@ public class CarView extends View {
         float height = width * aspectRatio;
         carSprite.setSize(width, height);
         carSprite.setPosition(position.getX(), position.getY());
-        //carSprite.setOrigin(carSprite.getWidth() / 2, carSprite.getHeight() / 2);
         carSprite.setOriginCenter();
         carSprite.setRotation(angle);
+        ghostSprite.setSize(width * 1.3f, height * 1.3f);
+        ghostSprite.setPosition(position.getX(), position.getY());
+        ghostSprite.setOriginCenter();
+        ghostSprite.setRotation(angle);
     }
 
     public void draw(Vector2 position, float angle) {
-        //ScreenUtils.clear(0, 0, 0, 1);
         spriteBatch.setProjectionMatrix(camera.combined);
 
         carSprite.setRotation(angle);
@@ -41,8 +47,19 @@ public class CarView extends View {
         carSprite.setY(position.getY());
 
         spriteBatch.begin();
-        //spriteBatch.draw(trackTexture, 0, 0, ViewUtils.WORLD_WIDTH, ViewUtils.WORLD_HEIGHT);
         carSprite.draw(spriteBatch);
+        spriteBatch.end();
+    }
+
+    public void drawGhost(Vector2 position, float angle) {
+        spriteBatch.setProjectionMatrix(camera.combined);
+
+        ghostSprite.setRotation(angle);
+        ghostSprite.setX(position.getX());
+        ghostSprite.setY(position.getY());
+
+        spriteBatch.begin();
+        ghostSprite.draw(spriteBatch);
         spriteBatch.end();
     }
 

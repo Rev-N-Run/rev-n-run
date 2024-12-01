@@ -44,6 +44,10 @@ public class GhostCar {
         states.clear();
     }
 
+    public void restart() {
+        currentStateIndex = 0;
+    }
+
     public void setLap(LapTimer lap) {
         lapTimer = lap;
     }
@@ -86,6 +90,10 @@ public class GhostCar {
 
     public int getCurrentStateIndex() {
         return currentStateIndex;
+    }
+
+    public void setTimer(LapTimer timer) {
+        this.lapTimer = timer;
     }
 
     private boolean notEmpty() {
