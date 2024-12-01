@@ -29,9 +29,9 @@ import java.util.Random;
 class RandomTrackPoints {
     // The following values determine the randomness of the track
 
-    private static final float MIN_RADIUS = TrackUtils.WIDTH * 4;            // Minimum radius for the track
+    private static final float MIN_RADIUS = TrackUtils.WIDTH * 4;   // Minimum radius for the track
 
-    private static final float MAX_RADIUS = TrackUtils.WIDTH * 8;            // Maximum radius, can't be the same as MIN_RADIUS
+    private static final float MAX_RADIUS = TrackUtils.WIDTH * 8;   // Maximum radius, can't be the same as MIN_RADIUS
 
     private static final int MIN_NUM_INITIAL_POINTS = (int) MIN_RADIUS / 4;   // Minimum number of initial points
 
