@@ -586,6 +586,17 @@ public class CarTest {
     }
 
     @Test
+    void testBasicLeftTurn() {
+        carWithEffects.accelerate(1.0f);
+        float initialAngle = carWithEffects.getAngle();
+
+        carWithEffects.moveLeft(1.0f);
+
+        // Angle should increase when turning left
+        assertTrue(carWithEffects.getAngle() > initialAngle);
+    }
+
+    @Test
     public void testSpeedLimitInTurn() {
         float maxTurnSpeed = carWithEffects.getMaxSpeed() - 20;
         while(carWithEffects.getSpeed() < carWithEffects.getMaxSpeed()) {
@@ -674,5 +685,295 @@ public class CarTest {
         }
 
         assertEquals(0, carWithEffects.getSpeed());
+    }
+
+    @Test
+    void testConstructorWithMinimumValidFuel() {
+        // Valid equivalent partition: fuel = 0
+        Car car = new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, sides, 0);
+        assertEquals(0, car.getFuelLevel());
+    }
+
+    @Test
+    void testConstructorWithMaximumValidFuel() {
+        // Valid equivalent partition: fuel = 100
+        Car car = new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, sides, 100);
+        assertEquals(100, car.getFuelLevel());
+    }
+
+    @Test
+    void testConstructorWithMidRangeFuel() {
+        // Valid equivalent partition: fuel entre 0 y 100
+        Car car = new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, sides, 50);
+        assertEquals(50, car.getFuelLevel());
+    }
+
+    @Test
+    void testConstructorWithNegativeFuel() {
+        // Frontier value invalid: fuel < 0
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, sides, -0.1f);
+        });
+    }
+
+    @Test
+    void testConstructorWithFuelJustBelowMinimum() {
+        // Frontier value invalid: fuel < 0
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, sides, -0.000001f);
+        });
+    }
+
+    @Test
+    void testConstructorWithFuelJustAboveMaximum() {
+        // Frontier value invalid: fuel > 100
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, sides, 100.001f);
+        });
+    }
+
+    @Test
+    void testConstructorWithExcessiveFuel() {
+        // Frontier value invalid: fuel > 100
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(engine, chassis, tires, suspensions, brakes, floor, front, back, sides, 101f);
+        });
+    }
+
+    @Test
+    void testBasicAcceleration() {
+        // Test normal acceleration from standstill
+        float delta = 0.1f;
+        float expectedSpeed = carWithEffects.getAcceleration() * delta;
+        carWithEffects.accelerate(delta);
+        assertEquals(expectedSpeed, carWithEffects.getSpeed(), 0.001f);
+    }
+
+    @Test
+    void testAccelerationToMaxSpeed() {
+        // Test acceleration up to max speed
+        float delta = 0.1f;
+        float maxSpeed = carWithEffects.getMaxSpeed();
+
+        while(carWithEffects.getSpeed() < maxSpeed) {
+            carWithEffects.accelerate(delta);
+        }
+
+        // Try to exceed max speed
+        carWithEffects.accelerate(delta);
+        assertEquals(maxSpeed, carWithEffects.getSpeed(), 0.001f);
+    }
+
+    @Test
+    void testBrakingFromForwardMotion() {
+        // Accelerate first
+        carWithEffects.accelerate(1.0f);
+        float initialSpeed = carWithEffects.getSpeed();
+        float delta = 0.1f;
+
+        // Apply brakes
+        carWithEffects.brakeAndReverse(delta);
+        assertTrue(carWithEffects.getSpeed() < initialSpeed);
+    }
+
+    @Test
+    void testCompleteStop() {
+        // First get to some speed
+        carWithEffects.accelerate(1.0f);
+        float delta = 0.1f;
+
+        // Brake until complete stop
+        while (carWithEffects.getSpeed() > 0) {
+            carWithEffects.brakeAndReverse(delta);
+        }
+
+        assertEquals(0, carWithEffects.getSpeed(), 0.001f);
+    }
+
+    @Test
+    void testMaxReverseSpeed() {
+        float delta = 0.1f;
+        float expectedMaxReverse = carWithEffects.getMaxReverseSpeed();
+
+        while(carWithEffects.getSpeed() > expectedMaxReverse) {
+            carWithEffects.brakeAndReverse(delta);
+        }
+
+        // Try to exceed max reverse speed
+        carWithEffects.brakeAndReverse(delta);
+        assertEquals(expectedMaxReverse, carWithEffects.getSpeed(), 0.001f);
+    }
+
+    @Test
+    void testNoMovementWithoutGrip() {
+        // Degrade tires to eliminate grip
+        while (carWithEffects.getTireGrip() > 0.1f) {
+            carWithEffects.degradeTiresByImpact(1f);
+        }
+
+        // Try to accelerate
+        carWithEffects.accelerate(1.0f);
+        assertEquals(0, carWithEffects.getSpeed(), 0.001f);
+
+        // Try to brake/reverse
+        carWithEffects.brakeAndReverse(1.0f);
+        assertEquals(0, carWithEffects.getSpeed(), 0.001f);
+    }
+
+    @Test
+    void testNaturalDeceleration() {
+        // Get to some speed first
+        carWithEffects.accelerate(1.0f);
+        float initialSpeed = carWithEffects.getSpeed();
+
+        carWithEffects.naturalSlowDown(0.1f);
+        assertTrue(carWithEffects.getSpeed() < initialSpeed);
+    }
+
+    @Test
+    void testNaturalDecelerationInReverse() {
+        // Get to reverse speed
+        float delta = 0.1f;
+        while(carWithEffects.getSpeed() > carWithEffects.getMaxReverseSpeed()) {
+            carWithEffects.brakeAndReverse(delta);
+        }
+        float initialReverseSpeed = carWithEffects.getSpeed();
+
+        carWithEffects.naturalSlowDown(0.1f);
+        assertTrue(Math.abs(carWithEffects.getSpeed()) < Math.abs(initialReverseSpeed));
+    }
+
+    @Test
+    void testTransitionForwardToReverse() {
+        // Start moving forward
+        carWithEffects.accelerate(1.0f);
+        float delta = 0.1f;
+
+        // Brake to stop and continue to reverse
+        while (carWithEffects.getSpeed() >= 0) {
+            carWithEffects.brakeAndReverse(delta);
+        }
+
+        assertTrue(carWithEffects.getSpeed() < 0);
+    }
+
+    @Test
+    void testTurningSpeedLimit() {
+        // Accelerate to max speed
+        while(carWithEffects.getSpeed() < carWithEffects.getMaxSpeed()) {
+            carWithEffects.accelerate(0.1f);
+        }
+        float maxTurnSpeed = carWithEffects.getMaxSpeed() - 20;
+
+        // Try to turn at max speed
+        carWithEffects.moveRight(1.0f);
+
+        // Speed should be reduced to turning speed limit
+        assertTrue(carWithEffects.getSpeed() <= maxTurnSpeed);
+    }
+
+    @Test
+    void testTurnRateWithDifferentGrip() {
+        // Test with normal grip
+        carWithEffects.accelerate(1.0f);
+        float initialAngle = carWithEffects.getAngle();
+        carWithEffects.moveRight(1.0f);
+        float normalGripTurnRate = Math.abs(carWithEffects.getAngle() - initialAngle);
+
+        // Reset car with degraded grip
+        carWithEffects = new Car(engineWithEffects, chassisWithEffects, tiresWithEffects,
+            suspensionsWithEffects, brakesWithEffects, floorWithEffects, frontWithEffects,
+            backWithEffects, sidesWithEffects, 100);
+
+        carWithEffects.degradeTiresByImpact(0.5f);
+        carWithEffects.accelerate(1.0f);
+        initialAngle = carWithEffects.getAngle();
+        carWithEffects.moveRight(1.0f);
+        float lowGripTurnRate = Math.abs(carWithEffects.getAngle() - initialAngle);
+
+        // Turn rate should be lower with less grip
+        assertTrue(lowGripTurnRate < normalGripTurnRate);
+    }
+
+    @Test
+    void testNoTurnWithoutSpeed() {
+        float initialAngle = carWithEffects.getAngle();
+
+        carWithEffects.moveRight(1.0f);
+
+        // Car shouldn't turn when not moving
+        assertEquals(initialAngle, carWithEffects.getAngle(), 0.001f);
+    }
+
+    @Test
+    void testNoTurnWithoutGrip() {
+        carWithEffects.accelerate(1.0f);
+        carWithEffects.degradeTiresByImpact(1f); // Eliminate grip
+        float initialAngle = carWithEffects.getAngle();
+
+        carWithEffects.moveRight(1.0f);
+
+        // Car shouldn't turn without grip
+        assertEquals(initialAngle, carWithEffects.getAngle(), 0.001f);
+    }
+
+    @Test
+    void testTurnRateWithSpeed() {
+        // Test turn rate at low speed
+        carWithEffects.accelerate(0.1f);
+        float initialAngle = carWithEffects.getAngle();
+        carWithEffects.moveRight(1.0f);
+        float lowSpeedTurnRate = Math.abs(carWithEffects.getAngle() - initialAngle);
+
+        // Reset and test at high speed
+        carWithEffects = new Car(engineWithEffects, chassisWithEffects, tiresWithEffects,
+            suspensionsWithEffects, brakesWithEffects, floorWithEffects, frontWithEffects,
+            backWithEffects, sidesWithEffects, 100);
+
+        // Accelerate to higher speed
+        carWithEffects.accelerate(1.0f);
+        initialAngle = carWithEffects.getAngle();
+        carWithEffects.moveRight(1.0f);
+        float highSpeedTurnRate = Math.abs(carWithEffects.getAngle() - initialAngle);
+
+        // Turn rate should be different at different speeds
+        assertNotEquals(lowSpeedTurnRate, highSpeedTurnRate, 0.001f);
+    }
+
+    @Test
+    void testReverseTurning() {
+        // Get to reverse speed
+        while(carWithEffects.getSpeed() > carWithEffects.getMaxReverseSpeed()) {
+            carWithEffects.brakeAndReverse(0.1f);
+        }
+
+        float initialAngle = carWithEffects.getAngle();
+        carWithEffects.moveRight(1.0f);
+
+        // Turning should work in reverse
+        assertNotEquals(initialAngle, carWithEffects.getAngle(), 0.001f);
+    }
+
+    @Test
+    void testUniformTireDegradation() {
+        float initialGrip = carWithEffects.getTireGrip();
+        float delta = 0.1f;
+
+        // Set uniform degradation for both sides
+        Map<CarSides, Float> sides = new HashMap<>();
+        sides.put(CarSides.LEFT, 0.5f);
+        sides.put(CarSides.RIGHT, 0.5f);
+
+        carWithEffects.degradeTires(delta, sides);
+
+        // Grip should be reduced
+        assertTrue(carWithEffects.getTireGrip() < initialGrip);
+
+        // All tires should have same durability
+        Tires[] tires = carWithEffects.getTires();
+        float firstTireDurability = tires[0].getCurrentDurability();
+        for(Tires tire : tires) {
+            assertEquals(firstTireDurability, tire.getCurrentDurability(), 0.001f);
+        }
     }
 }

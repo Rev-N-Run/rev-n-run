@@ -174,6 +174,15 @@ public class Car {
         }
     }
 
+    private void degradeTireGripFromImpact(float percentage) {
+        List<Effect> effects = getWheelMountedComponentEffects(tires);
+        for (Effect effect : effects) {
+            if (effect.getEffect() == EffectType.GRIP) {
+                this.tireGrip -= Math.max(0, tireGrip * percentage);
+            }
+        }
+    }
+
     private float getWheelMountedComponentsWeight(WheelMountedComponent[] components) {
         float weight = 0;
 
@@ -289,7 +298,7 @@ public class Car {
 
     public void degradeTiresByImpact(float percentage) {
         degradeByImpactWheelMounted(percentage, tires);
-        degradeTireGrip(percentage);
+        degradeTireGripFromImpact(percentage);
     }
 
     public void degradeSuspensionByImpact(float percentage) {
