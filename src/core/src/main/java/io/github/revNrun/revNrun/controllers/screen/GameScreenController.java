@@ -23,10 +23,15 @@ public class GameScreenController extends ScreenController {
     public GameScreenController(Main game, SpriteBatch batch, Viewport viewport, OrthographicCamera camera) {
         super(game);
         this.camera = camera;
-        view = new GameView(viewport, camera, batch);
+        view = new GameView();
         carController = new CarController(CreateCar.createCar(), new InputHandler(new LibGDXInputHelper()));
-        trackController = new TrackController();
-        gameStatus = GameStatus.STOP;
+        TrackController testTrackController = new TrackController();
+        carController.setCarPosition(testTrackController.getStartPoint());
+        while (testTrackController.updateCarInTrack(carController.getCarPosition()) == LapStatus.FATAL) {
+            testTrackController = new TrackController();
+        }
+        trackController = testTrackController;
+        gameStatus = GameStatus.ONGOING;
     }
 
     @Override
@@ -46,7 +51,7 @@ public class GameScreenController extends ScreenController {
             if (!carController.isLapRunning()) {
                 carController.startLap();
             }
-            carController.execute(delta);
+            carController.handleInput(delta);
             LapStatus status = trackController.updateCarInTrack(carController.getCarPosition());
             switch (status) {
                 case GOOD:
@@ -55,8 +60,11 @@ public class GameScreenController extends ScreenController {
                 case COMPLETE:
                     carController.stopLap();
                     carController.compareAndSetLaps();
+                    carController.restartGhost();
                     break;
             }
         }
+
+        carController.draw();
     }
 }

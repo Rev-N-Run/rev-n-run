@@ -134,10 +134,10 @@ class CarControllerTest {
     }
 
     @Test
-    void execute() {
+    void handleInput() {
         // Check if car is moving forward
         when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true);
-        controller.execute(1);
+        controller.handleInput(1);
 
         assertTrue(car.getSpeed() > 0);
         assertEquals(0, car.getAngle());
@@ -148,7 +148,7 @@ class CarControllerTest {
         // Check if car is braking
         reset(mockInputHelper);
         when(mockInputHelper.isKeyPressed(Input.Keys.DOWN)).thenReturn(true);
-        controller.execute(1);
+        controller.handleInput(1);
 
         assertTrue(car.getSpeed() < currentSpeed);
         assertEquals(0, car.getAngle());
@@ -161,7 +161,7 @@ class CarControllerTest {
 
         reset(mockInputHelper);
         when(mockInputHelper.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
-        controller.execute(1);
+        controller.handleInput(1);
 
         assertTrue(car.getAngle() < 0);
         assertTrue(car.getPositionX() != 0);
@@ -174,9 +174,9 @@ class CarControllerTest {
 
         reset(mockInputHelper);
         when(mockInputHelper.isKeyPressed(Input.Keys.RIGHT)).thenReturn(true);
-        controller.execute(1);
-        controller.execute(1);
-        controller.execute(1);
+        controller.handleInput(1);
+        controller.handleInput(1);
+        controller.handleInput(1);
 
         assertTrue(car.getAngle() > 0);
         assertTrue(car.getPositionX() != 0);
@@ -187,7 +187,7 @@ class CarControllerTest {
     void degradationAcceleration() {
         // Check if car is moving forward
         when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true);
-        controller.execute(1);
+        controller.handleInput(1);
 
         Tires[] tires = car.getTires();
         float symmetricalDurability = tires[0].getCurrentDurability();
@@ -211,12 +211,12 @@ class CarControllerTest {
     void degradationBrake() {
         when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true);
         for (int i = 0; i < 3; i++) {
-            controller.execute(1);
+            controller.handleInput(1);
         }
 
         reset(mockInputHelper);
         when(mockInputHelper.isKeyPressed(Input.Keys.DOWN)).thenReturn(true);
-        controller.execute(1);
+        controller.handleInput(1);
 
         Tires[] tires = car.getTires();
         float symmetricalDurability = tires[0].getCurrentDurability();
@@ -249,7 +249,7 @@ class CarControllerTest {
     }
 
     private <T extends WheelMountedComponent> T getWheelMountedComponent(T[] components, CarAxis axle,
-                                                           CarSides side) {
+                                                                            CarSides side) {
         for (T component : components) {
             if (component.getAxle() == axle && component.getSide() == side) {
                 return component;
@@ -264,12 +264,12 @@ class CarControllerTest {
     void degradationLeftTurn() {
         when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true);
         for (int i = 0; i < 3; i++) {
-            controller.execute(1);
+            controller.handleInput(1);
         }
 
         reset(mockInputHelper);
         when(mockInputHelper.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
-        controller.execute(1);
+        controller.handleInput(1);
 
         Tires[] tires = car.getTires();
 
@@ -306,12 +306,12 @@ class CarControllerTest {
     void degradationRightTurn() {
         when(mockInputHelper.isKeyPressed(Input.Keys.UP)).thenReturn(true);
         for (int i = 0; i < 3; i++) {
-            controller.execute(1);
+            controller.handleInput(1);
         }
 
         reset(mockInputHelper);
         when(mockInputHelper.isKeyPressed(Input.Keys.RIGHT)).thenReturn(true);
-        controller.execute(1);
+        controller.handleInput(1);
 
         Tires[] tires = car.getTires();
 
@@ -347,7 +347,7 @@ class CarControllerTest {
     @Test
     void carDoesNotTurnIfNoSpeed() {
         when(mockInputHelper.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
-        controller.execute(1);
+        controller.handleInput(1);
 
         assertEquals(0, car.getAngle());
         assertEquals(0, car.getPositionX());
@@ -355,7 +355,7 @@ class CarControllerTest {
 
         reset(mockInputHelper);
         when(mockInputHelper.isKeyPressed(Input.Keys.RIGHT)).thenReturn(true);
-        controller.execute(1);
+        controller.handleInput(1);
 
         assertEquals(0, car.getAngle());
         assertEquals(0, car.getPositionX());
@@ -366,12 +366,12 @@ class CarControllerTest {
     void carTurnsInReverse1() {
         when(mockInputHelper.isKeyPressed(Input.Keys.DOWN)).thenReturn(true);
         for (int i = 0; i < 3; i++) {
-            controller.execute(1);
+            controller.handleInput(1);
         }
 
         reset(mockInputHelper);
         when(mockInputHelper.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
-        controller.execute(1);
+        controller.handleInput(1);
 
         assertTrue(car.getAngle() < 0);
         assertTrue(car.getPositionX() < 0);
@@ -382,12 +382,12 @@ class CarControllerTest {
     void carTurnsInReverse2() {
         when(mockInputHelper.isKeyPressed(Input.Keys.DOWN)).thenReturn(true);
         for (int i = 0; i < 3; i++) {
-            controller.execute(1);
+            controller.handleInput(1);
         }
 
         reset(mockInputHelper);
         when(mockInputHelper.isKeyPressed(Input.Keys.RIGHT)).thenReturn(true);
-        controller.execute(1);
+        controller.handleInput(1);
 
         assertTrue(car.getAngle() > 0);
         assertTrue(car.getPositionX() < 0);
@@ -404,7 +404,7 @@ class CarControllerTest {
             if (i == 3) {
                 reset(mockInputHelper);
             }
-            controller.execute(1);
+            controller.handleInput(1);
             Vector2 pos = controller.getCarPosition();
             vectors.add(new Vector2(pos.getX(), pos.getY()));
             angles.add(controller.getCar().getAngle());

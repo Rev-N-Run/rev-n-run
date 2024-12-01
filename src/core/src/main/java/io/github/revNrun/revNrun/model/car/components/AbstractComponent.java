@@ -70,4 +70,8 @@ public abstract class AbstractComponent implements Component {
     public List<Effect> getEffects() {
         return effects;
     }
+
+    public float getWearFactor() {
+        return wearFactor;
+    }
 }
