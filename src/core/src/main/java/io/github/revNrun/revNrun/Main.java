@@ -23,7 +23,7 @@ public class Main extends Game {
         batch = new SpriteBatch();
         camera = ViewUtils.getCamera();
         viewport = ViewUtils.getViewport();
-        screenController = new GameScreenController(this, batch, viewport, camera);
+        screenController = new GameScreenController(this);
         setScreen(screenController);
     }
 

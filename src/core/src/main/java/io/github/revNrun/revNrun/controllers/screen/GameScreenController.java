@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.revNrun.revNrun.Main;
 import io.github.revNrun.revNrun.controllers.camera.CameraController;
+import io.github.revNrun.revNrun.controllers.game.CountdownController;
 import io.github.revNrun.revNrun.controllers.game.car.CarController;
 import io.github.revNrun.revNrun.controllers.game.track.TrackController;
 import io.github.revNrun.revNrun.controllers.input.InputHandler;
@@ -19,27 +20,31 @@ public class GameScreenController extends ScreenController {
     private final TrackController trackController;
     private final CameraController cameraController;
     private final TimerView timerView;
-    //private final OrthographicCamera camera;
+    private final CountdownController countdownController;
     private GameStatus gameStatus;
-    private LapStatus status;
     private boolean wasInTrack = true;
     private boolean hasStartedLap = false;
     private boolean hasLeftStart = false;
 
-    public GameScreenController(Main game, SpriteBatch batch, Viewport viewport, OrthographicCamera camera) {
+    public GameScreenController(Main game) {
         super(game);
         view = new GameView();
         carController = new CarController(CreateCar.createCar(), new InputHandler(new LibGDXInputHelper()));
         trackController = new TrackController();
         carController.setCarPosition(trackController.getStartPoint());
         cameraController = new CameraController();
-        gameStatus = GameStatus.ONGOING;
+        gameStatus = GameStatus.STOP;
         timerView = new TimerView();
+        countdownController = new CountdownController();
     }
 
     @Override
     public void render(float delta) {
-        if (gameStatus != GameStatus.ONGOING) {
+        if (gameStatus == GameStatus.STOP) {
+            updateCameraAndRender();
+            if (countdownController.count(delta)) {
+                gameStatus = GameStatus.ONGOING;
+            }
             return;
         }
 
@@ -88,8 +93,6 @@ public class GameScreenController extends ScreenController {
             }
         }
 
-
-
         wasInTrack = isInTrack;
     }
 
@@ -99,6 +102,7 @@ public class GameScreenController extends ScreenController {
             carController.getCarWidth(),
             carController.getCarHeight()
         );
+
         cameraController.update();
         trackController.draw();
         carController.drawGhost();
