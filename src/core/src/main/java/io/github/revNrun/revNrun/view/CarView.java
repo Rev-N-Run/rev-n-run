@@ -22,14 +22,18 @@ public class CarView extends View {
     }
 
     public void create(Vector2 position, float angle) {
-        carSprite.setSize(100, 40);
+        float width = 100;
+        float aspectRatio = ViewUtils.WORLD_WIDTH / ViewUtils.WORLD_HEIGHT;
+        float height = width * aspectRatio;
+        carSprite.setSize(width, height);
         carSprite.setPosition(position.getX(), position.getY());
-        carSprite.setOrigin(carSprite.getWidth() / 2, carSprite.getHeight() / 2);
+        //carSprite.setOrigin(carSprite.getWidth() / 2, carSprite.getHeight() / 2);
+        carSprite.setOriginCenter();
         carSprite.setRotation(angle);
     }
 
     public void draw(Vector2 position, float angle) {
-        ScreenUtils.clear(0, 0, 0, 1);
+        //ScreenUtils.clear(0, 0, 0, 1);
         spriteBatch.setProjectionMatrix(camera.combined);
 
         carSprite.setRotation(angle);
