@@ -9,6 +9,7 @@ import io.github.revNrun.revNrun.model.lap_timer.LapTimer;
 import io.github.revNrun.revNrun.model.vector.Vector2;
 import io.github.revNrun.revNrun.view.car.CarView;
 import io.github.revNrun.revNrun.view.ViewUtils;
+import io.github.revNrun.revNrun.view.car.ICarView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,10 +21,10 @@ public class CarController {
     private GhostCar bestGhost;
     private GhostCar ghost;
     private LapTimer currentLap;
-    private CarView carView;
+    private ICarView carView;
     private Viewport viewport = ViewUtils.getViewport();
 
-    public CarController(Car car, InputHandler input) {
+    public CarController(Car car, InputHandler input, ICarView carView) {
         this.car = car;
         this.input = input;
         this.sides = new HashMap<>();
@@ -32,7 +33,7 @@ public class CarController {
         ghost = new GhostCar();
         bestGhost = null;
         currentLap = new LapTimer();
-        carView = new CarView();
+        this.carView = carView;
         carView.create(car.getPosition(), car.getAngle());
     }
 

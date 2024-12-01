@@ -21,6 +21,7 @@ public class CarView extends View implements ICarView {
         ghostSprite = new Sprite(ghostTexture);
     }
 
+    @Override
     public void create(Vector2 position, float angle) {
         float width = 10;
         float aspectRatio = ViewUtils.WORLD_WIDTH / ViewUtils.WORLD_HEIGHT;
@@ -35,6 +36,7 @@ public class CarView extends View implements ICarView {
         ghostSprite.setRotation(angle);
     }
 
+    @Override
     public void draw(Vector2 position, float angle) {
         spriteBatch.setProjectionMatrix(camera.combined);
 
@@ -47,6 +49,7 @@ public class CarView extends View implements ICarView {
         spriteBatch.end();
     }
 
+    @Override
     public void drawGhost(Vector2 position, float angle) {
         spriteBatch.setProjectionMatrix(camera.combined);
 
@@ -59,10 +62,12 @@ public class CarView extends View implements ICarView {
         spriteBatch.end();
     }
 
+    @Override
     public float getCarWidth() {
         return carSprite.getWidth();
     }
 
+    @Override
     public float getCarHeight() {
         return carSprite.getHeight();
     }

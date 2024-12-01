@@ -10,6 +10,8 @@ import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
 import io.github.revNrun.revNrun.model.car.components.enums.EffectType;
 import io.github.revNrun.revNrun.model.ghost_car.GhostCar;
 import io.github.revNrun.revNrun.model.vector.Vector2;
+import io.github.revNrun.revNrun.view.CarViewMock;
+import io.github.revNrun.revNrun.view.car.ICarView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +46,7 @@ class CarControllerTest {
     InputHelper mockInputHelper;
     InputHandler input;
     CarController controller;
+    ICarView view;
 
     @BeforeEach
     void setUp() {
@@ -82,7 +85,8 @@ class CarControllerTest {
 
         mockInputHelper = mock(InputHelper.class);
         input = new InputHandler(mockInputHelper);
-        controller = new CarController(car, input);
+        view = new CarViewMock();
+        controller = new CarController(car, input, view);
     }
 
     private Tires[] getTiresWithEffects() {
@@ -163,7 +167,7 @@ class CarControllerTest {
         when(mockInputHelper.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
         controller.handleInput(1);
 
-        assertTrue(car.getAngle() < 0);
+        assertTrue(car.getAngle() > 0);
         assertTrue(car.getPositionX() != 0);
         assertTrue(car.getPositionY() != 0);
 
@@ -178,7 +182,7 @@ class CarControllerTest {
         controller.handleInput(1);
         controller.handleInput(1);
 
-        assertTrue(car.getAngle() > 0);
+        assertTrue(car.getAngle() < 0);
         assertTrue(car.getPositionX() != 0);
         assertTrue(car.getPositionY() != 0);
     }

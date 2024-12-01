@@ -10,6 +10,7 @@ import io.github.revNrun.revNrun.controllers.input.LibGDXInputHelper;
 import io.github.revNrun.revNrun.model.CreateCar;
 import io.github.revNrun.revNrun.view.GameView;
 import io.github.revNrun.revNrun.view.TimerView;
+import io.github.revNrun.revNrun.view.car.CarView;
 
 public class GameScreenController extends ScreenController {
     private final CarController carController;
@@ -25,7 +26,8 @@ public class GameScreenController extends ScreenController {
     public GameScreenController(Main game) {
         super(game);
         view = new GameView();
-        carController = new CarController(CreateCar.createCar(), new InputHandler(new LibGDXInputHelper()));
+        carController = new CarController(CreateCar.createCar(), new InputHandler(new LibGDXInputHelper()),
+            new CarView());
         trackController = new TrackController();
         carController.setCarPosition(trackController.getStartPoint());
         cameraController = new CameraController();
