@@ -142,16 +142,19 @@ public class Checkpoints {
      * @return the LapStatus indicating the current lap's status.
      */
     public LapStatus lapStatus() {
-        if (remainingLife() > 0 && isProgressOrdered()) {
-            if (progress.getLast().equals(checkPoints.getLast())) {
-                return LapStatus.COMPLETE;
+        if (!progress.isEmpty()) {
+            if (remainingLife() > 0 && isProgressOrdered()) {
+                if (progress.getLast().equals(checkPoints.getLast())) {
+                    return LapStatus.COMPLETE;
+                }
+                return LapStatus.GOOD;
             }
-            return LapStatus.GOOD;
+            if (progress.getLast().equals(checkPoints.getLast())) {
+                return LapStatus.INCOMPLETE;
+            }
+            return LapStatus.WRONG;
         }
-        if (progress.getLast().equals(checkPoints.getLast())) {
-            return LapStatus.INCOMPLETE;
-        }
-        return LapStatus.WRONG;
+        return LapStatus.FATAL;
     }
 
     /**

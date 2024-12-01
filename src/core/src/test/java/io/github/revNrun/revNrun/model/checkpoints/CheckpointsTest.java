@@ -284,4 +284,38 @@ class CheckpointsTest {
 
         assertEquals(checkpoints.lapStatus(), LapStatus.INCOMPLETE);
     }
+
+    @Test
+    public void testInitCarOutsideTrackHasToReturnFatal() {
+        List<Vector2> track = new ArrayList<>(Arrays.asList(
+            new Vector2(1, 1),
+            new Vector2(3, 3),
+            new Vector2(5, 5),
+            new Vector2(5, 3),
+            new Vector2(5, 0),
+            new Vector2(0, 0),
+            new Vector2(1, 1)
+        ));
+        Checkpoints checkpoints = new Checkpoints(track, 4);
+
+        assertFalse(checkpoints.isInsideCircuit(new Vector2(-10, -10)));
+        assertEquals(checkpoints.lapStatus(), LapStatus.FATAL);
+    }
+
+    @Test
+    public void testInitCarInsideTrackHasToReturnGood() {
+        List<Vector2> track = new ArrayList<>(Arrays.asList(
+            new Vector2(1, 1),
+            new Vector2(3, 3),
+            new Vector2(5, 5),
+            new Vector2(5, 3),
+            new Vector2(5, 0),
+            new Vector2(0, 0),
+            new Vector2(1, 1)
+        ));
+        Checkpoints checkpoints = new Checkpoints(track, 4);
+
+        assertTrue(checkpoints.isInsideCircuit(new Vector2(1, 1)));
+        assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
+    }
 }
