@@ -20,7 +20,7 @@ public class ViewUtils {
 
     public static FitViewport getViewport() {
         if (viewport == null) {
-            viewport = new FitViewport(200, 100, camera);
+            viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
         }
         return viewport;
     }
