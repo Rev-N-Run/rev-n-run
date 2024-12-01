@@ -49,6 +49,7 @@ public class GameScreenController extends ScreenController {
     }
 
     private void updateGameState() {
+        trackController.updateCarInTrack(carController.getCarPosition());
         boolean isInTrack = trackController.isCarInTrack();
         boolean isInStart = trackController.isCarInStart(carController.getCarPosition());
 

@@ -54,15 +54,15 @@ public class TrackController {
      * GOOD if the car hasn't complete the lap, but it's still alive, WRONG if it hasn't complete the lap and it's
      * dead by skipped checkpoints.
      */
-    public LapStatus updateCarInTrack(Vector2 carPos) {
+    public void updateCarInTrack(Vector2 carPos) {
         carInTrack = checkpoints.isInsideCircuit(carPos);
-        lifeByCheckPoints = checkpoints.remainingLife();
+        /*lifeByCheckPoints = checkpoints.remainingLife();
 
         LapStatus status = checkpoints.lapStatus();
         if (status == LapStatus.COMPLETE) {
             checkpoints.resetProgress();
         }
-        return status;
+        return status;*/
     }
 
     /**
