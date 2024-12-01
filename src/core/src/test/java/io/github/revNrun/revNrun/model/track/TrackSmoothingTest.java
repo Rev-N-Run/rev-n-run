@@ -1,6 +1,7 @@
 package io.github.revNrun.revNrun.model.track;
 
 import io.github.revNrun.revNrun.model.vector.Vector2;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -230,5 +231,97 @@ class TrackSmoothingTest {
 
         // Difference should be the number of internal control points (n-2 for n points)
         assertEquals(withoutControlPoints.size() + 2, withControlPoints.size());
+    }
+
+    // LOOP TESTING
+
+    // Outer loop testing
+
+    @Test
+    void testOuterLoopExecution() {
+        // Control points and conditions for minimal valid loop execution
+        List<Vector2> controlPoints = Arrays.asList(
+            new Vector2(0, 0),
+            new Vector2(1, 1),
+            new Vector2(2, 2),
+            new Vector2(3, 3)
+        );
+        int interpolatedDistance = 2;
+        boolean addControlPoints = true;
+
+        List<Vector2> result = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, addControlPoints);
+        assertFalse(result.isEmpty(), "Outer loop failed to execute.");
+    }
+
+    @Test
+    void testOuterLoopSkipped() {
+        List<Vector2> controlPoints = Arrays.asList(
+            new Vector2(0, 0),
+            new Vector2(1, 1),
+            new Vector2(2, 2)
+        );
+
+        int interpolatedDistance = 2;
+
+        IllegalArgumentException exception = assertThrows(
+            IllegalArgumentException.class,
+            () -> TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, false)
+        );
+
+        assertTrue(
+            exception.getMessage().contains("At lest 4 control points"),
+            "Unexpected exception message."
+        );
+    }
+
+    // Nested loop testing
+
+    @Test
+    void testInnerLoopExecution() {
+        List<Vector2> controlPoints = Arrays.asList(
+            new Vector2(0, 0),
+            new Vector2(0, 0),
+            new Vector2(5, 0),
+            new Vector2(10, 0)
+        );
+        int interpolatedDistance = 2;
+        boolean addControlPoints = true;
+
+        List<Vector2> result = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, addControlPoints);
+        assertEquals(4, result.size(), "Inner loop did not execute expected number of times.");
+    }
+
+    @Test
+    void testInnerLoopSkipped() {
+        List<Vector2> controlPoints = Arrays.asList(
+            new Vector2(0, 0),
+            new Vector2(0, 0),
+            new Vector2(1, 0),
+            new Vector2(2, 0)
+        );
+        int interpolatedDistance = 2;
+        boolean addControlPoints = false;
+
+        List<Vector2> result = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, addControlPoints);
+        assertEquals(0, result.size(), "Inner loop should be skipped when distance <= interpolatedDistance.");
+    }
+
+    @Test
+    void testInnerLoopBoundary() {
+       Vector2 a = new Vector2(0, 0);
+       Vector2 b = new Vector2(0, 0);
+       Vector2 c = new Vector2(5, 0);
+       Vector2 d = new Vector2(10, 0);
+        List<Vector2> controlPoints = Arrays.asList(
+            a, b, c, d
+        );
+        int interpolatedDistance = 2;
+        boolean addControlPoints = true;
+
+        List<Vector2> result = TrackSmoothing.computeCatmullRom(controlPoints, interpolatedDistance, addControlPoints);
+        assertTrue(
+            result.contains(b) && result.contains(c),
+            "Boundary points are incorrect."
+        );
     }
 }
