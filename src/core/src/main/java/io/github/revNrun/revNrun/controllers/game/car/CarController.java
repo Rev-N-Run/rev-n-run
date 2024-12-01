@@ -117,4 +117,8 @@ public class CarController {
     public void stopLap() {
         currentLap.stop();
     }
+
+    public void setCarPosition(Vector2 position) {
+        car.setPosition(position);
+    }
 }

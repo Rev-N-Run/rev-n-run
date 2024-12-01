@@ -26,6 +26,7 @@ public class GameScreenController extends ScreenController {
         view = new GameView();
         carController = new CarController(CreateCar.createCar(), new InputHandler(new LibGDXInputHelper()));
         trackController = new TrackController();
+        carController.setCarPosition(trackController.getStartPoint());
         gameStatus = GameStatus.ONGOING;
     }
 

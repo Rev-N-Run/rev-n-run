@@ -59,6 +59,10 @@ public class Car {
         setAttributes();
     }
 
+    public void setPosition(Vector2 position) {
+        this.position = new Vector2(position);
+    }
+
     public void updatePosition(float delta) {
         if (speed == 0) {
             return;
