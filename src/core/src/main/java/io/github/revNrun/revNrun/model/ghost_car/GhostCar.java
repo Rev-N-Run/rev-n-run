@@ -28,10 +28,12 @@ public class GhostCar {
     }
 
     public void nextFrame() {
-        currentStateIndex++;
-        int size = states.size();
-        if (currentStateIndex >= size) {
-            currentStateIndex = size - 1;
+        if (notEmpty()) {
+            currentStateIndex++;
+            int size = states.size();
+            if (currentStateIndex >= size) {
+                currentStateIndex = size - 1;
+            }
         }
     }
 
@@ -74,16 +76,16 @@ public class GhostCar {
 
     public float getAngle() {
         if (notEmpty()) {
-        GhostState state = states.get(currentStateIndex);
-        return state.getAngle();
+            GhostState state = states.get(currentStateIndex);
+            return state.getAngle();
         }
         return 0;
     }
 
     public float getTimestamp() {
         if (notEmpty()) {
-        GhostState state = states.get(currentStateIndex);
-        return state.getTimestamp();
+            GhostState state = states.get(currentStateIndex);
+            return state.getTimestamp();
         }
         return 0;
     }
