@@ -22,6 +22,13 @@ class AdjustPoints {
      * @return List of adjusted points.
      */
     static List<Vector2> adjustNearPoints(List<Vector2> points, int minDistance) {
+        if (points == null || points.isEmpty()) {
+            throw new IllegalArgumentException("Points array is empty");
+        }
+        if (minDistance < 0) {
+            throw new IllegalArgumentException("Minimum distance is negative");
+        }
+
         List<Vector2> adjustedPoints = new ArrayList<>(points);
 
         for (int i = adjustedPoints.size() - 2; i >= 1; i--) {
@@ -45,6 +52,13 @@ class AdjustPoints {
      * @return List of adjusted points.
      */
     static List<Vector2> adjustIntersections(List<Vector2> points, int minDistance) {
+        if (points == null || points.isEmpty()) {
+            throw new IllegalArgumentException("Points array is empty");
+        }
+        if (minDistance < 0) {
+            throw new IllegalArgumentException("Minimum distance is negative");
+        }
+
         List<Vector2> adjustedPoints = new ArrayList<>(points);
 
         for (int i = 0; i < adjustedPoints.size() - 1; i++) {

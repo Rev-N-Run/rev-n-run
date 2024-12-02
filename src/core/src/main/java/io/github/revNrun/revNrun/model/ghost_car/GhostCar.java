@@ -28,10 +28,12 @@ public class GhostCar {
     }
 
     public void nextFrame() {
-        currentStateIndex++;
-        int size = states.size();
-        if (currentStateIndex >= size) {
-            currentStateIndex = size - 1;
+        if (notEmpty()) {
+            currentStateIndex++;
+            int size = states.size();
+            if (currentStateIndex >= size) {
+                currentStateIndex = size - 1;
+            }
         }
     }
 

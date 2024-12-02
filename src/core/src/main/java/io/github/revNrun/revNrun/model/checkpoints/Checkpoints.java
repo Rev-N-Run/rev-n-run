@@ -58,6 +58,10 @@ public class Checkpoints {
      * @return true if the point is inside the circuit, false otherwise.
      */
     public boolean isInsideCircuit(Vector2 point) {
+        if (point == null) {
+            throw new IllegalArgumentException("Point must be not null.");
+        }
+
         Vector2 closestCheckPoint = null;
         float minDistance = Float.MAX_VALUE;
 

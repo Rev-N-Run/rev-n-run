@@ -20,6 +20,10 @@ public class Track {
     }
 
     public Track(List<Vector2> controlPoints) {
+        if (controlPoints == null || controlPoints.size() < 2) {
+            throw new IllegalArgumentException("controlPoints is null or has less than two points");
+        }
+
         this.controlPoints = controlPoints;
         radius = calculateRadius();
         generateBorders();
@@ -28,6 +32,10 @@ public class Track {
     private void generateBorders() {
         leftBorder = BorderGenerator.generateLeftBorder(controlPoints, TrackUtils.WIDTH * 0.5f);
         rightBorder = BorderGenerator.generateRightBorder(controlPoints, TrackUtils.WIDTH * 0.5f);
+
+        if (leftBorder == null || leftBorder.isEmpty()) {
+            throw new Error("controlPoints and leftBorder and rightBorder are null or empty");
+        }
     }
 
     public List<Vector2> getControlPoints() {
