@@ -8,6 +8,13 @@ public class GhostState {
     private final float timestamp;
 
     public GhostState(Vector2 position, float angle, float timestamp) {
+        if(position == null) {
+            throw new IllegalArgumentException("Position is null");
+        }
+        if(timestamp < 0) {
+            throw new IllegalArgumentException("Timestamp is negative");
+        }
+
         this.position = new Vector2(position);
         this.angle = angle;
         this.timestamp = timestamp;
