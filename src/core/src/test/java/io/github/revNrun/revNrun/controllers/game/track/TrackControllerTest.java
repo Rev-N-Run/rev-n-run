@@ -1,7 +1,7 @@
 package io.github.revNrun.revNrun.controllers.game.track;
 
 import io.github.revNrun.revNrun.model.vector.Vector2;
-import io.github.revNrun.revNrun.view.TrackView;
+import io.github.revNrun.revNrun.view.track.ITrackView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,13 +15,13 @@ import static org.mockito.Mockito.*;
 
 class TrackControllerTest {
     private TrackController trackController;
-    private TrackView trackView;  // Mocked view (TrackView)
+    private ITrackView mockTrackView;  // Mocked view (TrackView)
 
     @BeforeEach
     void setUp() {
-        trackView = mock(TrackView.class);  // Mock the TrackView class with mockito
-        trackController = new TrackController();  // Instantiate the controller
-        trackController.setTrackView(trackView);
+        mockTrackView = mock(ITrackView.class);  // Mock the TrackView class with mockito
+        trackController = new TrackController(mockTrackView);  // Instantiate the controller
+        trackController.setTrackView(mockTrackView);
     }
 
     @Test
@@ -43,7 +43,7 @@ class TrackControllerTest {
 
         trackController.draw();
 
-        verify(trackView).drawTrack(mockLeftBorder, mockRightBorder);
+        verify(mockTrackView).drawTrack(mockLeftBorder, mockRightBorder);
     }
 
     @Test
@@ -53,12 +53,37 @@ class TrackControllerTest {
 
         trackController.draw();
 
-        verify(trackView).drawLifeByCheckPoints(mockLifeByCheckPoints);
+        verify(mockTrackView).drawLifeByCheckPoints(mockLifeByCheckPoints);
     }
 
     @Test
     void testCarInTrack() {
         trackController.setCarInTrack(true);
         assertTrue(trackController.isCarInTrack());
+    }
+
+    @Test
+    void getStartPoint() {
+        assertNotNull(trackController.getStartPoint());
+    }
+
+    @Test
+    void isCarInStart() {
+        Vector2 pos = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        assertFalse(trackController.isCarInStart(pos));
+
+        pos = trackController.getStartPoint();
+        assertTrue(trackController.isCarInStart(pos));
+    }
+
+    @Test
+    void updateCarInTrack() {
+        Vector2 pos = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        trackController.updateCarInTrack(pos);
+        assertFalse(trackController.isCarInStart(pos));
+
+        pos = trackController.getStartPoint();
+        trackController.updateCarInTrack(pos);
+        assertTrue(trackController.isCarInStart(pos));
     }
 }

@@ -12,7 +12,6 @@ import io.github.revNrun.revNrun.model.ghost_car.GhostCar;
 import io.github.revNrun.revNrun.model.lap_timer.LapTimer;
 import io.github.revNrun.revNrun.model.vector.Vector2;
 import io.github.revNrun.revNrun.view.CarViewMock;
-import io.github.revNrun.revNrun.view.View;
 import io.github.revNrun.revNrun.view.ViewUtils;
 import io.github.revNrun.revNrun.view.car.ICarView;
 import org.junit.jupiter.api.BeforeEach;

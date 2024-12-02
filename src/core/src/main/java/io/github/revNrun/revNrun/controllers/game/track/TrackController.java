@@ -1,10 +1,10 @@
 package io.github.revNrun.revNrun.controllers.game.track;
 
 import io.github.revNrun.revNrun.model.checkpoints.Checkpoints;
-import io.github.revNrun.revNrun.model.checkpoints.LapStatus;
 import io.github.revNrun.revNrun.model.track.Track;
 import io.github.revNrun.revNrun.model.vector.Vector2;
-import io.github.revNrun.revNrun.view.TrackView;
+import io.github.revNrun.revNrun.view.track.ITrackView;
+import io.github.revNrun.revNrun.view.track.TrackView;
 import io.github.revNrun.revNrun.view.ViewUtils;
 
 import java.util.ArrayList;
@@ -13,13 +13,13 @@ import java.util.List;
 public class TrackController {
 
     private final Checkpoints checkpoints;
-    private TrackView trackView;
+    private ITrackView trackView;
     private List<Vector2> leftBorder;
     private List<Vector2> rightBorder;
     private boolean carInTrack;
     private int lifeByCheckPoints;
 
-    public TrackController() {
+    public TrackController(ITrackView view) {
         // Get the original generated track
         Track originalTrack = SingletonTrack.getTrack();
         // Transform the track to world coordinates
@@ -27,7 +27,7 @@ public class TrackController {
         // Get a usable track with the world coordinates
         Track track = new Track(controlPoints);
         checkpoints = new Checkpoints(track.getControlPoints());
-        trackView = new TrackView();
+        trackView = view;
         leftBorder = track.getLeftBorder();
         rightBorder = track.getRightBorder();
         carInTrack = true;
@@ -75,9 +75,9 @@ public class TrackController {
     /**
      * @return The remaining checkpoints available to skip (on a scale from 0 to 100)
      */
-    public int getLifeByCheckPoints() {
+    /*public int getLifeByCheckPoints() {
         return lifeByCheckPoints;
-    }
+    }*/
 
     /**
      * Calls the view class to draw the track assets
@@ -118,7 +118,7 @@ public class TrackController {
         this.carInTrack = carInTrack;
     }
 
-    public void setTrackView(TrackView trackView) {
+    public void setTrackView(ITrackView trackView) {
         this.trackView = trackView;
     }
 }
