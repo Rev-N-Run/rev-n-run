@@ -21,6 +21,7 @@ public class Track {
 
     public Track(List<Vector2> controlPoints) {
         this.controlPoints = controlPoints;
+        radius = calculateRadius();
         generateBorders();
     }
 
