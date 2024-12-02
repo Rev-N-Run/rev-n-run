@@ -166,6 +166,10 @@ class RandomTrackPoints {
      * @return Vector2 List containing only the generated points.
      */
     private List<Vector2> generateBasePoints(List<Vector2> controlPoints) {
+        if (controlPoints == null || controlPoints.isEmpty()) {
+            throw new IllegalArgumentException("Control points must not be null or empty");
+        }
+
         List<Vector2> points = new ArrayList<>();
         //List<Vector2> adjustedPoints = new ArrayList<>();
 
@@ -186,6 +190,10 @@ class RandomTrackPoints {
      * @return Vector2 distorted point.
      */
     private Vector2 displacePoint(Vector2 initialPoint) {
+        if (initialPoint == null) {
+            throw new IllegalArgumentException("Initial point to displace must not be null");
+        }
+
         float xBase = initialPoint.getX(), yBase = initialPoint.getY();
         float noise, xNoise = 0, yNoise = 0;
         float freq, amplitude;
