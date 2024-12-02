@@ -1,0 +1,30 @@
+@startuml
+start
+:Cridar isInsideCircuit(point);
+
+if (point és null?) then (sí)
+    :Llançar IllegalArgumentException;
+    stop
+else (no)
+    :Inicialitzar closestCheckPoint a null;
+    :Inicialitzar minDistance a Float.MAX_VALUE;
+
+    while (Recórrer tots els punts de checkPoints)
+        :Calcular distància entre point i punt actual;
+
+        if (distancia <= width i és menor que minDistance) then (sí)
+            :Actualitzar minDistance;
+            :Actualitzar closestCheckPoint;
+        endif
+    endwhile
+
+    if (Hi ha un closestCheckPoint?) then (sí)
+        :Cridar recordProgress(closestCheckPoint);
+        :Retornar true;
+    else (no)
+        :Retornar false;
+    endif
+endif
+
+stop
+@enduml

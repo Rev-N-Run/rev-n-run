@@ -1,5 +1,6 @@
 package io.github.revNrun.revNrun.model.car;
 
+import io.github.revNrun.revNrun.model.vector.Vector2;
 import io.github.revNrun.revNrun.model.car.components.*;
 import io.github.revNrun.revNrun.model.car.components.enums.CarAxis;
 import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
@@ -13,10 +14,9 @@ public class Car {
     private static final int N_TIRES = 4;
     private static final int MIN_FUEL = 0;
 
-    private int positionX = 0;
-    private int positionY = 0;
+    private Vector2 position;
     private float speed = 0;
-    private float maxSpeed = 100;
+    private float maxSpeed = 150;
     private int maxFuel = 100;
     private float fuel = 100;
     private float weight;
@@ -31,9 +31,9 @@ public class Car {
     private Sides sides;
     private float brakeBalance = .5f;
     private float brakePower = 0;
-    private float acceleration;
+    private float acceleration = 20;
     private float tireGrip = 0;
-    private float optionalGrip = 0;
+    private float complementGrip = 0;
     private float maxReverseSpeed;
     private float reverseAcceleration;
     private float angle = 0;
@@ -54,7 +54,13 @@ public class Car {
         this.sides = sides;
         this.fuel = fuel;
 
+        position = new Vector2(0, 0);
+
         setAttributes();
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = new Vector2(position);
     }
 
     public void updatePosition(float delta) {
@@ -63,60 +69,116 @@ public class Car {
         }
 
         // Calculate velocity components
-        float velocityX = (float) (speed * Math.cos(angle));
-        float velocityY = (float) (speed * Math.sin(angle));
+        float radians = (float) Math.toRadians(angle);
+        float velocityX = (float) (speed * Math.cos(radians));
+        float velocityY = (float) (speed * Math.sin(radians));
 
         // Update position
-        positionX += velocityX * delta;
-        positionY += velocityY * delta;
+        float positionX = velocityX * delta;
+        float positionY = velocityY * delta;
+
+        this.position.setX(this.position.getX() + positionX);
+        this.position.setY(this.position.getY() + positionY);
     }
 
     public void accelerate(float delta) {
+        if (tireGrip == 0) {
+            return;
+        }
         float newSpeed = speed + acceleration * delta;
         speed = Math.min(newSpeed, maxSpeed);
     }
 
     public void brakeAndReverse(float delta) {
-        float newSpeed = speed - reverseAcceleration * delta;
-        speed = Math.max(newSpeed, maxReverseSpeed);
-    }
-
-    public void moveRight(float delta) {
         if (tireGrip == 0) {
             return;
         }
 
+        float epsilon = 0.01f;
+
+        if (speed > 0f) {
+            speed = Math.max(0, speed - brakePower * 0.1f * reverseAcceleration * delta);
+
+            if (speed < epsilon) {
+                speed = 0;
+            }
+        } else {
+            speed = Math.max(maxReverseSpeed, speed - reverseAcceleration * delta);
+
+            if (Math.abs(speed) < epsilon) {
+                speed = 0;
+            }
+        }
+    }
+
+    public void naturalSlowDown(float delta) {
+        if ((int) speed == 0) {
+            return;
+        }
+
+        if (tireGrip == 0) {
+            speed -= maxSpeed * delta;
+        }
+
+        if (speed < 0) {
+            speed += 10 * delta;
+        } else {
+            speed -= 10 * delta;
+        }
+    }
+
+    private float calculateAngleFactor(float delta) {
+        if (tireGrip == 0 || speed == 0) {
+            return 0;
+        }
+
+        float totalGrip = tireGrip + complementGrip;
         float maxTurnSpeed = maxSpeed - 20;
-        float turnRate = (tireGrip + optionalGrip) * 0.01f * delta;
+
+        float minSpeedThreshold = maxSpeed * 0.01f;
+
+        if (Math.abs(speed) < minSpeedThreshold) {
+            return 0;
+        }
+
+        float normalizedSpeed = Math.abs(speed) / maxSpeed;
+
+        float speedFactor = (float) (0.2f + 0.8f * Math.pow(1 - normalizedSpeed, 1.5) * (normalizedSpeed * 4));
+
+        speedFactor = Math.max(0.1f, Math.min(1.0f, speedFactor));
+
+        float baseTurnRate = totalGrip * delta * 2f;
+        float speedAdjustedTurnRate = baseTurnRate * speedFactor;
 
         if (speed > maxTurnSpeed) {
             speed = Math.max(maxTurnSpeed, speed - (speed - maxTurnSpeed) * delta);
         }
 
-        angle += turnRate;
+        return (speed < 0) ? -speedAdjustedTurnRate : speedAdjustedTurnRate;
     }
 
     public void moveLeft(float delta) {
-        if (tireGrip == 0) {
-            return;
-        }
-
-        float maxTurnSpeed = maxSpeed - 20;
-        float turnRate = (tireGrip + optionalGrip) * 0.01f * delta;
-
-        if (speed > maxTurnSpeed) {
-            speed = Math.max(maxTurnSpeed, speed - (speed - maxTurnSpeed) * delta);
-        }
-
-        angle -= turnRate;
+        angle += calculateAngleFactor(delta);
     }
 
-    private void degradeTireGrip() {
-        tireGrip = 0;
+    public void moveRight(float delta) {
+        angle -= calculateAngleFactor(delta);
+    }
+
+    private void degradeTireGrip(float delta) {
         List<Effect> effects = getWheelMountedComponentEffects(tires);
         for (Effect effect : effects) {
             if (effect.getEffect() == EffectType.GRIP) {
-                tireGrip += effect.getValue();
+                this.tireGrip = Math.max(0, tireGrip - tires[0].getWearFactor() * delta);
+            }
+        }
+    }
+
+    private void degradeTireGripFromImpact(float percentage) {
+        List<Effect> effects = getWheelMountedComponentEffects(tires);
+        for (Effect effect : effects) {
+            if (effect.getEffect() == EffectType.GRIP) {
+                this.tireGrip -= Math.max(0, tireGrip * percentage);
             }
         }
     }
@@ -160,7 +222,7 @@ public class Car {
         effects.addAll(sides.getEffects());
 
         List<Effect> tiresEffects = getWheelMountedComponentEffects(tires);
-        List<Effect> effectsToAdd = new ArrayList<>(tiresEffects);
+        List<Effect> effectsToAdd = new ArrayList<>();
         for (Effect effect : tiresEffects) {
             if (effect.getEffect() == EffectType.GRIP) {
                 tireGrip += effect.getValue();
@@ -174,7 +236,7 @@ public class Car {
         for (Effect effect : effects) {
             switch (effect.getEffect()) {
                 case GRIP:
-                    optionalGrip += effect.getValue();
+                    complementGrip += effect.getValue();
                     break;
                 case MAX_SPEED:
                     maxSpeed += effect.getValue();
@@ -196,13 +258,13 @@ public class Car {
         engine.degrade(delta);
     }
 
-    public void degradeChassis(float delta) {
+    /*public void degradeChassis(float delta) {
         chassis.degrade(delta);
-    }
+    }*/
 
     public void degradeTires(float delta, Map<CarSides, Float> sides) {
         degradeBySide(delta, tires, sides);
-        degradeTireGrip();
+        degradeTireGrip(delta);
     }
 
     public void degradeSuspension(float delta, Map<CarSides, Float> sides) {
@@ -214,11 +276,6 @@ public class Car {
         WheelMountedComponent brakeFR = getComponentFR(brakes);
         WheelMountedComponent brakeRL = getComponentRL(brakes);
         WheelMountedComponent brakeRR = getComponentRR(brakes);
-
-        assert brakeFL != null;
-        assert brakeFR != null;
-        assert brakeRL != null;
-        assert brakeRR != null;
 
         brakeFL.degrade(delta,brakeBalance - .05f);
         brakeFR.degrade(delta,brakeBalance - .05f);
@@ -236,7 +293,7 @@ public class Car {
 
     public void degradeTiresByImpact(float percentage) {
         degradeByImpactWheelMounted(percentage, tires);
-        degradeTireGrip();
+        degradeTireGripFromImpact(percentage);
     }
 
     public void degradeSuspensionByImpact(float percentage) {
@@ -263,12 +320,16 @@ public class Car {
         sides.degradeByImpact(value);
     }
 
-    public int getPositionX() {
-        return positionX;
+    public Vector2 getPosition() {
+        return position;
     }
 
-    public int getPositionY() {
-        return positionY;
+    public float getPositionX() {
+        return position.getX();
+    }
+
+    public float getPositionY() {
+        return position.getY();
     }
 
     public float getSpeed() {
@@ -424,11 +485,6 @@ public class Car {
         WheelMountedComponent componentRL = getComponentRL(components);
         WheelMountedComponent componentRR = getComponentRR(components);
 
-        assert componentFL != null;
-        assert componentFR != null;
-        assert componentRL != null;
-        assert componentRR != null;
-
         componentFL.degrade(delta, sides.get(CarSides.LEFT));
         componentFR.degrade(delta, sides.get(CarSides.RIGHT));
         componentRL.degrade(delta, sides.get(CarSides.LEFT));
@@ -439,5 +495,17 @@ public class Car {
         for (WheelMountedComponent component : components) {
             component.degradeByImpact(percentage);
         }
+    }
+
+    public float getComplementGrip() {
+        return complementGrip;
+    }
+
+    public float getTotalGrip() {
+        if (tireGrip == 0) {
+            return 0;
+        }
+
+        return tireGrip + complementGrip;
     }
 }

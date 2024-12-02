@@ -1,6 +1,7 @@
 package io.github.revNrun.revNrun.model.car.components.mocks;
 
-import io.github.revNrun.revNrun.model.car.components.*;
+import io.github.revNrun.revNrun.model.car.components.Brakes;
+import io.github.revNrun.revNrun.model.car.components.Effect;
 import io.github.revNrun.revNrun.model.car.components.enums.CarAxis;
 import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
 
