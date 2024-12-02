@@ -201,4 +201,14 @@ public class AbstractComponentTest {
             maxDurability - 5f, effects, wearFactor) {};
         assertEquals(maxDurability - 5f, component.getCurrentDurability());
     }
+
+    @Test
+    public void statementCoverageRepair() {
+        assertThrows(IllegalArgumentException.class, () -> component.repair(-1));
+        Component component1 = new AbstractComponent(name, weight, maxDurability,
+            maxDurability - 2, effects, wearFactor) {};
+        component1.repair(1);
+        assertEquals(maxDurability - 1, component1.getCurrentDurability());
+
+    }
 }

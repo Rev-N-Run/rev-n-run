@@ -48,9 +48,9 @@ public class GhostCar {
         currentStateIndex = 0;
     }
 
-    public void setLap(LapTimer lap) {
+    /*public void setLap(LapTimer lap) {
         lapTimer = lap;
-    }
+    }*/
 
     public LapTimer getLapTimer() {
         return lapTimer;

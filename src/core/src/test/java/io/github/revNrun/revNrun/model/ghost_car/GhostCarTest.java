@@ -1,5 +1,6 @@
 package io.github.revNrun.revNrun.model.ghost_car;
 
+import io.github.revNrun.revNrun.model.lap_timer.LapTimer;
 import io.github.revNrun.revNrun.model.vector.Vector2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -91,5 +92,18 @@ class GhostCarTest {
         assertNotEquals(copy.getPositionY(), ghostCar.getPositionY());
         assertNotEquals(copy.getAngle(), ghostCar.getAngle());
         assertNotEquals(copy.getTimestamp(), ghostCar.getTimestamp());
+    }
+
+    @Test
+    void restart() {
+        ghostCar.restart();
+        assertEquals(0, ghostCar.getCurrentStateIndex());
+    }
+
+    @Test
+    void timer() {
+        LapTimer timer = new LapTimer();
+        ghostCar.setTimer(timer);
+        assertEquals(timer, ghostCar.getLapTimer());
     }
 }
