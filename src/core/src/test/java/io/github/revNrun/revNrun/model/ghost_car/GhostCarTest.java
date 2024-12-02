@@ -106,4 +106,9 @@ class GhostCarTest {
         ghostCar.setTimer(timer);
         assertEquals(timer, ghostCar.getLapTimer());
     }
+
+    @Test
+    void isEmpty() {
+        ghostCar.nextFrame();
+    }
 }
