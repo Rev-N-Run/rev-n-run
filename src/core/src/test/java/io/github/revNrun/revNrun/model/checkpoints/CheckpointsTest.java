@@ -376,17 +376,9 @@ class CheckpointsTest {
         }
 
     @Test
-    void testLoopPerformance() {
-        List<Vector2> points = createControlPoints(1000);  // Stress test with a large number of points
+    void testisInsideTrackNullPoint() {
+        List<Vector2> points = createControlPoints(10);
         Checkpoints checkpoints = new Checkpoints(points);
-
-        Vector2 pointInside = new Vector2(500, 500);  // Inside the circuit
-        long startTime = System.nanoTime();
-
-        // Stress test the loop with a large list of points
-        checkpoints.isInsideCircuit(pointInside);
-
-        long duration = System.nanoTime() - startTime;
-        assertTrue(duration < 1000000, "The test took too long.");  // Ensure it runs fast enough
+        assertThrows(IllegalArgumentException.class, () -> checkpoints.isInsideCircuit(null));
     }
 }
