@@ -1,7 +1,6 @@
 package io.github.revNrun.revNrun.model.track;
 
 import io.github.revNrun.revNrun.model.vector.Vector2;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -75,14 +74,14 @@ class TrackSmoothingTest {
         List<Vector2> smoothedPoints2 = TrackSmoothing.computeCatmullRom(controlPoints2, interpolatedDistance, false);
         List<Vector2> smoothedPoints3 = TrackSmoothing.computeCatmullRom(controlPoints3, interpolatedDistance, false);
 
-        for(Vector2 point1 : smoothedPoints1) {
-            for(Vector2 point2 : smoothedPoints2) {
+        for (Vector2 point1 : smoothedPoints1) {
+            for (Vector2 point2 : smoothedPoints2) {
                 assertNotEquals(point1, point2);
             }
         }
 
-        for(Vector2 point1 : smoothedPoints1) {
-            for(Vector2 point3 : smoothedPoints3) {
+        for (Vector2 point1 : smoothedPoints1) {
+            for (Vector2 point3 : smoothedPoints3) {
                 assertNotEquals(point1, point3);
             }
         }
@@ -308,10 +307,10 @@ class TrackSmoothingTest {
 
     @Test
     void testInnerLoopBoundary() {
-       Vector2 a = new Vector2(0, 0);
-       Vector2 b = new Vector2(0, 0);
-       Vector2 c = new Vector2(5, 0);
-       Vector2 d = new Vector2(10, 0);
+        Vector2 a = new Vector2(0, 0);
+        Vector2 b = new Vector2(0, 0);
+        Vector2 c = new Vector2(5, 0);
+        Vector2 d = new Vector2(10, 0);
         List<Vector2> controlPoints = Arrays.asList(
             a, b, c, d
         );

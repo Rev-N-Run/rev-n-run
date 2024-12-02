@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class CountdownView implements ICountdownView{
+public class CountdownView implements ICountdownView {
     private BitmapFont titleFont;
     private BitmapFont countdownFont;
     private SpriteBatch batch;
