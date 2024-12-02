@@ -1,7 +1,6 @@
 package io.github.revNrun.revNrun.controllers.game.track;
 
 import io.github.revNrun.revNrun.model.checkpoints.Checkpoints;
-import io.github.revNrun.revNrun.model.checkpoints.LapStatus;
 import io.github.revNrun.revNrun.model.track.Track;
 import io.github.revNrun.revNrun.model.vector.Vector2;
 import io.github.revNrun.revNrun.view.TrackView;
@@ -50,11 +49,15 @@ public class TrackController {
      * the skipped checkpoints and if it has completed a lap.
      *
      * @param carPos The actual car position.
-     * @return enum: COMPLETE if the car just completed a lap, INCOMPLETE if the car completed a lap illegally,
+     * //@return enum: COMPLETE if the car just completed a lap, INCOMPLETE if the car completed a lap illegally,
      * GOOD if the car hasn't complete the lap, but it's still alive, WRONG if it hasn't complete the lap and it's
      * dead by skipped checkpoints.
      */
     public void updateCarInTrack(Vector2 carPos) {
+        if (carPos == null) {
+            throw new IllegalArgumentException("Car position is null");
+        }
+
         carInTrack = checkpoints.isInsideCircuit(carPos);
         /*lifeByCheckPoints = checkpoints.remainingLife();
 
@@ -88,11 +91,19 @@ public class TrackController {
     }
 
     private Vector2 translateCoordToWorld(Vector2 coord) {
+        if (coord == null) {
+            throw new IllegalArgumentException("coord is null");
+        }
+
         return new Vector2(coord.getX() + ViewUtils.WORLD_WIDTH / 2,
             coord.getY() + ViewUtils.WORLD_HEIGHT / 2);
     }
 
     private List<Vector2> transformControlPoints(List<Vector2> controlPoints) {
+        if (controlPoints == null) {
+            throw new IllegalArgumentException("controlPoints is null");
+        }
+
         List<Vector2> newControlPoints = new ArrayList<>();
         for (Vector2 controlPoint : controlPoints) {
             newControlPoints.add(translateCoordToWorld(controlPoint));
