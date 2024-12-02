@@ -1,12 +1,12 @@
 package io.github.revNrun.revNrun.controllers.game;
 
-import com.badlogic.gdx.Game;
 import io.github.revNrun.revNrun.controllers.screen.GameStatus;
-import io.github.revNrun.revNrun.view.CountdownView;
+import io.github.revNrun.revNrun.view.countdown.CountdownView;
 import com.badlogic.gdx.math.Interpolation;
+import io.github.revNrun.revNrun.view.countdown.ICountdownView;
 
 public class CountdownController {
-    private final CountdownView countdownView;
+    private final ICountdownView countdownView;
     private float totalTime = 0;
     private int currentNumber = 3;
     private float fadeTime = 0.3f;
@@ -14,8 +14,8 @@ public class CountdownController {
     private boolean countdownFinished = false;
     private GameStatus status = GameStatus.STOP;
 
-    public CountdownController() {
-        countdownView = new CountdownView();
+    public CountdownController(ICountdownView view) {
+        countdownView = view;
     }
 
     public GameStatus count(float delta) {

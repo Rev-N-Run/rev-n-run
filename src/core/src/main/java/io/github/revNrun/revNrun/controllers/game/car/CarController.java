@@ -157,10 +157,6 @@ public class CarController {
         bestGhost.restart();
     }
 
-    public void setBestGhost(GhostCar bestGhost) {
-        this.bestGhost = bestGhost;
-    }
-
     public boolean isLapRunning() {
         return currentLap.isRunning();
     }

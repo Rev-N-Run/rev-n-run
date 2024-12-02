@@ -11,6 +11,7 @@ import io.github.revNrun.revNrun.model.CreateCar;
 import io.github.revNrun.revNrun.view.GameView;
 import io.github.revNrun.revNrun.view.TimerView;
 import io.github.revNrun.revNrun.view.car.CarView;
+import io.github.revNrun.revNrun.view.countdown.CountdownView;
 
 public class GameScreenController extends ScreenController {
     private final CarController carController;
@@ -33,7 +34,7 @@ public class GameScreenController extends ScreenController {
         cameraController = new CameraController();
         gameStatus = GameStatus.STOP;
         timerView = new TimerView();
-        countdownController = new CountdownController();
+        countdownController = new CountdownController(new CountdownView());
     }
 
     @Override
