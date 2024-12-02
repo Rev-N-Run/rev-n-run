@@ -174,6 +174,15 @@ public class Car {
         }
     }
 
+    private void degradeTireGripFromImpact(float percentage) {
+        List<Effect> effects = getWheelMountedComponentEffects(tires);
+        for (Effect effect : effects) {
+            if (effect.getEffect() == EffectType.GRIP) {
+                this.tireGrip -= Math.max(0, tireGrip * percentage);
+            }
+        }
+    }
+
     private float getWheelMountedComponentsWeight(WheelMountedComponent[] components) {
         float weight = 0;
 
@@ -249,9 +258,9 @@ public class Car {
         engine.degrade(delta);
     }
 
-    public void degradeChassis(float delta) {
+    /*public void degradeChassis(float delta) {
         chassis.degrade(delta);
-    }
+    }*/
 
     public void degradeTires(float delta, Map<CarSides, Float> sides) {
         degradeBySide(delta, tires, sides);
@@ -267,11 +276,6 @@ public class Car {
         WheelMountedComponent brakeFR = getComponentFR(brakes);
         WheelMountedComponent brakeRL = getComponentRL(brakes);
         WheelMountedComponent brakeRR = getComponentRR(brakes);
-
-        assert brakeFL != null;
-        assert brakeFR != null;
-        assert brakeRL != null;
-        assert brakeRR != null;
 
         brakeFL.degrade(delta,brakeBalance - .05f);
         brakeFR.degrade(delta,brakeBalance - .05f);
@@ -289,7 +293,7 @@ public class Car {
 
     public void degradeTiresByImpact(float percentage) {
         degradeByImpactWheelMounted(percentage, tires);
-        degradeTireGrip(percentage);
+        degradeTireGripFromImpact(percentage);
     }
 
     public void degradeSuspensionByImpact(float percentage) {
@@ -480,11 +484,6 @@ public class Car {
         WheelMountedComponent componentFR = getComponentFR(components);
         WheelMountedComponent componentRL = getComponentRL(components);
         WheelMountedComponent componentRR = getComponentRR(components);
-
-        assert componentFL != null;
-        assert componentFR != null;
-        assert componentRL != null;
-        assert componentRR != null;
 
         componentFL.degrade(delta, sides.get(CarSides.LEFT));
         componentFR.degrade(delta, sides.get(CarSides.RIGHT));

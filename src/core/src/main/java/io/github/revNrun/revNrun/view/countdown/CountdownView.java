@@ -1,4 +1,4 @@
-package io.github.revNrun.revNrun.view;
+package io.github.revNrun.revNrun.view.countdown;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class CountdownView {
+public class CountdownView implements ICountdownView{
     private BitmapFont titleFont;
     private BitmapFont countdownFont;
     private SpriteBatch batch;
@@ -45,6 +45,7 @@ public class CountdownView {
         generator.dispose();
     }
 
+    @Override
     public void draw(int number) {
         viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
         batch.setProjectionMatrix(viewport.getCamera().combined);
@@ -73,6 +74,7 @@ public class CountdownView {
         batch.end();
     }
 
+
     private void drawCenteredText(String text, GlyphLayout layout) {
         float centerX = Gdx.graphics.getWidth() / 2f;
         float centerY = Gdx.graphics.getHeight() / 2f;
@@ -92,22 +94,27 @@ public class CountdownView {
         batch.setTransformMatrix(batch.getTransformMatrix().idt());
     }
 
+    @Override
     public void setShowRun(boolean show) {
         this.showRun = show;
     }
 
+    @Override
     public void setTitleAlpha(float alpha) {
         this.titleAlpha = alpha;
     }
 
+    @Override
     public void setNumberAlpha(float alpha) {
         this.numberAlpha = alpha;
     }
 
+    @Override
     public void setRunAlpha(float alpha) {
         this.runAlpha = alpha;
     }
 
+    @Override
     public void setScale(float scale) {
         this.scale = scale;
     }

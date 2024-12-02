@@ -11,6 +11,8 @@ import io.github.revNrun.revNrun.model.CreateCar;
 import io.github.revNrun.revNrun.view.GameView;
 import io.github.revNrun.revNrun.view.TimerView;
 import io.github.revNrun.revNrun.view.car.CarView;
+import io.github.revNrun.revNrun.view.countdown.CountdownView;
+import io.github.revNrun.revNrun.view.track.TrackView;
 
 public class GameScreenController extends ScreenController {
     private final CarController carController;
@@ -28,12 +30,12 @@ public class GameScreenController extends ScreenController {
         view = new GameView();
         carController = new CarController(CreateCar.createCar(), new InputHandler(new LibGDXInputHelper()),
             new CarView());
-        trackController = new TrackController();
+        trackController = new TrackController(new TrackView());
         carController.setCarPosition(trackController.getStartPoint());
         cameraController = new CameraController();
         gameStatus = GameStatus.STOP;
         timerView = new TimerView();
-        countdownController = new CountdownController();
+        countdownController = new CountdownController(new CountdownView());
     }
 
     @Override

@@ -57,41 +57,12 @@ public class AbstractComponentTest {
         assertEquals(component.getMaxDurability() / 2, component.getCurrentDurability());
     }
 
-    // TODO: Adapt this test for the controller
-    /*@Test
-    public void invalidValuesDegradeByImpact() {
-        // Check frontier and external frontier values
-        final float[] collisionDamage = new float[] {1, 0, 1.01f, -0.1f, -1, 2};
-        for (float damage : collisionDamage) {
-            assertThrows(IllegalArgumentException.class, () -> component.degradeByImpact(damage));
-            assertEquals(component.getMaxDurability(), component.getCurrentDurability());
-        }
-
-        // Check internal frontier values
-        final float[] collisionDamage2 = new float[] {0.99f, 0.01f};
-        float res;
-        for (float damage : collisionDamage2) {
-            res = (component.getCurrentDurability() * damage);
-            assertDoesNotThrow(() -> component.degradeByImpact(damage));
-            assertEquals(res, component.getCurrentDurability());
-        }
-    }*/
-
     @Test
     public void checkDegrade() {
         float expected = maxDurability * (1 - wearFactor * delta);
         component.degrade(delta);
         assertEquals(expected, component.getCurrentDurability());
     }
-
-    // TODO: Adapt this test for the controller
-    /*@Test
-    public void checkUnsafeDeltaDegrade() {
-        float invalidDelta = 1f/10f;
-        float expected = maxDurability * (1 - wearFactor * (1f/30f));
-        component.degrade(invalidDelta);
-        assertEquals(expected, component.getCurrentDurability());
-    }*/
 
     @Test
     public void repair() {
@@ -229,5 +200,15 @@ public class AbstractComponentTest {
         component = new AbstractComponent(name, weight, maxDurability,
             maxDurability - 5f, effects, wearFactor) {};
         assertEquals(maxDurability - 5f, component.getCurrentDurability());
+    }
+
+    @Test
+    public void statementCoverageRepair() {
+        assertThrows(IllegalArgumentException.class, () -> component.repair(-1));
+        Component component1 = new AbstractComponent(name, weight, maxDurability,
+            maxDurability - 2, effects, wearFactor) {};
+        component1.repair(1);
+        assertEquals(maxDurability - 1, component1.getCurrentDurability());
+
     }
 }

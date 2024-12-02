@@ -9,8 +9,10 @@ import io.github.revNrun.revNrun.model.car.components.enums.CarAxis;
 import io.github.revNrun.revNrun.model.car.components.enums.CarSides;
 import io.github.revNrun.revNrun.model.car.components.enums.EffectType;
 import io.github.revNrun.revNrun.model.ghost_car.GhostCar;
+import io.github.revNrun.revNrun.model.lap_timer.LapTimer;
 import io.github.revNrun.revNrun.model.vector.Vector2;
 import io.github.revNrun.revNrun.view.CarViewMock;
+import io.github.revNrun.revNrun.view.ViewUtils;
 import io.github.revNrun.revNrun.view.car.ICarView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -423,5 +425,173 @@ class CarControllerTest {
             assertEquals(angles.get(i), ghost.getAngle());
             ghost.nextFrame();
         }
+    }
+
+    @Test
+    void getCurrentLap() {
+        LapTimer timer = new LapTimer();
+        assertEquals(timer.getCurrentLapTime(), controller.getCurrentLap());
+    }
+
+    @Test
+    void getBestGhostLap() throws InterruptedException {
+        LapTimer timer = new LapTimer();
+        assertEquals(timer.getCurrentLapTime(), controller.getBestGhostLap());
+
+        controller.startLap();
+        Thread.sleep(100);
+        controller.stopLap();
+        controller.compareAndSetLaps();
+
+        assertNotEquals(timer.getCurrentLapTime(), controller.getBestGhostLap());
+    }
+
+    @Test
+    void testUpdatePositionOutOfBoundsX() {
+        Vector2 position = new Vector2(-1, 100);
+        controller.getCar().setPosition(position);
+        controller.handleInput(.1f);
+
+        Vector2 newPos = car.getPosition();
+        assertEquals(0, newPos.getX());
+        assertEquals(100, newPos.getY());
+    }
+
+    @Test
+    void outOfBoundsX() {
+        Vector2 position = new Vector2(ViewUtils.WORLD_WIDTH, 100);
+        controller.getCar().setPosition(position);
+        controller.handleInput(.1f);
+
+        Vector2 newPos = car.getPosition();
+        assertEquals(999.0, newPos.getX());
+        assertEquals(100, newPos.getY());
+    }
+
+    @Test
+    void outOfBoundsY1() {
+        Vector2 position = new Vector2(100, -1);
+        controller.getCar().setPosition(position);
+        controller.handleInput(.1f);
+
+        Vector2 newPos = car.getPosition();
+        assertEquals(100, newPos.getX());
+        assertEquals(0, newPos.getY());
+    }
+
+    @Test
+    void outOfBoundsY2() {
+        Vector2 position = new Vector2(100, ViewUtils.WORLD_HEIGHT);
+        controller.getCar().setPosition(position);
+        controller.handleInput(.1f);
+
+        Vector2 newPos = car.getPosition();
+        assertEquals(100, newPos.getX());
+        assertEquals(999.0f, newPos.getY());
+    }
+
+    @Test
+    void compareAndSetLaps() throws InterruptedException {
+        controller.compareAndSetLaps();
+        assertEquals(controller.getCurrentGhost().getLapTimer().getLastLapTime(),
+            controller.getBestGhost().getLapTimer().getLastLapTime());
+
+        controller.startLap();
+        Thread.sleep(50);
+        controller.stopLap();
+        controller.compareAndSetLaps();
+        assertNotEquals(controller.getCurrentGhost().getLapTimer().getLastLapTime(),
+            controller.getBestGhost().getLapTimer().getLastLapTime());
+    }
+
+    @Test
+    void compareAndSetLaps2() throws InterruptedException {
+        controller.startLap();
+        Thread.sleep(50);
+        controller.stopLap();
+        controller.compareAndSetLaps();
+        assertEquals(controller.getCurrentGhost().getLapTimer().getLastLapTime(),
+            controller.getBestGhost().getLapTimer().getLastLapTime());
+
+        controller.startLap();
+        controller.stopLap();
+        controller.compareAndSetLaps();
+        assertEquals(controller.getCurrentGhost().getLapTimer().getLastLapTime(),
+            controller.getBestGhost().getLapTimer().getLastLapTime());
+    }
+
+    @Test
+    void drawCar() {
+        Vector2 pos = controller.getCarPosition();
+        controller.drawCar();
+        assertEquals(pos.getX(), controller.getCarPosition().getX());
+        assertEquals(pos.getY(), controller.getCarPosition().getY());
+    }
+
+    @Test
+    void drawGhost() {
+        controller.drawCar();
+        assertNull(controller.getBestGhost());
+
+        controller.startLap();
+        controller.stopLap();
+        controller.compareAndSetLaps();
+        Vector2 pos = new Vector2(controller.getBestGhost().getPositionX(), controller.getBestGhost().getPositionY());
+        controller.drawGhost();
+        assertEquals(pos.getX(), controller.getBestGhost().getPositionX());
+        assertEquals(pos.getY(), controller.getBestGhost().getPositionY());
+    }
+
+    @Test
+    void resetGhost() throws InterruptedException {
+        controller.startLap();
+        Thread.sleep(50);
+        controller.stopLap();
+        controller.resetGhost();
+
+        //assertEquals("00:00.000", controller.getCurrentGhost().getLapTimer().getLastLapTime());
+        assertEquals(0, controller.getCurrentGhost().getCurrentStateIndex());
+    }
+
+    @Test
+    void restartGhost() throws InterruptedException {
+        controller.restartGhost();
+        assertNull(controller.getBestGhost());
+
+        controller.startLap();
+        Thread.sleep(50);
+        controller.stopLap();
+        controller.compareAndSetLaps();
+
+        controller.restartGhost();
+        assertEquals(0, controller.getBestGhost().getCurrentStateIndex());
+    }
+
+    @Test
+    void isLapRunning() {
+        assertFalse(controller.isLapRunning());
+
+        controller.startLap();
+        assertTrue(controller.isLapRunning());
+
+        controller.stopLap();
+        assertFalse(controller.isLapRunning());
+    }
+
+    @Test
+    void setCarPosition() {
+        controller.setCarPosition(new Vector2(1 ,2));
+        assertEquals(1, controller.getCar().getPositionX());
+        assertEquals(2, controller.getCar().getPositionY());
+    }
+
+    @Test
+    void getCarWidth() {
+        assertEquals(1, controller.getCarWidth());
+    }
+
+    @Test
+    void getCarHeight() {
+        assertEquals(1, controller.getCarHeight());
     }
 }
