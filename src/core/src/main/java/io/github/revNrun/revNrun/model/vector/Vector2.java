@@ -71,6 +71,9 @@ public class Vector2 {
      * @return A new vector representing the difference.
      */
     public Vector2 sub(Vector2 other) {
+        if (other == null) {
+            throw new IllegalArgumentException("Vector2 cannot be null.");
+        }
         return new Vector2(this.x - other.x, this.y - other.y);
     }
 
@@ -106,6 +109,9 @@ public class Vector2 {
      * @return A new vector representing the sum.
      */
     public Vector2 add(Vector2 other) {
+        if (other == null) {
+            throw new IllegalArgumentException("Vector2 cannot be null.");
+        }
         return new Vector2(this.x + other.x, this.y + other.y);
     }
 
@@ -162,6 +168,10 @@ public class Vector2 {
      * @return 0 if the points are collinear, 1 if clockwise, and 2 if counterclockwise
      */
     private static int orientation(Vector2 p, Vector2 q, Vector2 r) {
+        if (p == null || q == null || r == null) {
+            throw new IllegalArgumentException("Vector2 cannot be null.");
+        }
+
         double val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
         if (isZero(val)) return 0;  // Collinear
         return (val > 0) ? 1 : 2; // Clockwise or counterclockwise
@@ -176,6 +186,10 @@ public class Vector2 {
      * @return true if q lies on the segment, false otherwise
      */
     private static boolean onSegment(Vector2 p, Vector2 q, Vector2 r) {
+        if (p == null || q == null || r == null) {
+            throw new IllegalArgumentException("Vector2 cannot be null.");
+        }
+
         return q.x <= Math.max(p.x, r.x) && q.x >= Math.min(p.x, r.x) &&
             q.y <= Math.max(p.y, r.y) && q.y >= Math.min(p.y, r.y);
     }
@@ -190,6 +204,10 @@ public class Vector2 {
      * @return true if the point is near the segment, false otherwise
      */
     private static boolean nearSegment(Vector2 p, Vector2 q, Vector2 r, float minDistance) {
+        if (p == null || r == null || q == null) {
+            throw new IllegalArgumentException("Vector2 cannot be null.");
+        }
+
         // Calculate the components of the line (p-r)
         double dx = r.x - p.x;
         double dy = r.y - p.y;
@@ -249,6 +267,10 @@ public class Vector2 {
      * @return true if the segments intersect, false otherwise
      */
     public static boolean doIntersect(Vector2 p1, Vector2 q1, Vector2 p2, Vector2 q2, float minDistance) {
+        if(p1 == null || q1 == null || p2 == null || q2 == null) {
+            throw new IllegalArgumentException("Vector2 cannot be null.");
+        }
+
         int o1 = orientation(p1, q1, p2);
         int o2 = orientation(p1, q1, q2);
         int o3 = orientation(p2, q2, p1);
