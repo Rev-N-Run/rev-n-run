@@ -318,4 +318,75 @@ class CheckpointsTest {
         assertTrue(checkpoints.isInsideCircuit(new Vector2(1, 1)));
         assertEquals(checkpoints.lapStatus(), LapStatus.GOOD);
     }
+
+    // LOOP TESTING
+
+    // Simulate a list of Vector2 control points
+    private List<Vector2> createControlPoints(int size) {
+        List<Vector2> points = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            points.add(new Vector2(i * 10, i * 10));  // Simple increasing points for the test
+        }
+        return points;
+    }
+
+    @Test
+    void testLoopWithTwoPoints() {
+        List<Vector2> points = createControlPoints(2);
+        Checkpoints checkpoints = new Checkpoints(points);
+
+        Vector2 pointInside = new Vector2(5, 5);  // Inside the circuit
+        Vector2 pointOutside = new Vector2(50, 50);  // Outside the circuit
+
+        // This test focuses on testing the loop with only two points
+        assertTrue(checkpoints.isInsideCircuit(pointInside));
+        assertFalse(checkpoints.isInsideCircuit(pointOutside));
+    }
+
+    @Test
+    void testLoopWithMultiplePoints() {
+        List<Vector2> points = createControlPoints(5);  // Multiple points for the loop
+        Checkpoints checkpoints = new Checkpoints(points);
+
+        Vector2 pointInside = new Vector2(15, 15);  // Inside the circuit
+        Vector2 pointOutside = new Vector2(500, 500);  // Outside the circuit
+
+        // This test checks the loop over 5 control points
+        assertTrue(checkpoints.isInsideCircuit(pointInside));
+        assertFalse(checkpoints.isInsideCircuit(pointOutside));
+    }
+
+    @Test
+    void testLoopWithEdgeCases() {
+        List<Vector2> points = createControlPoints(10);  // More points for stress testing the loop
+        Checkpoints checkpoints = new Checkpoints(points);
+
+        Vector2 pointEdge = new Vector2(30, 30);  // On the boundary of the circuit
+        Vector2 pointFar = new Vector2(200, 200);  // Far away from the circuit
+
+        // Testing the loop with larger list and edge conditions
+        assertTrue(checkpoints.isInsideCircuit(pointEdge));
+        assertFalse(checkpoints.isInsideCircuit(pointFar));
+    }
+
+    @Test
+    void testLoopWithZeroPoints() {
+        List<Vector2> points = createControlPoints(0);  // Zero points should throw an error
+        assertThrows(IllegalArgumentException.class, () -> new Checkpoints(points));
+        }
+
+    @Test
+    void testLoopPerformance() {
+        List<Vector2> points = createControlPoints(1000);  // Stress test with a large number of points
+        Checkpoints checkpoints = new Checkpoints(points);
+
+        Vector2 pointInside = new Vector2(500, 500);  // Inside the circuit
+        long startTime = System.nanoTime();
+
+        // Stress test the loop with a large list of points
+        checkpoints.isInsideCircuit(pointInside);
+
+        long duration = System.nanoTime() - startTime;
+        assertTrue(duration < 1000000, "The test took too long.");  // Ensure it runs fast enough
+    }
 }
