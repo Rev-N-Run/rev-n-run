@@ -976,4 +976,99 @@ public class CarTest {
             assertEquals(firstTireDurability, tire.getCurrentDurability(), 0.001f);
         }
     }
+
+    // PAIRWISE TESTING
+
+    @Test
+    void testZeroSpeedWithGripTurningLeft() {
+        // Test 1: Zero Speed, With Grip, Turning Left
+        float initialAngle = carWithEffects.getAngle();
+        carWithEffects.moveLeft(0.1f);
+        assertEquals(0, carWithEffects.getSpeed());
+        assertEquals(initialAngle, carWithEffects.getAngle());
+    }
+
+    @Test
+    void testZeroSpeedNoGripTurningRight() {
+        // Test 2: Zero Speed, No Grip, Turning Right
+        carWithEffects.degradeTiresByImpact(0.01f);
+        float initialAngle = carWithEffects.getAngle();
+        carWithEffects.moveRight(0.1f);
+        assertEquals(0, carWithEffects.getSpeed());
+        assertEquals(initialAngle, carWithEffects.getAngle());
+    }
+
+    @Test
+    void testForwardSpeedWithGripTurningRight() {
+        // Test 3: Forward Speed, With Grip, Turning Right
+        carWithEffects.accelerate(0.1f);
+        float initialAngle = carWithEffects.getAngle();
+        carWithEffects.moveRight(0.1f);
+        assertTrue(carWithEffects.getSpeed() > 0);
+        assertTrue(carWithEffects.getAngle() < initialAngle);
+    }
+
+    @Test
+    void testForwardSpeedNoGripStraight() {
+        // Test 4: Forward Speed, No Grip, Straight
+        carWithEffects.accelerate(0.1f);
+        float initialSpeed = carWithEffects.getSpeed();
+        carWithEffects.degradeTiresByImpact(0.01f);
+        carWithEffects.naturalSlowDown(0.1f);
+        assertTrue(carWithEffects.getSpeed() < initialSpeed);
+    }
+
+    @Test
+    void testReverseSpeedWithGripTurningLeft() {
+        // Test 5: Reverse Speed, With Grip, Turning Left
+        float delta = 0.1f;
+        while(carWithEffects.getSpeed() > carWithEffects.getMaxReverseSpeed()) {
+            carWithEffects.brakeAndReverse(delta);
+        }
+        float initialAngle = carWithEffects.getAngle();
+        carWithEffects.moveLeft(delta);
+        assertTrue(carWithEffects.getSpeed() < 0);
+        assertTrue(carWithEffects.getAngle() < initialAngle);
+    }
+
+    @Test
+    void testReverseSpeedNoGripStraight() {
+        // Test 6: Reverse Speed, No Grip, Straight
+        float delta = 0.1f;
+        while(carWithEffects.getSpeed() > carWithEffects.getMaxReverseSpeed()) {
+            carWithEffects.brakeAndReverse(delta);
+        }
+        float initialSpeed = carWithEffects.getSpeed();
+        carWithEffects.degradeTiresByImpact(0.01f);
+        carWithEffects.naturalSlowDown(delta);
+        assertTrue(Math.abs(carWithEffects.getSpeed()) < Math.abs(initialSpeed));
+    }
+
+    @Test
+    void testForwardSpeedWithGripStraight() {
+        // Test 7: Forward Speed, With Grip, Straight
+        carWithEffects.accelerate(0.1f);
+        float initialSpeed = carWithEffects.getSpeed();
+        carWithEffects.naturalSlowDown(0.1f);
+        assertTrue(carWithEffects.getSpeed() < initialSpeed);
+    }
+
+    @Test
+    void testZeroSpeedWithGripStraight() {
+        // Test 8: Zero Speed, With Grip, Straight
+        assertEquals(0, carWithEffects.getSpeed());
+    }
+
+    @Test
+    void testReverseSpeedWithGripTurningRight() {
+        // Test 9: Reverse Speed, With Grip, Turning Right
+        float delta = 0.1f;
+        while(carWithEffects.getSpeed() > carWithEffects.getMaxReverseSpeed()) {
+            carWithEffects.brakeAndReverse(delta);
+        }
+        float initialAngle = carWithEffects.getAngle();
+        carWithEffects.moveRight(delta);
+        assertTrue(carWithEffects.getSpeed() < 0);
+        assertTrue(carWithEffects.getAngle() > initialAngle);
+    }
 }
