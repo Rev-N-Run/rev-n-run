@@ -35,12 +35,10 @@ fi
 CLASSPATH="$LIB_DIR/*:$BUILD_DIR"
 # Compilar código fuente principal
 echo "Compiling main sources..."
-find $CORE_SRC -name "*.java" > sources.txt
-javac -d $BUILD_DIR -cp "$CLASSPATH" @sources.txt
+javac -d $BUILD_DIR -cp "$CLASSPATH" $(find $CORE_SRC -name "*.java")
 # Compilar tests
 echo "Compiling tests..."
-find $TEST_SRC -name "*.java" > tests.txt
-javac -d $BUILD_DIR -cp "$CLASSPATH" @tests.txt
+javac -d $BUILD_DIR -cp "$CLASSPATH" $(find $TEST_SRC -name "*.java")
 # Ejecutar tests
 echo "Running tests..."
 java -jar "$LIB_DIR/junit-platform-console-standalone-$JUNIT_VERSION.jar" \
@@ -48,7 +46,6 @@ java -jar "$LIB_DIR/junit-platform-console-standalone-$JUNIT_VERSION.jar" \
      --scan-class-path \
      --reports-dir="test-results"
 # Limpiar archivos temporales
-rm sources.txt tests.txt
 # Verificar resultado
 EXIT_CODE=$?
 if [ $EXIT_CODE -eq 0 ]; then
