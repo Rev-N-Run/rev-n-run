@@ -23,15 +23,12 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Make script executable
-        run: chmod +x ./.github/scripts/java-test.sh
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
-      - name: Run tests
-        run: ./.github/scripts/java-test.sh
+      - name: Make gradlew executable
+        run: chmod +x ./src/gradlew
 
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: test-results/
+      - name: Run tests with Gradle
+        working-directory: ./src
+        run: ./gradlew :core:test
