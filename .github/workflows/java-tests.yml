@@ -30,4 +30,4 @@ jobs:
         run: chmod +x ./src/gradlew
 
       - name: Run tests with Gradle
-        run: ./src/gradlew test
+        run: ./src/gradlew :core:test
