@@ -24,10 +24,10 @@ jobs:
           distribution: 'temurin'
 
       - name: Make script executable
-        run: chmod +x ./.github/scripts/java-tests.sh
+        run: chmod +x ./.github/scripts/java-test.sh
 
       - name: Run tests
-        run: ./.github/scripts/java-tests.sh
+        run: ./.github/scripts/java-test.sh
 
       - name: Upload test results
         if: always()
