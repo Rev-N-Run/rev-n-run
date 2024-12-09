@@ -26,9 +26,15 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 30
+          build-tools: '30.0.3'
+
       - name: Make gradlew executable
         run: chmod +x ./src/gradlew
 
       - name: Run tests with Gradle
         working-directory: ./src
-        run: ./gradlew :core:test
+        run: ./gradlew test
