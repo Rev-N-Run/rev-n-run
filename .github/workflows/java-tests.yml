@@ -23,18 +23,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+      - name: Make script executable
+        run: chmod +x ./.github/scripts/java-test.sh
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v2
+      - name: Run tests
+        run: ./.github/scripts/java-test.sh
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
         with:
-          api-level: 30
-          build-tools: '30.0.3'
-
-      - name: Make gradlew executable
-        run: chmod +x ./src/gradlew
-
-      - name: Run tests with Gradle
-        working-directory: ./src
-        run: ./gradlew test
+          name: test-results
+          path: test-results/
