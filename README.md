@@ -5,7 +5,7 @@
 
 Rev & Run is a racing game developed by [Ferran Sogas Linares](https://github.com/ferransogas) and [Leonardo Ruben Edenak Chouev](https://github.com/leonhrt) for the Software Test and Quality subject at the Universitat Autonoma de Barcelona.
 
-The game features a 2D cenital view with a random track generation and realistic physics in component degradation and degradation, and multiple attributes to each component of the car, it also simulates the real grip of a car, having in mind it's current durability.
+The game features a 2D cenital view with a random closed track generation and realistic physics in component degradation and degradation, and multiple attributes to each component of the car, it also simulates the real grip of a car, having in mind it's current durability.
 
 The game can be played in:
 * PC (Windows, Linux and Mac)
@@ -13,6 +13,16 @@ The game can be played in:
 * iOS
 
 **Disclaimer:** Currently the game does not support the input for Android and iOS, but we plan to implement it soon.
+
+## Index
+- [Prerequisites](#prerequisites)
+    - [IntelliJ IDEA](#intellij-idea)
+    - [Alternatives](#alternatives)
+- [Project Setup](#project-setup)
+    - [1. Clone the repository](#1-clone-the-repository)
+    - [2. Open the project in IntelliJ](#2-open-the-project-in-intellij)
+    - [3. Run the game](#3-run-the-game)
+- [Project Structure](#project-structure)
 
 ## Prerequisites
 ### IntelliJ IDEA
@@ -52,7 +62,7 @@ git clone https://github.com/leonhrt/rev-n-run.git
 * Right click the `run` and click `Run 'src:lwjgl3 [run]'`
     
     ![](readme-assets/run-project.png)
-* Wait for the project to be builded and you window should appear to play the game.
+* Wait for the project to be builded and a window should appear to play the game.
 * Enjoy!
 
 
