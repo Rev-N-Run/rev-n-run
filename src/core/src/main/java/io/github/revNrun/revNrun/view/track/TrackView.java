@@ -34,7 +34,7 @@ public class TrackView extends View implements ITrackView {
         trackColor = new Color(0.3f, 0.3f, 0.3f, 1f);
     }
 
-    private void initWorldBounds(List<Vector2> leftBorder, List<Vector2> rightBorder) {
+    private void initWorldBounds() {
         if (boundsInitialized) return;
 
         worldWidth = ViewUtils.WORLD_WIDTH;
@@ -50,7 +50,7 @@ public class TrackView extends View implements ITrackView {
 
     @Override
     public void drawTrack(List<Vector2> leftBorder, List<Vector2> rightBorder) {
-        initWorldBounds(leftBorder, rightBorder);
+        initWorldBounds();
 
         // Clear with a base sand color
         ScreenUtils.clear(0.87f, 0.73f, 0.53f, 1);
