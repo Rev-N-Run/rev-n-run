@@ -31,8 +31,8 @@ public class ViewUtils {
         return spriteBatch;
     }
 
-    public static float WORLD_WIDTH = 1000.0f;  // Default
-    public static float WORLD_HEIGHT = 1000.0f; // Default
+    public static float WORLD_WIDTH = 1000000.0f;  // Default
+    public static float WORLD_HEIGHT = 1000000.0f; // Default
 
     public static void setWorldDimensions(float trackRadius) {
             WORLD_WIDTH = trackRadius * 2f;
