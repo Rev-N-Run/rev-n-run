@@ -35,7 +35,9 @@ public class ViewUtils {
     public static float WORLD_HEIGHT = 1000.0f; // Default
 
     public static void setWorldDimensions(float trackRadius) {
-        WORLD_WIDTH = trackRadius * 1.2f;
-        WORLD_HEIGHT = trackRadius * 1.2f;
+        if (WORLD_WIDTH == 1000.0f && WORLD_HEIGHT == 1000.0f) {
+            WORLD_WIDTH = trackRadius * 1.2f;
+            WORLD_HEIGHT = trackRadius * 1.2f;
+        }
     }
 }
